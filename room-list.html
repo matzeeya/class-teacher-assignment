@@ -1,0 +1,85 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-request.html">
+
+<dom-module id="room-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    class RoomList extends Polymer.Element {
+      static get is() { return 'room-list'; }
+      static get properties() {
+        return {
+          app:{
+            type: String,
+          },
+          token: {
+            type: String,
+          },
+          hostId:{
+            type: String,
+          },
+          items:{
+            type:Array,
+            notify:true,
+            value:function() {
+              return [];
+            }
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '__executedQuery(token,hostId,app)'
+        ]
+      }
+      
+      __executedQuery(token,hostId,app) {
+        if(token == null || hostId == null || app == null) return;
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/query/hostclassroom/app_host_class_room",
+          body:{"match":[app,hostId]},
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          var _class = {};
+          res.response.forEach(function(doc) {
+            if(!_class[doc.key[3]]) {
+              _class[doc.key[3]] = {'name':doc.key[3],'room':[]};
+            }
+
+            if(_class[doc.key[3]].room.indexOf(doc.key[4])==-1) {
+              _class[doc.key[3]].room.push({'key':doc.value,'room':doc.key[4]});
+            }
+          });
+          
+          var result = [];
+          for(var key in _class) {
+            result.push(_class[key]);
+          }
+
+          result.forEach(function(item) {
+            item.room  = item.room.sort(function(a,b) {
+              return Number(a.room) - Number(b.room);
+            });
+          });
+          
+          self.set('items',result);
+        });
+      }
+    }
+    window.customElements.define(RoomList.is, RoomList);
+  </script>
+</dom-module>

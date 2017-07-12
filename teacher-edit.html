@@ -1,0 +1,60 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../app-route/app-route.html">
+<link rel="import" href="../app-route/app-location.html">
+
+<dom-module id="teacher-edit">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--layout-vertical);
+      }
+    </style>
+    <div>{{document.Title}} {{document.Firstname}} {{document.Lastname}}</div>
+  </template>
+   
+  <script>
+    class TeacherEdit extends Polymer.Element {
+      static get is() { return 'teacher-edit'; }
+      static get properties() {
+        return {
+          token: {
+            type: String,
+          },
+          teacherId:{
+            type: String,
+          },
+          document:{
+            type:Object,
+            notify:true
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '__executedQuery(token,teacherId)'
+        ]
+      }
+
+      __executedQuery(token,teacherId) {
+        if(token == null || teacherId == null) return;
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/teacher_db/"+teacherId,
+          method:"GET",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+token
+          }
+        }).then(function(res) {
+          self.set('document',res.response);
+        });
+      }
+    }
+
+
+    window.customElements.define(TeacherEdit.is, TeacherEdit);
+  </script>
+</dom-module>

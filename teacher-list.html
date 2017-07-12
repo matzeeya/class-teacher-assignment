@@ -1,0 +1,142 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../app-route/app-route.html">
+<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<link rel="import" href="teacher-edit.html">
+
+<dom-module id="teacher-list">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--layout-vertical);
+      }
+    </style>
+   
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-route route="{{route}}" pattern="/rooms/:level/:room/:classId" data="{{data}}">
+    </app-route>
+
+    <div>{{data.level}}/{{data.room}}</div>
+    <div>Class ID : {{data.classId}}</div>
+    <div>Teacher ID : {{teacherId}}</div>
+
+    <div>รายชื่อครูประจำชั้น</div>
+    <template is="dom-repeat" items="{{teacherInClass}}">
+     <teacher-edit token="{{token}}" teacher-id="{{item}}">
+     </teacher-edit>
+    </template>
+    
+
+    <paper-dropdown-menu label="รายชื่อครู">
+     <paper-listbox slot="dropdown-content" selected="{{teacherId}}" attr-for-selected="name">
+      <template is="dom-repeat" items="{{items}}">
+       <paper-item name="{{item.value}}">
+         {{item.key.2.0}} {{item.key.2.1}}
+       </paper-item>
+      </template>
+     </paper-listbox>
+    </paper-dropdown-menu>
+
+    <div class="layout horizontal">
+      <paper-button on-click="_add" raised>Add</paper-button>
+    </div>
+    
+  </template>
+
+  <script>
+    class TeacherList extends Polymer.Element {
+      static get is() { return 'teacher-list'; }
+      static get properties() {
+        return {
+          token: {
+            type: String,
+          },
+          hostId:{
+            type: String,
+          },
+          items:{
+            type:Array,
+            notify:true,
+            value:function() {
+              return [];
+            }
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '__executedQuery(token,hostId)',
+          '__findTeacherInClass(token,data.classId)'
+        ]
+      }
+
+      __executedQuery(token,hostId) {
+        if(token == null || hostId == null) return;
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/query/teacher_db/hostid",
+          body:{"match":[hostId]},
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          self.set('items',res.response);
+        });
+      }
+      
+      __findTeacherInClass(token,classId) {
+        if(token == null || classId == null) return;
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/query/classteacher/class",
+          body:{"match":[classId],"include_doc":true},
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          var _teachers = [];
+          res.response.forEach(function(doc) {
+            _teachers.push(doc.value.doc.teacher_id);
+          });
+          self.set('teacherInClass',_teachers);
+        });
+      }
+
+      _add(event) {
+        if(this.teacherInClass.indexOf(this.teacherId) == -1) {
+          console.log(this.data.classId,this.teacherId);
+          var ele = document.createElement('iron-request'); 
+          var self = this;
+          ele.send({
+            url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
+            body:{"teacher_id":this.teacherId,"class_id":this.data.classId},
+            method:"POST",
+            handleAs:"json",
+            headers:{
+              "Authorization":"JWT "+this.token,
+              "Content-Type":"application/json"
+            }
+          }).then(function(res) {
+            console.log(res.response);
+          });
+        }
+      }
+    }
+
+    window.customElements.define(TeacherList.is, TeacherList);
+  </script>
+</dom-module>

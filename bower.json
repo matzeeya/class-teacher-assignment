@@ -2,7 +2,15 @@
   "name": "class-teacher-assignment",
   "main": "class-teacher-assignment.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "iron-sessionstorage": "frenchynz/iron-sessionstorage#^1.0.1",
+    "iron-ajax": "^2.0.2",
+    "app-route": "PolymerElements/app-route#^2.0.0",
+    "iron-flex-layout": "^2.0.0",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.0",
+    "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
+    "paper-item": "PolymerElements/paper-item#^2.0.0",
+    "paper-button": "PolymerElements/paper-button#^2.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
