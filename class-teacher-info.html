@@ -1,27 +1,26 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
-<link rel="import" href="../app-route/app-route.html">
-<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
-<dom-module id="teacher-edit">
+<dom-module id="class-teacher-info">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
       :host {
         @apply(--layout-vertical);
+        padding:5px;
       }
     </style>
-    <div>{{document.Title}} {{document.Firstname}} {{document.Lastname}}</div>
+
+    {{teacher_document.Title}} {{teacher_document.Firstname}} 
+    {{teacher_document.Lastname}}
   </template>
    
   <script>
-    class TeacherEdit extends Polymer.Element {
-      static get is() { return 'teacher-edit'; }
+    class ClassTeacherInfo extends Polymer.Element {
+      static get is() { return 'class-teacher-info'; }
       static get properties() {
         return {
           token: {
-            type: String,
-          },
-          teacherId:{
             type: String,
           },
           document:{
@@ -33,11 +32,11 @@
 
       static get observers() {
         return [
-          '__executedQuery(token,teacherId)'
+          '__executeGetTeacher(token,document.value.teacher_id)'
         ]
       }
 
-      __executedQuery(token,teacherId) {
+      __executeGetTeacher(token,teacherId) {
         if(token == null || teacherId == null) return;
         var ele = document.createElement('iron-request'); 
         var self = this;
@@ -49,12 +48,12 @@
             "Authorization":"JWT "+token
           }
         }).then(function(res) {
-          self.set('document',res.response);
+          self.set('teacher_document',res.response);
         });
       }
     }
 
 
-    window.customElements.define(TeacherEdit.is, TeacherEdit);
+    window.customElements.define(ClassTeacherInfo.is, ClassTeacherInfo);
   </script>
 </dom-module>

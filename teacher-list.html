@@ -1,13 +1,15 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="../app-route/app-route.html">
 <link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../neon-animation/web-animations.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-button/paper-button.html">
 
-<link rel="import" href="teacher-edit.html">
+<link rel="import" href="class-teacher-info.html">
 
 <dom-module id="teacher-list">
   <template>
@@ -15,10 +17,14 @@
       :host {
         @apply(--layout-vertical);
       }
+      .iron-selected {
+        background:#eeeeee;
+      }
     </style>
    
     <app-location route="{{route}}" use-hash-as-path></app-location>
-    <app-route route="{{route}}" pattern="/rooms/:level/:room/:classId" data="{{data}}">
+    <app-route route="{{route}}" 
+      pattern="/rooms/:level/:room/:classId" data="{{data}}">
     </app-route>
 
     <div>{{data.level}}/{{data.room}}</div>
@@ -26,11 +32,21 @@
     <div>Teacher ID : {{teacherId}}</div>
 
     <div>รายชื่อครูประจำชั้น</div>
-    <template is="dom-repeat" items="{{teacherInClass}}">
-     <teacher-edit token="{{token}}" teacher-id="{{item}}">
-     </teacher-edit>
-    </template>
     
+    <iron-selector selected-item="{{selectedTeacher}}">
+     <template is="dom-repeat" items="{{teacherInClass}}">
+       <class-teacher-info token="{{token}}" document="{{item}}">
+       </class-teacher-info>
+      </template>
+    </iron-selector>
+
+    {{teacherSelected}}
+    <div class="layout horizontal">
+      <paper-button on-click="_remove" raised>
+        Remove
+      </paper-button>
+    </div>
+     
 
     <paper-dropdown-menu label="รายชื่อครู">
      <paper-listbox slot="dropdown-content" selected="{{teacherId}}" attr-for-selected="name">
@@ -72,7 +88,7 @@
       static get observers() {
         return [
           '__executedQuery(token,hostId)',
-          '__findTeacherInClass(token,data.classId)'
+          '__findTeacherInClass(token,data.classId)',
         ]
       }
 
@@ -110,20 +126,30 @@
         }).then(function(res) {
           var _teachers = [];
           res.response.forEach(function(doc) {
-            _teachers.push(doc.value.doc.teacher_id);
+            _teachers.push({'key':doc.value.key,'value':doc.value.doc});
           });
           self.set('teacherInClass',_teachers);
         });
       }
 
       _add(event) {
-        if(this.teacherInClass.indexOf(this.teacherId) == -1) {
-          console.log(this.data.classId,this.teacherId);
+        var self = this;
+        var alreadySelected = false;
+        this.teacherInClass.forEach(function(doc) {
+          if(doc.value.teacher_id == self.teacherId) {
+            alreadySelected = true;
+          }
+        });
+        if(!alreadySelected) {
           var ele = document.createElement('iron-request'); 
           var self = this;
+          var content = {
+             "teacher_id":this.teacherId,
+             "class_id":this.data.classId
+          };
           ele.send({
             url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
-            body:{"teacher_id":this.teacherId,"class_id":this.data.classId},
+            body:content,
             method:"POST",
             handleAs:"json",
             headers:{
@@ -131,9 +157,45 @@
               "Content-Type":"application/json"
             }
           }).then(function(res) {
-            console.log(res.response);
+            if(res.response.ok) {
+              self.push('teacherInClass',{
+                key:res.response.key,
+                value:content
+              });
+            }
           });
         }
+      }
+
+      _remove(event) {
+        var self = this;
+        var doc = this.selectedTeacher;
+        if(doc==null) return;
+        doc.classList.remove('iron-selected');
+        var ele = document.createElement('iron-request'); 
+        var key = doc.document.key;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          method:"DELETE",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+self.token,
+          }
+        }).then(function(res) {
+          if(res.response.ok) {
+            var index = -1;
+            for(var i=0;i<self.teacherInClass.length;i++) {
+              if(self.teacherInClass[i].key == key) {
+                index = i;
+                break;
+              }
+            }
+            if(index != -1) {
+              self.splice('teacherInClass',index,1);
+              self.set('selectedTeacher',null);
+            }
+          }
+        });
       }
     }
 

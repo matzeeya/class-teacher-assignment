@@ -58,3 +58,4 @@ typings/
 .env
 
 bower_components
+secure-component.html

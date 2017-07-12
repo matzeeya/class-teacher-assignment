@@ -4,6 +4,7 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
+<link rel="import" href="secure-component.html">
 
 <dom-module id="class-teacher-assignment">
   <template>
@@ -15,7 +16,9 @@
         padding-left:50px;
       }
     </style>
-
+     
+    <secure-component></secure-component>
+     
     <iron-sessionstorage name="userdata" value="{{userData}}">
     </iron-sessionstorage>
 
