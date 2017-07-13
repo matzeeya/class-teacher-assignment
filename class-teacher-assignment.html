@@ -8,6 +8,8 @@
 <link rel="import" href="teacher-by-room.html">
 <link rel="import" href="secure-component.html">
 
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+
 <dom-module id="class-teacher-assignment">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"> 
@@ -16,6 +18,20 @@
       }
       .main {
         padding-left:50px;
+      }
+
+      /* ---font---- */
+      .font-header {
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+        font-weight: bold;
+      }
+
+      /* ---tabs---- */
+      paper-tabs {
+        --paper-tabs-selection-bar-color: #F44336;
+        background-color: var(--paper-grey-50);
+        height: 50px;
       }
     </style>
      
@@ -33,10 +49,10 @@
       app="homevisit" items="{{rooms}}">
     </room-list>
 
-    ห้องในโรงเรียน 1010720003 app=homevisit
-    <paper-tabs selected="{{selectedLevel}}" scrollable>
+    <p>ห้องในโรงเรียน 1010720003 app=homevisit</p>
+    <paper-tabs selected="{{selectedLevel}}" noink>
       <template is="dom-repeat" items="{{rooms}}" as="level">
-        <paper-tab>{{level.name}}</paper-tab>
+        <paper-tab class="font-header">{{level.name}}</paper-tab>
       </template> 
     </paper-tabs>
 
