@@ -5,6 +5,7 @@
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
+<link rel="import" href="teacher-by-room.html">
 <link rel="import" href="secure-component.html">
 
 <dom-module id="class-teacher-assignment">
@@ -42,11 +43,17 @@
     <div class="layout horizontal">
      <div class="layout vertical">
       <template is="dom-repeat" items="{{selectedClass.room}}">
+       <teacher-by-room token="{{token}}" class-id="{{item.key}}" items="{{item.count}}">
+       </teacher-by-room>
        <div>Room
          <a href="#/rooms/{{selectedClass.name}}/{{item.room}}/{{item.key}}">
            {{item.room}}
          </a> 
-       </div>
+         ({{item.count.length}})
+        </div>
+        <div>
+          
+        </div>       
       </template>
      </div>
 

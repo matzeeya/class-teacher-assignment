@@ -1,0 +1,59 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="class-teacher-info.html">
+
+
+<dom-module id="teacher-by-room">
+  <template>    
+  </template>
+  <script>
+    class TeacherByRoom extends Polymer.Element {
+      static get is() { return 'teacher-by-room'; }
+      static get properties() {
+        return {
+          classId:{
+            type:String,
+          },
+          token:{
+            type:String
+          },          
+          items:{
+            type:Array,
+            notify:true,
+            value:function() {
+              return [];
+            }            
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '__executeQuery(token,classId)'
+        ]
+      }      
+
+      __executeQuery(token,classId) {
+        if(token == null || classId == null) return;
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/query/classteacher/class",
+          body:{"match":[classId]},
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          self.set('items',res.response);
+        });
+      }
+    }
+
+
+
+    window.customElements.define(TeacherByRoom.is, TeacherByRoom);
+  </script>      
+</dom-module>
