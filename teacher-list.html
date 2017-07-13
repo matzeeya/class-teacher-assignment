@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="../app-route/app-route.html">
@@ -11,15 +12,39 @@
 
 <link rel="import" href="class-teacher-info.html">
 
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+
 <dom-module id="teacher-list">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply(--layout-vertical);
       }
       .iron-selected {
         background:#eeeeee;
       }
+
+      /* ---font---- */
+      .font-header {
+        margin-left: 10px;
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+        opacity: 0.67;
+        height: 50px;
+        font-weight: bold;
+        border-bottom-width:2px;
+        border-bottom-style:solid;
+        border-bottom-color:#F44336;
+      }
+      
+      paper-dropdown-menu{
+        width: 500px;
+      }
+
+      paper-listbox{
+        width: 500px;
+      }
+
     </style>
    
     <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -31,7 +56,7 @@
     <div>Class ID : {{data.classId}}</div>
     <div>Teacher ID : {{teacherId}}</div>-->
 
-    <div>รายชื่อครูประจำชั้น</div>
+    <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
     
     <iron-selector selected-item="{{selectedTeacher}}">
      <template is="dom-repeat" items="{{teacherInClass}}">

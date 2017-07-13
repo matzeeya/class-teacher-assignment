@@ -1,6 +1,9 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
+
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
 <dom-module id="class-teacher-info">
   <template>
@@ -9,10 +12,19 @@
         @apply(--layout-vertical);
         padding:5px;
       }
-    </style>
 
-    {{teacher_document.Title}} {{teacher_document.Firstname}} 
-    {{teacher_document.Lastname}}
+      .font-face {
+        margin-left: 10px;
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+        height: 40px;
+      }
+    </style>
+    <div class="layout horizontal center font-face">
+      {{teacher_document.Title}} 
+      {{teacher_document.Firstname}} 
+      {{teacher_document.Lastname}}
+    </div>
   </template>
    
   <script>

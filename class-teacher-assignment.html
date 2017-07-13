@@ -2,6 +2,7 @@
 <link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
@@ -19,14 +20,27 @@
       .main {
         padding-left:50px;
       }
-
+      .border-bottom {
+        font-family: 'Itim', cursive;
+        font-size: 100%;
+        color: #000;
+        opacity: 0.75;
+        height:50px;
+        width: 150px;
+        border-bottom-width:1px;
+        border-bottom-style:solid;
+        border-bottom-color: var(--divider-color);
+      }
       /* ---font---- */
       .font-header {
         font-family: 'Itim', cursive;
         font-size: 120%;
         font-weight: bold;
       }
-
+      .font-face {
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+      }
       /* ---tabs---- */
       paper-tabs {
         --paper-tabs-selection-bar-color: #F44336;
@@ -56,28 +70,27 @@
       </template> 
     </paper-tabs>
 
-    <div class="layout horizontal">
-     <div class="layout vertical">
-      <template is="dom-repeat" items="{{selectedClass.room}}">
-       <teacher-by-room token="{{token}}" class-id="{{item.key}}" items="{{item.count}}">
-       </teacher-by-room>
-       <div>Room
-         <a href="#/rooms/{{selectedClass.name}}/{{item.room}}/{{item.key}}">
-           {{item.room}}
-         </a> 
-         ({{item.count.length}})
-        </div>
-        <div>
-          
+        <div class="layout horizontal">
+          <div class="layout vertical">
+            <template is="dom-repeat" items="{{selectedClass.room}}">
+              <teacher-by-room token="{{token}}" class-id="{{item.key}}" items="{{item.count}}">
+              </teacher-by-room>
+                <div class="layout horizontal border-bottom center font-face">
+                  <iron-icon icon="icons:home"></iron-icon>
+                  <a href="#/rooms/{{selectedClass.name}}/{{item.room}}/{{item.key}}">Rooms {{item.room}}</a> ({{item.count.length}})
+                </div>
+            </template>
+          <div>
         </div>       
-      </template>
-     </div>
-
-     <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
-       items="{{teachers}}">
-     </teacher-list>
+      </div>
+    <!--</div>  
+    <div class="layout vertical">
+      <div class="layout horizontal">-->
+        <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
+          items="{{teachers}}">
+        </teacher-list>
+      <!--</div>-->
     </div>
-
   </template>
 
   <script>
