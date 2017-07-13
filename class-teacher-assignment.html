@@ -2,6 +2,7 @@
 <link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
 <link rel="import" href="secure-component.html">
@@ -27,26 +28,31 @@
 
     <p>From session {{teacher.HostID}}</p>
 
-    <room-list token="{{token}}" host-id="1010720003" app="homevisit" items="{{rooms}}">
+    <room-list token="{{token}}" host-id="1010720003" 
+      app="homevisit" items="{{rooms}}">
     </room-list>
 
+    ห้องในโรงเรียน 1010720003 app=homevisit
+    <paper-tabs selected="{{selectedLevel}}" scrollable>
+      <template is="dom-repeat" items="{{rooms}}" as="level">
+        <paper-tab>{{level.name}}</paper-tab>
+      </template> 
+    </paper-tabs>
+
     <div class="layout horizontal">
-     <div>
-       ห้องในโรงเรียน 1010720003 app=homevisit
-       <ol>
-        <template is="dom-repeat" items="{{rooms}}" as="level">
-         <li>{{level.name}} :
-          <template is="dom-repeat" items="{{level.room}}">
-           <a href="#/rooms/{{level.name}}/{{item.room}}/{{item.key}}">{{item.room}}</a> / 
-          </template>
-         </li>
-        </template>
-       </ol>
-      </div>
-      <div class="flex main">
-       <teacher-list token="{{token}}" host-id="1010720003" items="{{teachers}}">
-       </teacher-list>
-      </div>
+     <div class="layout vertical">
+      <template is="dom-repeat" items="{{selectedClass.room}}">
+       <div>Room
+         <a href="#/rooms/{{selectedClass.name}}/{{item.room}}/{{item.key}}">
+           {{item.room}}
+         </a> 
+       </div>
+      </template>
+     </div>
+
+     <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
+       items="{{teachers}}">
+     </teacher-list>
     </div>
 
   </template>
@@ -59,8 +65,16 @@
           __findTeacher: {
             type: String,
             computed: '_findTeacher(token,userData)'
+          },
+          selectedClass: {
+            type:Object,
+            computed: '__executeSelectedClass(rooms,selectedLevel)'
           }
         };
+      }
+
+      __executeSelectedClass(list,idx) {
+        return list[idx];
       }
 
       _findTeacher(token,userData) {
