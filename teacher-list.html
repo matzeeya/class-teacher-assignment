@@ -145,7 +145,10 @@
           var self = this;
           var content = {
              "teacher_id":this.teacherId,
-             "class_id":this.data.classId
+             "class_id":this.data.classId,
+             "room":this.data.room,
+             "host":this.hostId,
+             "class":this.data.level
           };
           ele.send({
             url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
