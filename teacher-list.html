@@ -39,9 +39,10 @@
         border-bottom-color:#F44336;
       }
       .font-face {
+        margin-top: 10px;
         font-family: 'Itim', cursive;
         font-size: 120%;
-        height: 50px;
+        height: 30px;
       }
       
       .margin-left-style{
@@ -60,6 +61,12 @@
       paper-radio-button{
         font-family: 'Itim', cursive;
         font-size: 110%;
+      }
+
+      paper-button{
+        font-family: 'Itim', cursive;
+        font-size: 110%;
+        margin-left: 10px;
       }
     </style>
    
@@ -102,14 +109,15 @@
             <paper-radio-button name="b">ครูผู้สอน</paper-radio-button>
           </paper-radio-group>
         </div>
-        <div class="layout horizontal">
+        
           <template is="dom-if" if="{{teacherGroup}}">
-            <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
-            <div class="flex-11">
-              <knowledge-category></knowledge-category>
+            <div class="layout horizontal">
+              <div class="flex font-face margin-left-style">กลุ่มสาระการเรียนรู้ : </div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex"><knowledge-category></knowledge-category></div>
             </div>
           </template>
-        </div>
         <div class="layout horizontal">
           <paper-button on-click="_add" raised>Add</paper-button>
         </div>
