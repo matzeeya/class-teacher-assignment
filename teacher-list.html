@@ -8,9 +8,12 @@
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../paper-button/paper-button.html">
 
 <link rel="import" href="class-teacher-info.html">
+<link rel="import" href="knowledge-category.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -36,15 +39,29 @@
         border-bottom-style:solid;
         border-bottom-color:#F44336;
       }
+      .font-face {
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+        height: 50px;
+      }
       
+      .margin-left-style{
+        margin-left: 10px;
+      }
+
       paper-dropdown-menu{
         width: 500px;
+        margin-left: 10px;
       }
 
       paper-listbox{
         width: 500px;
       }
 
+      paper-radio-button{
+        font-family: 'Itim', cursive;
+        font-size: 110%;
+      }
     </style>
    
     <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -55,38 +72,51 @@
     <!--<div>{{data.level}}/{{data.room}}</div>
     <div>Class ID : {{data.classId}}</div>
     <div>Teacher ID : {{teacherId}}</div>-->
+      <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
+      <iron-selector selected-item="{{selectedTeacher}}">
+      <template is="dom-repeat" items="{{teacherInClass}}">
+        <class-teacher-info token="{{token}}" document="{{item}}">
+        </class-teacher-info>
+        </template>
+      </iron-selector>
 
-    <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
-    
-    <iron-selector selected-item="{{selectedTeacher}}">
-     <template is="dom-repeat" items="{{teacherInClass}}">
-       <class-teacher-info token="{{token}}" document="{{item}}">
-       </class-teacher-info>
-      </template>
-    </iron-selector>
+      {{teacherSelected}}
+      <div class="layout horizontal">
+        <paper-button on-click="_remove" raised>Remove</paper-button>
+      </div>
 
-    {{teacherSelected}}
-    <div class="layout horizontal">
-      <paper-button on-click="_remove" raised>
-        Remove
-      </paper-button>
-    </div>
-     
+      <div class="layout vertical">
+        <div class="layout horizontal">
+          <paper-dropdown-menu label="รายชื่อครู">
+          <paper-listbox slot="dropdown-content" selected="{{teacherId}}" attr-for-selected="name">
+            <template is="dom-repeat" items="{{items}}">
+            <paper-item name="{{item.value}}">
+              {{item.key.2.0}} {{item.key.2.1}}
+            </paper-item>
+            </template>
+          </paper-listbox>
+          </paper-dropdown-menu>
+        </div>
+        <div class="layout horizontal">
+          <paper-radio-group selected-item="{{selectedItem}}">
+            <paper-radio-button name="a">ครูประจำชั้น</paper-radio-button>
+            <paper-radio-button name="b">ครูผู้สอน</paper-radio-button>
+          </paper-radio-group>
+        </div>
+        <div class="layout horizontal">
+          <template is="dom-if" if="{{teacherGroup}}">
+            <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
+            <div class="flex-11">
+              <knowledge-category></knowledge-category>
+            </div>
+          </template>
+        </div>
+        <div class="layout horizontal">
+          <paper-button on-click="_add" raised>Add</paper-button>
+        </div>
+      </div>
 
-    <paper-dropdown-menu label="รายชื่อครู">
-     <paper-listbox slot="dropdown-content" selected="{{teacherId}}" attr-for-selected="name">
-      <template is="dom-repeat" items="{{items}}">
-       <paper-item name="{{item.value}}">
-         {{item.key.2.0}} {{item.key.2.1}}
-       </paper-item>
-      </template>
-     </paper-listbox>
-    </paper-dropdown-menu>
-
-    <div class="layout horizontal">
-      <paper-button on-click="_add" raised>Add</paper-button>
-    </div>
-    
+      
   </template>
 
   <script>
@@ -106,6 +136,11 @@
             value:function() {
               return [];
             }
+          },
+          teacherGroup:{
+            type:Boolean,
+            notify:true,
+            value:false
           }
         };
       }
@@ -114,7 +149,14 @@
         return [
           '__executedQuery(token,hostId)',
           '__findTeacherInClass(token,data.classId)',
+          '__selectedItem(selectedItem)'
         ]
+      }
+
+      __selectedItem(el){
+        if(el.name=="b"){
+          this.set("teacherGroup",true);
+        }
       }
 
       __executedQuery(token,hostId) {

@@ -4,6 +4,7 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
 <link rel="import" href="teacher-by-room.html">
@@ -49,6 +50,10 @@
       }
     </style>
      
+    <!--<paper-input label="host" value="{{host}}"></paper-input>
+    <paper-input label="year" value="{{year}}"></paper-input>  
+    <paper-input label="semester" value="{{semester}}"></paper-input>-->
+
     <secure-component></secure-component>
      
     <iron-sessionstorage name="userdata" value="{{userData}}">
@@ -57,14 +62,14 @@
     <iron-sessionstorage name="token" use-raw value="{{token}}">
     </iron-sessionstorage>
 
-    <p>From session {{teacher.HostID}}</p>
+    <!--<p>From session {{teacher.HostID}}</p>-->
 
     <room-list token="{{token}}" host-id="1010720003" 
       app="homevisit" items="{{rooms}}">
     </room-list>
 
-    <p>ห้องในโรงเรียน 1010720003 app=homevisit</p>
-    <paper-tabs selected="{{selectedLevel}}" noink>
+    <!--<p>ห้องในโรงเรียน 1010720003 app=homevisit</p>-->
+    <paper-tabs selected="{{selectedLevel}}" noink scrollable fit-container>
       <template is="dom-repeat" items="{{rooms}}" as="level">
         <paper-tab class="font-header">{{level.name}}</paper-tab>
       </template> 
@@ -83,13 +88,9 @@
           <div>
         </div>       
       </div>
-    <!--</div>  
-    <div class="layout vertical">
-      <div class="layout horizontal">-->
-        <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
-          items="{{teachers}}">
-        </teacher-list>
-      <!--</div>-->
+          <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
+            items="{{teachers}}" selected-room="true">
+          </teacher-list>
     </div>
   </template>
 
