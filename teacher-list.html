@@ -2,17 +2,18 @@
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
-<link rel="import" href="../app-route/app-route.html">
-<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../neon-animation/web-animations.html">
+<link rel="import" href="../neon-animation/neon-animations.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
 
-<link rel="import" href="class-teacher-info.html">
+<link rel="import" href="teacher-in-host.html">
 <link rel="import" href="knowledge-category.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
@@ -54,8 +55,20 @@
         margin-left: 10px;
       }
 
-      paper-listbox{
-        width: 500px;
+      .c-name {
+        width:200px;
+      }
+      .c-subj {
+        width:100px;
+      }
+
+      .header {
+        padding-right:16px;
+        padding-left:16px;
+      }
+
+      .mark-green {
+        color:#00ee00;
       }
 
       paper-radio-button{
@@ -64,57 +77,146 @@
       }
     </style>
    
-    <app-location route="{{route}}" use-hash-as-path></app-location>
-    <app-route route="{{route}}" 
-      pattern="/rooms/:level/:room/:classId" data="{{data}}">
-    </app-route>
+    <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
+    <paper-listbox selected="{{selectedClassTeacher}}"
+      attr-for-selected="teacher">
+     <template is="dom-repeat" items="{{items}}" filter="isClassTeacher">
+      <paper-item teacher="{{item}}">
+        {{getTeacherName(item,teachers)}}
+      </paper-item>
+     </template>
+    </paper-listbox>
 
-    <!--<div>{{data.level}}/{{data.room}}</div>
-    <div>Class ID : {{data.classId}}</div>
-    <div>Teacher ID : {{teacherId}}</div>-->
-      <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
-      <iron-selector selected-item="{{selectedTeacher}}">
-      <template is="dom-repeat" items="{{teacherInClass}}">
-        <class-teacher-info token="{{token}}" document="{{item}}">
-        </class-teacher-info>
-        </template>
-      </iron-selector>
+    <div class="font-header">รายชื่อครูผู้สอน</div>
+    
+    <div class="layout horizontal header">
+     <div class="c-name">ครูผู้สอน</div>
+     <div class="c-subj">วิทยาศาสตร์</div>
+     <div class="c-subj">คณิตศาสตร์</div>
+     <div class="c-subj">ศิลปะ</div>
+     <div class="c-subj">ภาษาไทย</div>
+     <div class="c-subj">ภาษาต่างประเทศ</div>
+     <div class="c-subj">สังคมศึกษา</div>
+     <div class="c-subj">การงาน</div>
+     <div class="c-subj">สุขศึกษา</div>
+     <div class="c-subj">ไม่ระบุ</div>
+    </div>
+      
+    <paper-listbox selected="{{selectedSubjectTeacher}}"
+      attr-for-selected="teacher">
+     <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
+      <paper-item teacher="{{item}}">
+       <div class="c-name">
+        {{getTeacherName(item,teachers)}}
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.sci}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.mat}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.art}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.thl}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.frl}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.src}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.cit}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.pe}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!item.value.subjects.non}}">
+        </iron-icon>
+       </div>
+      </paper-item>
+     </template>
+    </paper-listbox>
 
-      {{teacherSelected}}
-      <div class="layout horizontal">
-        <paper-button on-click="_remove" raised>Remove</paper-button>
-      </div>
+    <div class="layout horizontal">
+      <paper-button on-click="openDialog" raised>Add</paper-button>
+    </div>
 
+    <paper-dialog id="updatedialog">
+      <h2>
+        ข้อมูลครู 
+        {{level}}/{{room}}
+      </h2>
+      
       <div class="layout vertical">
-        <div class="layout horizontal">
-          <paper-dropdown-menu label="รายชื่อครู">
-          <paper-listbox slot="dropdown-content" selected="{{teacherId}}" attr-for-selected="name">
-            <template is="dom-repeat" items="{{items}}">
-            <paper-item name="{{item.value}}">
-              {{item.key.2.0}} {{item.key.2.1}}
-            </paper-item>
-            </template>
-          </paper-listbox>
-          </paper-dropdown-menu>
-        </div>
-        <div class="layout horizontal">
-          <paper-radio-group selected-item="{{selectedItem}}">
-            <paper-radio-button name="a">ครูประจำชั้น</paper-radio-button>
-            <paper-radio-button name="b">ครูผู้สอน</paper-radio-button>
-          </paper-radio-group>
-        </div>
-        <div class="layout horizontal">
-          <template is="dom-if" if="{{teacherGroup}}">
-            <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
-            <div class="flex-11">
-              <knowledge-category></knowledge-category>
-            </div>
-          </template>
-        </div>
-        <div class="layout horizontal">
-          <paper-button on-click="_add" raised>Add</paper-button>
+        {{getTeacherName(selectedDocument,teachers)}}
+        <paper-radio-group 
+          attr-for-select="name"
+          selected="{{selectedDocument.value.role}}">
+          <paper-radio-button name="classteacher">ครูประจำชั้น</paper-radio-button>
+          <paper-radio-button name="subjectteacher">ครูผู้สอน</paper-radio-button>
+        </paper-radio-group>
+        <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
+        <div class="flex-11">
+          <knowledge-category group="{{selectedDocument.value.subjects}}" 
+            disabled="{{!isTeacherGroup(selectedDocument.value.role)}}">
+          </knowledge-category>
         </div>
       </div>
+      <div class="buttons">
+        <paper-button on-click="_update" dialog-confirm>Update</paper-button>
+        <paper-button on-click="_remove" dialog-confirm>Delete</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dialog">
+      <h2>
+        ข้อมูลครู 
+        {{level}}/{{room}}
+      </h2>
+      <div class="layout vertical">
+        <teacher-in-host token="{{token}}" 
+          items="{{teachers}}"
+          host-id="{{host}}" 
+          selected="{{teacher}}">
+        </teacher-in-host>
+        <paper-radio-group 
+          attr-for-select="name"
+          selected="{{role}}">
+          <paper-radio-button name="classteacher">ครูประจำชั้น</paper-radio-button>
+          <paper-radio-button name="subjectteacher">ครูผู้สอน</paper-radio-button>
+        </paper-radio-group>
+        <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
+        <div class="flex-11">
+          <knowledge-category group="{{group}}" 
+            disabled="{{!isTeacherGroup(role)}}">
+          </knowledge-category>
+        </div>
+      </div>
+      <div class="buttons">
+        <paper-button on-click="_add" dialog-confirm>Add</paper-button>
+      </div>
+    </paper-dialog>
 
       
   </template>
@@ -127,7 +229,19 @@
           token: {
             type: String,
           },
-          hostId:{
+          host:{
+            type: String,
+          },
+          year:{
+            type: Number,
+          },
+          semester:{
+            type: Number,
+          },
+          level:{
+            type: String,
+          },
+          room:{
             type: String,
           },
           items:{
@@ -136,54 +250,61 @@
             value:function() {
               return [];
             }
-          },
-          teacherGroup:{
-            type:Boolean,
-            notify:true,
-            value:false
           }
         };
       }
 
       static get observers() {
         return [
-          '__executedQuery(token,hostId)',
-          '__findTeacherInClass(token,data.classId)',
-          '__selectedItem(selectedItem)'
+          '__executedQuery(token,year,semester,host,level,room)',
+          '__selectedItem(selectedItem)',
+          '__classTeacherSelected(selectedClassTeacher)',
+          '__subjectTeacherSelected(selectedSubjectTeacher)'
         ]
       }
 
-      __selectedItem(el){
-        if(el.name=="b"){
-          this.set("teacherGroup",true);
+      isClassTeacher(item) {
+        return item.value.role == 'classteacher';
+      }
+
+      isSubjectTeacher(item) {
+        return item.value.role == 'subjectteacher';
+      }
+
+      isTeacherGroup(role){
+        return role == "subjectteacher";
+      }
+
+      openDialog(event) {
+        this.$.dialog.open();
+      }
+
+      __classTeacherSelected(teacher) {
+        this.set('selectedDocument',teacher);
+        this.$.updatedialog.open();
+      }
+
+      __subjectTeacherSelected(teacher) {
+        this.set('selectedDocument',teacher);
+        this.$.updatedialog.open();
+      }
+
+      getTeacherName(document,list) {
+        if(!document || !list) return;
+        for(var i=0;i<list.length;i++) {
+          if(document.value.teacher_id == list[i].value) {
+            return list[i].key[2][0]+' '+list[i].key[2][1];
+          }
         }
       }
 
-      __executedQuery(token,hostId) {
-        if(token == null || hostId == null) return;
+      __executedQuery(token,year,semester,host,level,room) {
+        if(!token || !year || !semester || !host || !level || !room) return;
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/teacher_db/hostid",
-          body:{"match":[hostId]},
-          method:"POST",
-          handleAs:"json",
-          headers:{
-            "Authorization":"JWT "+token,
-            "Content-Type":"application/json"
-          }
-        }).then(function(res) {
-          self.set('items',res.response);
-        });
-      }
-      
-      __findTeacherInClass(token,classId) {
-        if(token == null || classId == null) return;
-        var ele = document.createElement('iron-request'); 
-        var self = this;
-        ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/classteacher/class",
-          body:{"match":[classId],"include_doc":true},
+          url:"https://maas.nuqlis.com:9000/api/query/classteacher/year_semester_host_class_room",
+          body:{"match":[Number(year),Number(semester),host,level,room],"include_doc":true},
           method:"POST",
           handleAs:"json",
           headers:{
@@ -193,57 +314,68 @@
         }).then(function(res) {
           var _teachers = [];
           res.response.forEach(function(doc) {
-            _teachers.push({'key':doc.value.key,'value':doc.value.doc});
+            _teachers.push({key:doc.value.key,value:doc.value.doc});
           });
-          self.set('teacherInClass',_teachers);
+          self.set('items',_teachers);
         });
       }
 
       _add(event) {
+        var ele = document.createElement('iron-request'); 
         var self = this;
-        var alreadySelected = false;
-        this.teacherInClass.forEach(function(doc) {
-          if(doc.value.teacher_id == self.teacherId) {
-            alreadySelected = true;
+        var content = {
+           "teacher_id":this.teacher.value,
+           "year":this.year,
+           "role":this.role,
+           "semester":this.semester,
+           "room":this.room,
+           "host":this.host,
+           "subjects":this.group?this.group:{},
+           "classname":this.level
+        };
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
+          body:content,
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+this.token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          if(res.response.ok) {
+            self.__executedQuery(self.token,
+              self.year,self.semester,self.host,self.level,self.room);
           }
         });
-        if(!alreadySelected) {
-          var ele = document.createElement('iron-request'); 
-          var self = this;
-          var content = {
-             "teacher_id":this.teacherId,
-             "class_id":this.data.classId,
-             "room":this.data.room,
-             "host":this.hostId,
-             "class":this.data.level
-          };
-          ele.send({
-            url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
-            body:content,
-            method:"POST",
-            handleAs:"json",
-            headers:{
-              "Authorization":"JWT "+this.token,
-              "Content-Type":"application/json"
-            }
-          }).then(function(res) {
-            if(res.response.ok) {
-              self.push('teacherInClass',{
-                key:res.response.key,
-                value:content
-              });
-            }
-          });
-        }
+      }
+
+      _update(event) {
+        var ele = document.createElement('iron-request'); 
+        var self = this;
+        var content = this.selectedDocument.value;
+        var key = this.selectedDocument.key;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          body:content,
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+this.token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          if(res.response.ok) {
+            self.__executedQuery(self.token,
+              self.year,self.semester,self.host,self.level,self.room);
+          }
+        });
       }
 
       _remove(event) {
         var self = this;
-        var doc = this.selectedTeacher;
-        if(doc==null) return;
-        doc.classList.remove('iron-selected');
         var ele = document.createElement('iron-request'); 
-        var key = doc.document.key;
+        var key = this.selectedDocument.key;
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           method:"DELETE",
@@ -253,17 +385,8 @@
           }
         }).then(function(res) {
           if(res.response.ok) {
-            var index = -1;
-            for(var i=0;i<self.teacherInClass.length;i++) {
-              if(self.teacherInClass[i].key == key) {
-                index = i;
-                break;
-              }
-            }
-            if(index != -1) {
-              self.splice('teacherInClass',index,1);
-              self.set('selectedTeacher',null);
-            }
+            self.__executedQuery(self.token,
+              self.year,self.semester,self.host,self.level,self.room);
           }
         });
       }

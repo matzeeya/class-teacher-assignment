@@ -1,13 +1,46 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
 
 <dom-module id="room-list">
   <template>
-    <style>
+    <style is="custom-style" 
+      include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
-        display: block;
+        @apply(--layout-horizontal);
+      }
+      .classname-dd {
+        max-width:300px;
       }
     </style>
+
+    <paper-dropdown-menu label="Class">  
+      <paper-listbox slot="dropdown-content" 
+        attr-for-selected="level"   
+        selected="{{selectedLevel}}">
+        <template is="dom-repeat" items="{{items}}">
+          <paper-item level="{{item}}">
+            {{item.classname}}
+          </paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+   
+
+    <paper-dropdown-menu label="Room">  
+      <paper-listbox slot="dropdown-content" 
+        attr-for-selected="room"   
+        selected="{{room}}">
+        <template is="dom-repeat" items="{{selectedLevel.room}}">
+          <paper-item room="{{item}}">{{item}}</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+
   </template>
 
   <script>
@@ -15,14 +48,20 @@
       static get is() { return 'room-list'; }
       static get properties() {
         return {
-          app:{
-            type: String,
-          },
           token: {
             type: String,
           },
           hostId:{
             type: String,
+          },
+          level:{
+            type:String,
+            notify:true,
+            computed:'__getLevel(selectedLevel)'
+          },
+          room:{
+            type:String,
+            notify:true
           },
           items:{
             type:Array,
@@ -36,17 +75,21 @@
 
       static get observers() {
         return [
-          '__executedQuery(token,hostId,app)'
+          '__executedQuery(token,hostId)'
         ]
       }
       
-      __executedQuery(token,hostId,app) {
-        if(token == null || hostId == null || app == null) return;
+      __getLevel(selectedLevel) {
+        return selectedLevel.classname;
+      }
+      
+      __executedQuery(token,hostId) {
+        if(token == null || hostId == null) return;
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/hostclassroom/app_host_class_room",
-          body:{"match":[app,hostId]},
+          url:"https://maas.nuqlis.com:9000/api/query/school/hostid",
+          body:{"match":[hostId],"include_doc":true,"limit":1},
           method:"POST",
           handleAs:"json",
           headers:{
@@ -54,29 +97,16 @@
             "Content-Type":"application/json"
           }
         }).then(function(res) {
-          var _class = {};
-          res.response.forEach(function(doc) {
-            if(!_class[doc.key[3]]) {
-              _class[doc.key[3]] = {'name':doc.key[3],'room':[]};
-            }
-
-            if(_class[doc.key[3]].room.indexOf(doc.key[4])==-1) {
-              _class[doc.key[3]].room.push({'key':doc.value,'room':doc.key[4]});
-            }
-          });
-          
-          var result = [];
-          for(var key in _class) {
-            result.push(_class[key]);
-          }
-
-          result.forEach(function(item) {
-            item.room  = item.room.sort(function(a,b) {
-              return Number(a.room) - Number(b.room);
+          if(res.response.constructor === Array) {
+            var result = res.response[0];
+            var classrooms = result.value.doc.classroom;
+            classrooms.forEach(function(level) {
+              level.room.sort(function(a,b) {
+                return Number(a) - Number(b);
+              });
             });
-          });
-          
-          self.set('items',result);
+            self.set('items',classrooms);
+          }
         });
       }
     }

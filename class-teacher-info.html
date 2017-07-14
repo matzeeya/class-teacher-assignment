@@ -20,11 +20,7 @@
         height: 40px;
       }
     </style>
-    <div class="layout horizontal center font-face">
-      {{teacher_document.Title}} 
-      {{teacher_document.Firstname}} 
-      {{teacher_document.Lastname}}
-    </div>
+    {{name}}
   </template>
    
   <script>
@@ -38,14 +34,31 @@
           document:{
             type:Object,
             notify:true
+          },
+          name:{ 
+            type:Object,
+            computed:'__findTeacher(document.value.teacher_id,list)'
+          },
+          list:{
+            type:Array
           }
         };
       }
 
       static get observers() {
         return [
-          '__executeGetTeacher(token,document.value.teacher_id)'
+        //  '__executeGetTeacher(token,document.value.teacher_id)'
+          '__findTeacher(document.value.teacher_id,list)'
         ]
+      }
+
+      __findTeacher(id,list) {
+        if(!list || !id) return;
+        for(var i=0;i<list.length;i++) {
+          if(id == list[i].value) {
+            return list[i].key[2][0]+' '+list[i].key[2][1];
+          }
+        }
       }
 
       __executeGetTeacher(token,teacherId) {

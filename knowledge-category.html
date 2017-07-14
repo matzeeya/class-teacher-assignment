@@ -17,15 +17,24 @@
         font-size: 110%;
       }
     </style>
-      <paper-checkbox>วิทยาศาสตร์</paper-checkbox>
-      <paper-checkbox>คณิตศาสตร์</paper-checkbox>
-      <paper-checkbox>ศิลปะ</paper-checkbox>
-      <paper-checkbox>ภาษาไทย</paper-checkbox>
-      <paper-checkbox>ภาษาต่างประเทศ</paper-checkbox>
-      <paper-checkbox>สังคมศึกษา ศาสนา และวัฒนธรรม</paper-checkbox>
-      <paper-checkbox>การงานอาชีพและเทคโนโลยี</paper-checkbox>
-      <paper-checkbox>สุขศึกษาและพลศึกษา</paper-checkbox>
-      <paper-checkbox>ไม่ระบุ</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.sci}}">วิทยาศาสตร์</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.mat}}">คณิตศาสตร์</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.art}}">ศิลปะ</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.thl}}">ภาษาไทย</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.frl}}">ภาษาต่างประเทศ</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.src}}">สังคมศึกษา ศาสนา และวัฒนธรรม</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.cit}}">การงานอาชีพและเทคโนโลยี</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.pe}}">สุขศึกษาและพลศึกษา</paper-checkbox>
+    <paper-checkbox disabled="{{disabled}}"
+      checked="{{group.non}}">ไม่ระบุ</paper-checkbox>
   </template>
    
   <script>
@@ -33,8 +42,25 @@
       static get is() { return 'knowledge-category'; }
       static get properties() {
         return {
-          token: {
-            type: String,
+          disabled:{
+            type:Boolean
+          },
+          group: {
+            type: Object,
+            notify:true,
+            value:function() {
+              return {
+                'sci':false, 
+                'mat':false,
+                'art':false,
+                'thl':false,
+                'frl':false,
+                'src':false,
+                'cit':false,
+                'pe':false,
+                'non':false
+              }
+            }
           }
         };
       }

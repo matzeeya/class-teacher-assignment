@@ -5,9 +5,9 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
+
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
-<link rel="import" href="teacher-by-room.html">
 <link rel="import" href="secure-component.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
@@ -50,10 +50,6 @@
       }
     </style>
      
-    <!--<paper-input label="host" value="{{host}}"></paper-input>
-    <paper-input label="year" value="{{year}}"></paper-input>  
-    <paper-input label="semester" value="{{semester}}"></paper-input>-->
-
     <secure-component></secure-component>
      
     <iron-sessionstorage name="userdata" value="{{userData}}">
@@ -62,36 +58,23 @@
     <iron-sessionstorage name="token" use-raw value="{{token}}">
     </iron-sessionstorage>
 
-    <!--<p>From session {{teacher.HostID}}</p>-->
+    <paper-input label="year" value="2016"></paper-input>  
+    <paper-input label="semester" value="1"></paper-input>
 
-    <room-list token="{{token}}" host-id="1010720003" 
-      app="homevisit" items="{{rooms}}">
+    <room-list token="{{token}}" host-id="{{hostId}}" 
+      level="{{level}}" room="{{room}}">
     </room-list>
 
-    <!--<p>ห้องในโรงเรียน 1010720003 app=homevisit</p>-->
-    <paper-tabs selected="{{selectedLevel}}" noink scrollable fit-container>
-      <template is="dom-repeat" items="{{rooms}}" as="level">
-        <paper-tab class="font-header">{{level.name}}</paper-tab>
-      </template> 
-    </paper-tabs>
+    <teacher-list 
+      token="{{token}}" 
+      level="{{level}}"
+      room="{{room}}"
+      year="2016"
+      semester="1"
+      host="{{hostId}}"> 
+    </teacher-list>
 
-        <div class="layout horizontal">
-          <div class="layout vertical">
-            <template is="dom-repeat" items="{{selectedClass.room}}">
-              <teacher-by-room token="{{token}}" class-id="{{item.key}}" items="{{item.count}}">
-              </teacher-by-room>
-                <div class="layout horizontal border-bottom center font-face">
-                  <iron-icon icon="icons:home"></iron-icon>
-                  <a href="#/rooms/{{selectedClass.name}}/{{item.room}}/{{item.key}}">Rooms {{item.room}}</a> ({{item.count.length}})
-                </div>
-            </template>
-          <div>
-        </div>       
-      </div>
-          <teacher-list token="{{token}}" host-id="1010720003"  class="flex"
-            items="{{teachers}}" selected-room="true">
-          </teacher-list>
-    </div>
+
   </template>
 
   <script>
@@ -99,6 +82,10 @@
       static get is() { return 'class-teacher-assignment'; }
       static get properties() {
         return {
+          hostId:{
+            type:String,
+            notify:true
+          },
           __findTeacher: {
             type: String,
             computed: '_findTeacher(token,userData)'
@@ -110,8 +97,9 @@
         };
       }
 
-      __executeSelectedClass(list,idx) {
-        return list[idx];
+      static get observers() {
+        return [
+        ]
       }
 
       _findTeacher(token,userData) {
@@ -134,6 +122,7 @@
       }
     }
 
-    window.customElements.define(ClassTeacherAssignment.is, ClassTeacherAssignment);
+    window.customElements.define(ClassTeacherAssignment.is, 
+      ClassTeacherAssignment);
   </script>
 </dom-module>
