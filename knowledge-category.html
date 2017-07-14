@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+
+<dom-module id="knowledge-category">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--layout-vertical);
+        padding:5px;
+      }
+
+      paper-checkbox{
+        font-family: 'Itim', cursive;
+        font-size: 110%;
+      }
+    </style>
+      <paper-checkbox>วิทยาศาสตร์</paper-checkbox>
+      <paper-checkbox>คณิตศาสตร์</paper-checkbox>
+      <paper-checkbox>ศิลปะ</paper-checkbox>
+      <paper-checkbox>ภาษาไทย</paper-checkbox>
+      <paper-checkbox>ภาษาต่างประเทศ</paper-checkbox>
+      <paper-checkbox>สังคมศึกษา ศาสนา และวัฒนธรรม</paper-checkbox>
+      <paper-checkbox>การงานอาชีพและเทคโนโลยี</paper-checkbox>
+      <paper-checkbox>สุขศึกษาและพลศึกษา</paper-checkbox>
+      <paper-checkbox>ไม่ระบุ</paper-checkbox>
+  </template>
+   
+  <script>
+    class knowledgeCategory extends Polymer.Element {
+      static get is() { return 'knowledge-category'; }
+      static get properties() {
+        return {
+          token: {
+            type: String,
+          }
+        };
+      }
+    }
+
+
+    window.customElements.define(knowledgeCategory.is, knowledgeCategory);
+  </script>
+</dom-module>
