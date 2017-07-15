@@ -11,6 +11,7 @@
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 
 <link rel="import" href="teacher-in-host.html">
@@ -63,9 +64,6 @@
         width:100px;
       }
 
-      .header {
-      }
-
       .mark-green {
         color:#00ee00;
       }
@@ -80,6 +78,11 @@
         font-size: 110%;
         margin-left: 10px;
       }
+
+      paper-icon-button{
+        width: 80px;
+        height: 80px;
+      }
     </style>
    
     <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
@@ -90,17 +93,35 @@
 
     <div class="font-header">รายชื่อครูผู้สอน</div>
     
-    <div class="layout horizontal header">
+    <div class="layout horizontal">
      <div class="c-name">ครูผู้สอน</div>
-     <div class="c-subj">วิทยาศาสตร์</div>
-     <div class="c-subj">คณิตศาสตร์</div>
-     <div class="c-subj">ศิลปะ</div>
-     <div class="c-subj">ภาษาไทย</div>
-     <div class="c-subj">ภาษาต่างประเทศ</div>
-     <div class="c-subj">สังคมศึกษา</div>
-     <div class="c-subj">การงาน</div>
-     <div class="c-subj">สุขศึกษา</div>
-     <div class="c-subj">ไม่ระบุ</div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/science.png" title="วิทยาศาสตร์"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/math.png" title="คณิตศาสตร์"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/art.png" title="ศิลปะ"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/thai.png" title="ภาษาไทย"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/english.png" title="ภาษาต่างประเทศ"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/social.png" title="สังคมศึกษา ศาสนา และวัฒนธรรม"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/work.png" title="การงานอาชีพและเทคโนโลยี"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/gymnastics.png" title="สุขศึกษาและพลศึกษา"></paper-icon-button>
+      </div>
+     <div class="c-subj">
+       <paper-icon-button src="/images/unidentified.png" title="ไม่ระบุ"></paper-icon-button>
+      </div>
     </div>
       
     <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
