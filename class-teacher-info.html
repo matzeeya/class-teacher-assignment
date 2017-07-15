@@ -5,8 +5,6 @@
 
 <link rel="import" href="role-toggle.html">
 
-
-
 <dom-module id="class-teacher-info">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
@@ -15,92 +13,100 @@
       }
 
       .font-face {
-        margin-left: 10px;
         font-family: 'Itim', cursive;
         font-size: 120%;
         height: 50px;
       }
 
       .c-name {
+        margin-left: 20px;
         width:200px;
       }
 
       .content {
-        height:50px;
-        align-content: center;
+        margin-top: 15px;
+        height:40px;
       }
 
       .c-subj {
         @apply(--layout-horizontal);
         @apply(--layout-center);
         @apply(--layout-center-justified);
-        width:32px;
-        height:32px;
-        margin:5px;
+        width:100px;
+        height:40px;
       }
 
       .mark-green {
         color:#00ee00;
       }
-    </style>
 
+      iron-icon.enormous {
+        margin-top:10px;
+        height: 35px;
+        width: 35px;
+      }
+
+      .bottom-style{
+        border-bottom:  1px;
+        border-bottom-style: solid;
+        border-bottom-color: var(--divider-color);
+      }
+</style>
     <div class="layout horizontal">
       <div class="c-name flex-2 font-face content">
         {{name}}
       </div>
-
-      <div class="c-subj flex-1">
+      <div class="c-subj">
         <role-toggle value="{{document.value.role}}"></role-toggle>
       </div>
-
       <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-       <div class="layout horizontal">
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.sci}}">
-          </iron-icon>
+        <div class="layout horizontal">
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="วิทยาศาสตร์"
+              hidden$="{{!document.value.subjects.sci}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="คณิตศาสตร์"
+              hidden$="{{!document.value.subjects.mat}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="ศิลปะ"
+              hidden$="{{!document.value.subjects.art}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="ภาษาไทย"
+              hidden$="{{!document.value.subjects.thl}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="ภาษาต่างประเทศ"
+              hidden$="{{!document.value.subjects.frl}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="สังคมศึกษา ศาสนา และวัฒนธรรม"
+              hidden$="{{!document.value.subjects.src}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="การงานอาชีพและเทคโนโลยี"
+              hidden$="{{!document.value.subjects.cit}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="สุขศึกษาและพลศึกษา"
+              hidden$="{{!document.value.subjects.pe}}">
+            </iron-icon>
+          </div>
+          <div class="c-subj flex-1">
+            <iron-icon src="/images/correct.png" class="enormous" title="ไม่ระบุ"
+              hidden$="{{!document.value.subjects.non}}">
+            </iron-icon>
+          </div>
         </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.mat}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.art}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.thl}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.frl}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.src}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.cit}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.pe}}">
-          </iron-icon>
-        </div>
-        <div class="c-subj flex-1">
-          <iron-icon icon="done" class="mark-green" 
-            hidden$="{{!document.value.subjects.non}}">
-          </iron-icon>
-        </div>
-      </div>
       </template>
     </div>
   </template>

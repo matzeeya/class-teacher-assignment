@@ -9,7 +9,7 @@
       }
 
       iron-icon:hover {
-        background-color:#eeeeee;
+        
         cursor:hand;
         cursor:pointer;
       }
@@ -32,14 +32,14 @@
       }
 
     </style>
-
-    <iron-icon icon="home" 
+    <iron-icon src="{{tCorrect}}" style="height:50px; width:50px; margin-top:15px;" 
+      title="{{tTitle}}"
       on-click="_toggle" 
       class$="{{value}}">
     </iron-icon>
 
   </template>
-   
+
   <script>
     class RoleToggle extends Polymer.Element {
       static get is() { return 'role-toggle'; }
@@ -48,15 +48,45 @@
           value:{ 
             type:String,
             notify:true
+          },
+          tCorrect:{
+            type:String,
+            notify:true,
+            computed:'__defaultTeacher(value)'
+          },
+          tTitle:{
+            type:String,
+            notify:true,
+            computed:'__titleTeacher(value)'
           }
+
         };
       }
-
+      __defaultTeacher(value){
+        var img;
+        if(this.value == "subjectteacher"){
+          img = "/images/t-subjects.png";
+        }else{
+          img = "/images/t-class.png";
+        }
+        return img;
+      }
+       __titleTeacher(value){
+        var title;
+        if(this.value == "subjectteacher"){
+          title = "ครูผู้สอน";
+        }else{
+          title = "ครูประจำชั้น";
+        }
+        return title;
+      }
       _toggle(event) {
         if(this.value == "subjectteacher") {
           this.set('value',"classteacher");
+          this.tCorrect="/images/t-class.png";
         } else {
           this.set('value',"subjectteacher");
+          this.tCorrect="/images/t-subjects.png";
         }
       }
 
