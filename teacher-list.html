@@ -11,7 +11,6 @@
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 
 <link rel="import" href="teacher-in-host.html">
@@ -47,23 +46,11 @@
         font-size: 120%;
         height: 30px;
       }
-      
-      .margin-left-style{
-        margin-left: 10px;
-      }
-
-      paper-dropdown-menu{
-        width: 500px;
-        margin-left: 10px;
-      }
 
       .c-name {
         width:200px;
       }
-      .c-subj {
-        width:100px;
-      }
-
+       
       .mark-green {
         color:#00ee00;
       }
@@ -79,54 +66,85 @@
         margin-left: 10px;
       }
 
-      paper-icon-button{
-        width: 100px;
-        height: 100px;
+      .subject-icon {
+        width:32px;
+        height:32px;
+        margin:5px;
+      }
+
+      iron-icon.enormous {
+        height: 80px;
+        width: 80px;
       }
     </style>
    
-    <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
-    <template is="dom-repeat" items="{{items}}" filter="isClassTeacher">
-     <class-teacher-info document="{{item}}" list="{{teachers}}">
-     </class-teacher-info>
-    </template>
-
-    <div class="font-header">รายชื่อครูผู้สอน</div>
-    
+    <div class="layout horizontal center font-header ">รายชื่อครู</div>
     <div class="layout horizontal">
-     <div class="c-name">
-       <paper-icon-button src="/images/teacher.png" title="ครูผู้สอน"></paper-icon-button>
-     </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/science.png" title="วิทยาศาสตร์"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/math.png" title="คณิตศาสตร์"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/art.png" title="ศิลปะ"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/thai.png" title="ภาษาไทย"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/english.png" title="ภาษาต่างประเทศ"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/social.png" title="สังคมศึกษา ศาสนา และวัฒนธรรม"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/work.png" title="การงานอาชีพและเทคโนโลยี"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/gymnastics.png" title="สุขศึกษาและพลศึกษา"></paper-icon-button>
-      </div>
-     <div class="c-subj">
-       <paper-icon-button src="/images/unidentified.png" title="ไม่ระบุ"></paper-icon-button>
-      </div>
+    <div class="flex-2">     
+      <iron-icon src="/images/teacher.png" 
+          title="ครูผู้สอน"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="subject-icon">&nbsp;</div>
+    <div class="flex-1">   
+      <iron-icon src="/images/science.png" 
+          title="วิทยาศาสตร์"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">   
+      <iron-icon src="/images/math.png" 
+          title="คณิตศาสตร์"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">   
+      <iron-icon src="/images/art.png" 
+          title="ศิลปะ"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/thai.png" 
+          title="ภาษาไทย"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/english.png" 
+          title="ภาษาต่างประเทศ"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/social.png" 
+          title="สังคมศึกษา ศาสนา และวัฒนธรรม"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/work.png" 
+          title="การงานอาชีพและเทคโนโลยี"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/gymnastics.png" 
+          title="สุขศึกษาและพลศึกษา"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
+    <div class="flex-1">
+      <iron-icon src="/images/unidentified.png" 
+          title="ไม่ระบุ"
+          class="subject-icon enormous">
+      </iron-icon>
+    </div>
     </div>
       
-    <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
+    <template is="dom-repeat" items="{{items}}" 
+     sort="orderByRole" observe="value.role">
      <class-teacher-info document="{{item}}" list="{{teachers}}">
      </class-teacher-info>
     </template>
@@ -239,10 +257,17 @@
       ready() {
         super.ready();
         var self =this;
+        /*
         this.addEventListener('teacher-selected',function(event) {
           self.set('selectedDocument',event.detail);
           self.$.updatedialog.open();
         });
+        */
+      }
+
+      orderByRole(a,b) {
+        if(!a.value.role || !b.value.role) return -1;
+        return a.value.role.localeCompare(b.value.role);
       }
 
       isClassTeacher(item) {

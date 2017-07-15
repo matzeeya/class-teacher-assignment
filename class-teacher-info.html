@@ -3,9 +3,13 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
+<link rel="import" href="role-toggle.html">
+
+
+
 <dom-module id="class-teacher-info">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply(--layout-horizontal);
       }
@@ -14,85 +18,90 @@
         margin-left: 10px;
         font-family: 'Itim', cursive;
         font-size: 120%;
-        height: 40px;
+        height: 50px;
       }
 
       .c-name {
         width:200px;
       }
 
-      .content:hover {
-        background:#eeeeee;
-        cursor:pointer; 
-        cursor:hand;
+      .content {
+        height:50px;
+        align-content: center;
       }
 
       .c-subj {
-        width:100px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+        width:32px;
+        height:32px;
+        margin:5px;
       }
+
       .mark-green {
         color:#00ee00;
       }
-
-      .margin-style{
-        vertical-align: center;
-      }
     </style>
 
-    <div class="layout horizontal content" on-click="_selectTeacher">
-    <div class="c-name font-face">
-      {{name}}
-    </div>
+    <div class="layout horizontal">
+      <div class="c-name flex-2 font-face content">
+        {{name}}
+      </div>
 
-    <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-     <div class="layout horizontal">
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.sci}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.mat}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.art}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.thl}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.frl}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.src}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.cit}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.pe}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!document.value.subjects.non}}">
-        </iron-icon>
-       </div>
-    </div>
-    </template>
+      <div class="c-subj flex-1">
+        <role-toggle value="{{document.value.role}}"></role-toggle>
+      </div>
+
+      <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
+       <div class="layout horizontal">
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.sci}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.mat}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.art}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.thl}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.frl}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.src}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.cit}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.pe}}">
+          </iron-icon>
+        </div>
+        <div class="c-subj flex-1">
+          <iron-icon icon="done" class="mark-green" 
+            hidden$="{{!document.value.subjects.non}}">
+          </iron-icon>
+        </div>
+      </div>
+      </template>
     </div>
   </template>
    
