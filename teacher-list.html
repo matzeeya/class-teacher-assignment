@@ -14,6 +14,7 @@
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 
 <link rel="import" href="teacher-in-host.html">
+<link rel="import" href="class-teacher-info.html">
 <link rel="import" href="knowledge-category.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
@@ -30,7 +31,6 @@
 
       /* ---font---- */
       .font-header {
-        margin-left: 10px;
         font-family: 'Itim', cursive;
         font-size: 120%;
         opacity: 0.67;
@@ -41,9 +41,10 @@
         border-bottom-color:#F44336;
       }
       .font-face {
+        margin-top: 10px;
         font-family: 'Itim', cursive;
         font-size: 120%;
-        height: 50px;
+        height: 30px;
       }
       
       .margin-left-style{
@@ -63,8 +64,6 @@
       }
 
       .header {
-        padding-right:16px;
-        padding-left:16px;
       }
 
       .mark-green {
@@ -75,17 +74,19 @@
         font-family: 'Itim', cursive;
         font-size: 110%;
       }
+
+      paper-button{
+        font-family: 'Itim', cursive;
+        font-size: 110%;
+        margin-left: 10px;
+      }
     </style>
    
     <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
-    <paper-listbox selected="{{selectedClassTeacher}}"
-      attr-for-selected="teacher">
-     <template is="dom-repeat" items="{{items}}" filter="isClassTeacher">
-      <paper-item teacher="{{item}}">
-        {{getTeacherName(item,teachers)}}
-      </paper-item>
-     </template>
-    </paper-listbox>
+    <template is="dom-repeat" items="{{items}}" filter="isClassTeacher">
+     <class-teacher-info document="{{item}}" list="{{teachers}}">
+     </class-teacher-info>
+    </template>
 
     <div class="font-header">รายชื่อครูผู้สอน</div>
     
@@ -102,61 +103,10 @@
      <div class="c-subj">ไม่ระบุ</div>
     </div>
       
-    <paper-listbox selected="{{selectedSubjectTeacher}}"
-      attr-for-selected="teacher">
-     <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
-      <paper-item teacher="{{item}}">
-       <div class="c-name">
-        {{getTeacherName(item,teachers)}}
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.sci}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.mat}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.art}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.thl}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.frl}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.src}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.cit}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.pe}}">
-        </iron-icon>
-       </div>
-       <div class="c-subj">
-        <iron-icon icon="done" class="mark-green" 
-          hidden$="{{!item.value.subjects.non}}">
-        </iron-icon>
-       </div>
-      </paper-item>
-     </template>
-    </paper-listbox>
+    <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
+     <class-teacher-info document="{{item}}" list="{{teachers}}">
+     </class-teacher-info>
+    </template>
 
     <div class="layout horizontal">
       <paper-button on-click="openDialog" raised>Add</paper-button>
@@ -263,6 +213,15 @@
         ]
       }
 
+      ready() {
+        super.ready();
+        var self =this;
+        this.addEventListener('teacher-selected',function(event) {
+          self.set('selectedDocument',event.detail);
+          self.$.updatedialog.open();
+        });
+      }
+
       isClassTeacher(item) {
         return item.value.role == 'classteacher';
       }
@@ -279,15 +238,6 @@
         this.$.dialog.open();
       }
 
-      __classTeacherSelected(teacher) {
-        this.set('selectedDocument',teacher);
-        this.$.updatedialog.open();
-      }
-
-      __subjectTeacherSelected(teacher) {
-        this.set('selectedDocument',teacher);
-        this.$.updatedialog.open();
-      }
 
       getTeacherName(document,list) {
         if(!document || !list) return;

@@ -3,14 +3,11 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
-<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
-
 <dom-module id="class-teacher-info">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
       :host {
-        @apply(--layout-vertical);
-        padding:5px;
+        @apply(--layout-horizontal);
       }
 
       .font-face {
@@ -19,8 +16,80 @@
         font-size: 120%;
         height: 40px;
       }
+
+      .c-name {
+        width:200px;
+      }
+
+      .content:hover {
+        background:#eeeeee;
+        cursor:pointer; 
+        cursor:hand;
+      }
+
+      .c-subj {
+        width:100px;
+      }
+      .mark-green {
+        color:#00ee00;
+      }
     </style>
-    {{name}}
+
+    <div class="layout horizontal content" on-click="_selectTeacher">
+    <div class="c-name">
+      {{name}}
+    </div>
+
+    <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
+     <div class="layout horizontal">
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.sci}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.mat}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.art}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.thl}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.frl}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.src}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.cit}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.pe}}">
+        </iron-icon>
+       </div>
+       <div class="c-subj">
+        <iron-icon icon="done" class="mark-green" 
+          hidden$="{{!document.value.subjects.non}}">
+        </iron-icon>
+       </div>
+    </div>
+    </template>
+    </div>
   </template>
    
   <script>
@@ -47,9 +116,21 @@
 
       static get observers() {
         return [
-        //  '__executeGetTeacher(token,document.value.teacher_id)'
           '__findTeacher(document.value.teacher_id,list)'
         ]
+      }
+
+      isTeacherGroup(role) {
+        return role === "subjectteacher";
+      }
+
+      _selectTeacher(event) {
+        var eve = new CustomEvent('teacher-selected',{
+          bubbles:true,
+          composed:true,
+          detail:this.document
+        }); 
+        this.dispatchEvent(eve);
       }
 
       __findTeacher(id,list) {
@@ -59,22 +140,6 @@
             return list[i].key[2][0]+' '+list[i].key[2][1];
           }
         }
-      }
-
-      __executeGetTeacher(token,teacherId) {
-        if(token == null || teacherId == null) return;
-        var ele = document.createElement('iron-request'); 
-        var self = this;
-        ele.send({
-          url:"https://maas.nuqlis.com:9000/api/dbs/teacher_db/"+teacherId,
-          method:"GET",
-          handleAs:"json",
-          headers:{
-            "Authorization":"JWT "+token
-          }
-        }).then(function(res) {
-          self.set('teacher_document',res.response);
-        });
       }
     }
 
