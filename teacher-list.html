@@ -88,16 +88,10 @@
       }
     </style>
    
-    <div class="layout horizontal center font-header">รายชื่อครูประจำชั้น</div>
-    <template is="dom-repeat" items="{{items}}" filter="isClassTeacher">
-     <class-teacher-info document="{{item}}" list="{{teachers}}">
-     </class-teacher-info>
-    </template>
-
-    <div class="font-header">รายชื่อครูผู้สอน</div>
-    
+    <div class="font-header">รายชื่อครู</div>
     <div class="layout horizontal">
      <div class="c-name">ครูผู้สอน</div>
+     <div class="subject-icon"></div>
      <iron-icon src="/images/science.png" 
         title="วิทยาศาสตร์"
         class="subject-icon">
@@ -136,7 +130,8 @@
      </iron-icon>
     </div>
       
-    <template is="dom-repeat" items="{{items}}" filter="isSubjectTeacher">
+    <template is="dom-repeat" items="{{items}}" 
+     sort="orderByRole" observe="value.role">
      <class-teacher-info document="{{item}}" list="{{teachers}}">
      </class-teacher-info>
     </template>
@@ -249,10 +244,17 @@
       ready() {
         super.ready();
         var self =this;
+        /*
         this.addEventListener('teacher-selected',function(event) {
           self.set('selectedDocument',event.detail);
           self.$.updatedialog.open();
         });
+        */
+      }
+
+      orderByRole(a,b) {
+        if(!a.value.role || !b.value.role) return -1;
+        return a.value.role.localeCompare(b.value.role);
       }
 
       isClassTeacher(item) {

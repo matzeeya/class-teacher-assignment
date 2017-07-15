@@ -1,0 +1,76 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="role-toggle">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--layout-horizontal);
+      }
+
+      iron-icon:hover {
+        background-color:#eeeeee;
+        cursor:hand;
+        cursor:pointer;
+      }
+
+      .classteacher {
+        color:#00ee00;
+      }
+
+      .subjectteacher {
+        color:#cccccc;
+      }
+
+      .c-subj {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+        width:32px;
+        height:32px;
+        margin:5px;
+      }
+
+    </style>
+
+    <iron-icon icon="home" 
+      on-click="_toggle" 
+      class$="{{value}}">
+    </iron-icon>
+
+  </template>
+   
+  <script>
+    class RoleToggle extends Polymer.Element {
+      static get is() { return 'role-toggle'; }
+      static get properties() {
+        return {
+          value:{ 
+            type:String,
+            notify:true
+          }
+        };
+      }
+
+      _toggle(event) {
+        if(this.value == "subjectteacher") {
+          this.set('value',"classteacher");
+        } else {
+          this.set('value',"subjectteacher");
+        }
+      }
+
+      static get observers() {
+        return [
+        ]
+      }
+
+      isTeacherGroup(role) {
+        return role === "subjectteacher";
+      }
+    }
+
+
+    window.customElements.define(RoleToggle.is, RoleToggle);
+  </script>
+</dom-module>

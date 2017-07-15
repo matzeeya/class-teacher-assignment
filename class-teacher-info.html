@@ -3,6 +3,10 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
+<link rel="import" href="role-toggle.html">
+
+
+
 <dom-module id="class-teacher-info">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment">
@@ -21,10 +25,9 @@
         width:200px;
       }
 
-      .content:hover {
-        background:#eeeeee;
-        cursor:pointer; 
-        cursor:hand;
+      .content {
+        height:32px;
+        margin-top:5px;
       }
 
       .c-subj {
@@ -35,19 +38,23 @@
         height:32px;
         margin:5px;
       }
+
       .mark-green {
         color:#00ee00;
       }
     </style>
      
 
-    <div class="layout horizontal center content" on-click="_selectTeacher">
-    <div class="c-name">
-      {{name}}
-    </div>
+    <div class="layout horizontal center content">
+      <div class="c-name">
+        {{name}}
+      </div>
+      <div class="c-subj">
+        <role-toggle value="{{document.value.role}}"></role-toggle>
+      </div>
 
-    <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-     <div class="layout horizontal">
+      <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
+       <div class="layout horizontal">
        <div class="c-subj">
         <iron-icon icon="done" class="mark-green" 
           hidden$="{{!document.value.subjects.sci}}">
