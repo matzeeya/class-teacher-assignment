@@ -28,14 +28,20 @@
       }
 
       .c-subj {
-        width:100px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+        width:32px;
+        height:32px;
+        margin:5px;
       }
       .mark-green {
         color:#00ee00;
       }
     </style>
+     
 
-    <div class="layout horizontal content" on-click="_selectTeacher">
+    <div class="layout horizontal center content" on-click="_selectTeacher">
     <div class="c-name">
       {{name}}
     </div>
