@@ -29,10 +29,7 @@
         height:40px;
       }
 
-      .c-subj {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        @apply(--layout-center-justified);
+      check-teacher {
         width:100px;
         height:40px;
       }
@@ -52,12 +49,17 @@
         cursor:pointer;
       }
 
+      role-toggle {
+        margin-right:75px;
+      }
+
       .bottom-style{
         border-bottom:  1px;
         border-bottom-style: solid;
         border-bottom-color: var(--divider-color);
       }
-</style>
+
+    </style>
     <div class="layout horizontal">
       <div class="c-name flex-2 font-face content">
         {{name}}
@@ -66,15 +68,23 @@
         <role-toggle value="{{document.value.role}}"></role-toggle>
       </div>
       <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-        <div class="layout horizontal">
-          <template is="dom-repeat" items="{{imgCorrect}}">
-            <div class="c-subj">
-              <check-teacher t-check="{{item.images}}"></check-teacher>
-            </div>
-          </template>
-          
+        <div class="layout horizontal center">
+         <check-teacher value="{{document.value.subjects.sci}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.mat}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.art}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.thl}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.frl}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.src}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.cit}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.pe}}"></check-teacher>
+         <check-teacher value="{{document.value.subjects.none}}"></check-teacher>
         </div>
       </template>
+      <div> 
+        <template is="dom-if" if="{{changed}}">
+          <paper-button raised on-click="_save">Save</paper-button>
+        </template>
+      </div>
     </div>
   </template>
    
@@ -97,11 +107,6 @@
           list:{
             type:Array
           },
-          imgCorrect:{
-            type: Array,
-            notify:true,
-            computed:'__chkImg(document.value)'
-          }
         };
       }
 
@@ -110,76 +115,17 @@
           '__findTeacher(document.value.teacher_id,list)',
         ]
       }
-      __chkImg(val){
-        //console.log(val);
-        //var role = val.role;
-        var img=[];
-        var sub = val.subjects;
-        for (var key in sub){
-          //console.log(key);
-          //console.log(sub[key]);
-          var obj = sub[key];
-          if(key == "sci"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "mat"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "art"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "thl"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "frl"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "src"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "cit"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "pe"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }else if(key == "non"){
-            if(obj==true){
-              img.push({"subject":key,"images":'/images/correct.png'});
-            }else{
-              img.push({"subject":key,"images":'/images/non-correct.png'});
-            }
-          }   
-        }
-        //console.log(img);
-        return img;
-      }
+
       isTeacherGroup(role) {
         return role === "subjectteacher";
+      }
+
+      ready() {
+        super.ready();
+        var self = this;
+        this.addEventListener('changed',function(event) {
+          self.set('changed',true);
+        });
       }
 
       _selectTeacher(event) {
@@ -199,8 +145,28 @@
           }
         }
       }
-    }
 
+      _save(event) {
+        var ele = document.createElement('iron-request');
+        var self = this;
+        var content = this.document.value;
+        var key = this.document.key;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          body:content,
+          method:"POST",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+this.token,
+            "Content-Type":"application/json"
+          }
+        }).then(function(res) {
+          if(res.response.ok) {
+            self.set('changed',false);
+          }
+        });
+      }
+    }
 
     window.customElements.define(ClassTeacherInfo.is, ClassTeacherInfo);
   </script>

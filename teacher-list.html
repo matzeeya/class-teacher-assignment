@@ -85,6 +85,9 @@
       }
 
       .c-subj {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
         margin-top:10px;
         width:100px;
         height:40px;
@@ -159,7 +162,7 @@
     <template is="dom-repeat" items="{{items}}" 
      sort="orderByRole" observe="value.role">
      <div class="layout horizontal bottom-style">
-      <class-teacher-info document="{{item}}" list="{{teachers}}">
+      <class-teacher-info token="{{token}}" document="{{item}}" list="{{teachers}}">
       </class-teacher-info>
      </div>
     </template>

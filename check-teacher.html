@@ -6,6 +6,8 @@
     <style is="custom-style" include="iron-flex iron-flex-alignment">
       :host {
         @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
       }
 
       iron-icon:hover {
@@ -21,20 +23,10 @@
         color:#cccccc;
       }
 
-      .c-subj {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        @apply(--layout-center-justified);
-        width:32px;
-        height:32px;
-        margin:5px;
-      }
-
     </style>
-    <iron-icon src="{{tCheck}}" style="height:35px; width:35px; margin-top:15px;"
-      title="{{tTitle}}"
-      on-click="_toggle" 
-      class$="{{tCheck}}">
+    <iron-icon src$="/images/mark-{{type}}.png" 
+      style="height:35px; width:35px;"
+      on-click="_toggle">
     </iron-icon>
 
   </template>
@@ -45,20 +37,34 @@
       static get properties() {
         return {
           value:{ 
+            type:Boolean,
+            notify:true,
+            value:false
+          },
+          type:{
             type:String,
-            notify:true
+            notify:true,
+            computed:'__computeType(value)'
           }
         };
       }
+
+      __computeType(value) {
+        return value?'true':'false';
+      }
+
       _toggle(event) {
-        console.log(this.tCheck);
-        if(this.tCheck == "/images/correct.png") {
-          this.set('tCheck',"/images/non-correct.png");
-          this.tCorrect="/images/correct.png";
+        if(!this.value) {
+          this.set('value',true);
         } else {
-          this.set('tCheck',"/images/correct.png");
-          this.tCorrect="/images/non-correct.png";
+          this.set('value',false);
         }
+        var eve = new CustomEvent('changed',{
+          bubbles:true,
+          composed:true,
+          detail:{}
+        });
+        this.dispatchEvent(eve);
       }
 
       static get observers() {

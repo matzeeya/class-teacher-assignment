@@ -87,6 +87,13 @@
           this.set('value',"subjectteacher");
           this.tCorrect="/images/t-subjects.png";
         }
+        var eve = new CustomEvent('changed',{
+          bubbles:true,
+          composed:true,
+          detail:{}
+        });
+        this.dispatchEvent(eve);
+
       }
 
       static get observers() {
