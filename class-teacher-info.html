@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="role-toggle.html">
@@ -15,25 +16,17 @@
 
       .font-face {
         font-family: 'Itim', cursive;
-        font-size: 120%;
-        height: 50px;
+        font-size: 100%;
       }
 
       .c-name {
         margin-left: 20px;
-        width:200px;
       }
 
       .content {
         margin-top: 15px;
         height:40px;
       }
-
-      check-teacher {
-        width:100px;
-        height:40px;
-      }
-
       .mark-green {
         color:#00ee00;
       }
@@ -45,6 +38,7 @@
       }
       
       iron-icon:hover {
+        color: #999966;
         cursor:hand;
         cursor:pointer;
       }
@@ -59,33 +53,55 @@
         border-bottom-color: var(--divider-color);
       }
 
+      .margin-left-style{
+        margin-left: 15px;
+      }
+      
     </style>
-    <div class="layout horizontal">
-      <div class="c-name flex-2 font-face content">
+      <div class="flex-3 c-name font-face content">
         {{name}}
       </div>
-      <div class="c-subj">
+      <div class="flex-1">
         <role-toggle value="{{document.value.role}}"></role-toggle>
       </div>
       <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-        <div class="layout horizontal center">
-         <check-teacher value="{{document.value.subjects.sci}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.mat}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.art}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.thl}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.frl}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.src}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.cit}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.pe}}"></check-teacher>
-         <check-teacher value="{{document.value.subjects.none}}"></check-teacher>
-        </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.sci}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.mat}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.art}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.thl}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.frl}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.src}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.cit}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.pe}}"></check-teacher>
+          </div>
+          <div class="flex-1">
+            <check-teacher value="{{document.value.subjects.none}}"></check-teacher>
+          </div>
       </template>
       <div> 
         <template is="dom-if" if="{{changed}}">
-          <paper-button raised on-click="_save">Save</paper-button>
+          <iron-icon 
+            icon="icons:save"
+            on-click="_save"
+            class="enormous">
+          </iron-icon>
         </template>
       </div>
-    </div>
   </template>
    
   <script>

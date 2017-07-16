@@ -30,35 +30,14 @@
       }
 
       /* ---font---- */
-      .font-header {
+      .header-style {
         font-family: 'Itim', cursive;
         font-size: 120%;
-        opacity: 0.67;
         height: 50px;
         font-weight: bold;
-        border-bottom-width:2px;
-        border-bottom-style:solid;
-        border-bottom-color:#F44336;
-      }
-      .font-face {
-        font-family: 'Itim', cursive;
-        font-size: 120%;
-        height: 30px;
-      }
-
-      .c-name {
-        width:310px;
-        height: 80px;
-        margin-left: 20px;
-      }
-
-      .mark-green {
-        color:#00ee00;
-      }
-
-      paper-radio-button{
-        font-family: 'Itim', cursive;
-        font-size: 110%;
+        border-top-width:2px;
+        border-top-style:solid;
+        border-top-color:var(--divider-color);
       }
 
       paper-button{
@@ -68,8 +47,8 @@
       }
 
       iron-icon.enormous {
-        height: 60px;
-        width: 60px;
+        height: 50px;
+        width: 50px;
       }
 
       .bottom-top-style{
@@ -84,87 +63,96 @@
         border-bottom-color: var(--divider-color);
       }
 
+      .margin-left-style{
+        margin-left: 20px;
+        opacity: 0.67;
+      }
+
+      .width-style{
+        width: 200px;
+      }
+
       .c-subj {
         @apply(--layout-horizontal);
         @apply(--layout-center);
-        @apply(--layout-center-justified);
-        margin-top:10px;
-        width:100px;
-        height:40px;
+        height:60px;
       }
     </style>
    
-  <div class="layout horizontal center font-header ">รายชื่อครู</div>
-  <div class="layout horizontal bottom-top-style">
-    <div class="c-name">     
+  <div class="layout horizontal bottom-top-style header-style center c-subj ">
+    <div class="flex-3 margin-left-style">รายชื่อครู</div>
+    <div class="flex-2">
       <iron-icon src="/images/teacher.png" 
-          title="ครูผู้สอน"
-          class="c-subj enormous">
+        title="ครูผู้สอน"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="enormous">&nbsp;</div>
-    <div class="c-subj">   
+    <div class="flex-1">
       <iron-icon src="/images/science.png" 
-          title="วิทยาศาสตร์"
-          class="enormous">
+        title="วิทยาศาสตร์"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">   
+    <div class="flex-1">   
       <iron-icon src="/images/math.png" 
-          title="คณิตศาสตร์"
-          class="enormous">
+        title="คณิตศาสตร์"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">   
+    <div class="flex-1">   
       <iron-icon src="/images/art.png" 
-          title="ศิลปะ"
-          class="enormous">
+        title="ศิลปะ"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/thai.png" 
-          title="ภาษาไทย"
-          class="enormous">
+        title="ภาษาไทย"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/english.png" 
-          title="ภาษาต่างประเทศ"
-          class="enormous">
+        title="ภาษาต่างประเทศ"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/social.png" 
-          title="สังคมศึกษา ศาสนา และวัฒนธรรม"
-          class="enormous">
+        title="สังคมศึกษา ศาสนา และวัฒนธรรม"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/work.png" 
-          title="การงานอาชีพและเทคโนโลยี"
-          class="enormous">
+        title="การงานอาชีพและเทคโนโลยี"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/gymnastics.png" 
-          title="สุขศึกษาและพลศึกษา"
-          class="enormous">
+        title="สุขศึกษาและพลศึกษา"
+        class="enormous">
       </iron-icon>
     </div>
-    <div class="c-subj">
+    <div class="flex-1">
       <iron-icon src="/images/unidentified.png" 
-          title="ไม่ระบุ"
-          class="enormous">
+        title="ไม่ระบุ"
+        class="enormous">
       </iron-icon>
+    </div>
+    <div class="flex-1">&nbsp;
     </div>
   </div>
       
     <template is="dom-repeat" items="{{items}}" 
      sort="orderByRole" observe="value.role">
-     <div class="layout horizontal bottom-style">
-      <class-teacher-info token="{{token}}" document="{{item}}" list="{{teachers}}">
+     <div class="bottom-style">
+      <class-teacher-info token="{{token}}" 
+        document="{{item}}" 
+        list="{{teachers}}">
       </class-teacher-info>
-     </div>
+      </div>
     </template>
 
     <div class="layout horizontal">

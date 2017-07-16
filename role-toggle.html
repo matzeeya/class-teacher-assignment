@@ -13,25 +13,8 @@
         cursor:pointer;
       }
 
-      .classteacher {
-        color:#00ee00;
-      }
-
-      .subjectteacher {
-        color:#cccccc;
-      }
-
-      .c-subj {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        @apply(--layout-center-justified);
-        width:32px;
-        height:32px;
-        margin:5px;
-      }
-
     </style>
-    <iron-icon src="{{tCorrect}}" style="height:50px; width:50px; margin-top:15px;" 
+    <iron-icon src="{{tCorrect}}" style="height:50px; width:50px; margin-top:5px;"
       title="{{tTitle}}"
       on-click="_toggle" 
       class$="{{value}}">
