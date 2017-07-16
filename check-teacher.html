@@ -1,0 +1,77 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="check-teacher">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        @apply(--layout-horizontal);
+      }
+
+      iron-icon:hover {
+        cursor:hand;
+        cursor:pointer;
+      }
+
+      .classteacher {
+        color:#00ee00;
+      }
+
+      .subjectteacher {
+        color:#cccccc;
+      }
+
+      .c-subj {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+        width:32px;
+        height:32px;
+        margin:5px;
+      }
+
+    </style>
+    <iron-icon src="{{tCheck}}" style="height:35px; width:35px; margin-top:15px;"
+      title="{{tTitle}}"
+      on-click="_toggle" 
+      class$="{{tCheck}}">
+    </iron-icon>
+
+  </template>
+
+  <script>
+    class CheckTeacher extends Polymer.Element {
+      static get is() { return 'check-teacher'; }
+      static get properties() {
+        return {
+          value:{ 
+            type:String,
+            notify:true
+          }
+        };
+      }
+      _toggle(event) {
+        console.log(this.tCheck);
+        if(this.tCheck == "/images/correct.png") {
+          this.set('tCheck',"/images/non-correct.png");
+          this.tCorrect="/images/correct.png";
+        } else {
+          this.set('tCheck',"/images/correct.png");
+          this.tCorrect="/images/non-correct.png";
+        }
+      }
+
+      static get observers() {
+        return [
+        ]
+      }
+
+      isTeacherGroup(role) {
+        return role === "subjectteacher";
+      }
+    }
+
+
+    window.customElements.define(CheckTeacher.is, CheckTeacher);
+  </script>
+</dom-module>

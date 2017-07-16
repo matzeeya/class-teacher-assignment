@@ -4,6 +4,7 @@
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="role-toggle.html">
+<link rel="import" href="check-teacher.html">
 
 <dom-module id="class-teacher-info">
   <template>
@@ -45,6 +46,11 @@
         height: 35px;
         width: 35px;
       }
+      
+      iron-icon:hover {
+        cursor:hand;
+        cursor:pointer;
+      }
 
       .bottom-style{
         border-bottom:  1px;
@@ -61,51 +67,47 @@
       </div>
       <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
         <div class="layout horizontal">
-          <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="วิทยาศาสตร์"
-              hidden$="{{!document.value.subjects.sci}}">
+          <template is="dom-repeat" items="{{imgCorrect}}">
+            <div class="c-subj">
+              <check-teacher t-check="{{item.images}}"></check-teacher>
+            </div>
+          </template>
+          <!--<div class="c-subj flex-1">
+            <iron-icon src="{{imgCorrect.0.images}}" class="enormous" title="sci">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="คณิตศาสตร์"
-              hidden$="{{!document.value.subjects.mat}}">
+            <iron-icon src="{{imgCorrect.1.images}}" class="enormous" title="mat">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="ศิลปะ"
-              hidden$="{{!document.value.subjects.art}}">
+            <iron-icon src="{{imgCorrect.2.images}}" class="enormous" title="art">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="ภาษาไทย"
-              hidden$="{{!document.value.subjects.thl}}">
+            <iron-icon src="{{imgCorrect.3.images}}" class="enormous" title="thl">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="ภาษาต่างประเทศ"
-              hidden$="{{!document.value.subjects.frl}}">
+            <iron-icon src="{{imgCorrect.4.images}}" class="enormous" title="frl">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="สังคมศึกษา ศาสนา และวัฒนธรรม"
-              hidden$="{{!document.value.subjects.src}}">
+            <iron-icon src="{{imgCorrect.5.images}}" class="enormous" title="src">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="การงานอาชีพและเทคโนโลยี"
-              hidden$="{{!document.value.subjects.cit}}">
+            <iron-icon src="{{imgCorrect.6.images}}" class="enormous" title="cit">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="สุขศึกษาและพลศึกษา"
-              hidden$="{{!document.value.subjects.pe}}">
+            <iron-icon src="{{imgCorrect.7.images}}" class="enormous" title="pe">
             </iron-icon>
           </div>
           <div class="c-subj flex-1">
-            <iron-icon src="/images/correct.png" class="enormous" title="ไม่ระบุ"
-              hidden$="{{!document.value.subjects.non}}">
+            <iron-icon src="{{imgCorrect.8.images}}" class="enormous" title="non">
             </iron-icon>
-          </div>
+          </div>-->
         </div>
       </template>
     </div>
@@ -129,16 +131,88 @@
           },
           list:{
             type:Array
+          },
+          imgCorrect:{
+            type: Array,
+            notify:true,
+            computed:'__chkImg(document.value)'
           }
         };
       }
 
       static get observers() {
         return [
-          '__findTeacher(document.value.teacher_id,list)'
+          '__findTeacher(document.value.teacher_id,list)',
         ]
       }
-
+      __chkImg(val){
+        //console.log(val);
+        //var role = val.role;
+        var img=[];
+        var sub = val.subjects;
+        for (var key in sub){
+          //console.log(key);
+          //console.log(sub[key]);
+          var obj = sub[key];
+          if(key == "sci"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "mat"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "art"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "thl"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "frl"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "src"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "cit"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "pe"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }else if(key == "non"){
+            if(obj==true){
+              img.push({"subject":key,"images":'/images/correct.png'});
+            }else{
+              img.push({"subject":key,"images":'/images/non-correct.png'});
+            }
+          }   
+        }
+        //console.log(img);
+        return img;
+      }
       isTeacherGroup(role) {
         return role === "subjectteacher";
       }

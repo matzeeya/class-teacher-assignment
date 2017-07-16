@@ -9,7 +9,6 @@
       }
 
       iron-icon:hover {
-        
         cursor:hand;
         cursor:pointer;
       }
@@ -67,7 +66,7 @@
         if(this.value == "subjectteacher"){
           img = "/images/t-subjects.png";
         }else{
-          img = "/images/t-class.png";
+          img = "/images/t-non.png";
         }
         return img;
       }
@@ -83,7 +82,7 @@
       _toggle(event) {
         if(this.value == "subjectteacher") {
           this.set('value',"classteacher");
-          this.tCorrect="/images/t-class.png";
+          this.tCorrect="/images/t-non.png";
         } else {
           this.set('value',"subjectteacher");
           this.tCorrect="/images/t-subjects.png";
