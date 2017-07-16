@@ -171,33 +171,6 @@
       <paper-button on-click="openDialog" raised>Add</paper-button>
     </div>
 
-    <paper-dialog id="updatedialog">
-      <h2>
-        ข้อมูลครู 
-        {{level}}/{{room}}
-      </h2>
-      
-      <div class="layout vertical">
-        {{getTeacherName(selectedDocument,teachers)}}
-        <paper-radio-group 
-          attr-for-select="name"
-          selected="{{selectedDocument.value.role}}">
-          <paper-radio-button name="classteacher">ครูประจำชั้น</paper-radio-button>
-          <paper-radio-button name="subjectteacher">ครูผู้สอน</paper-radio-button>
-        </paper-radio-group>
-        <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
-        <div class="flex-11">
-          <knowledge-category group="{{selectedDocument.value.subjects}}" 
-            disabled="{{!isTeacherGroup(selectedDocument.value.role)}}">
-          </knowledge-category>
-        </div>
-      </div>
-      <div class="buttons">
-        <paper-button on-click="_update" dialog-confirm>Update</paper-button>
-        <paper-button on-click="_remove" dialog-confirm>Delete</paper-button>
-      </div>
-    </paper-dialog>
-
     <paper-dialog id="dialog">
       <h2>
         ข้อมูลครู 
@@ -351,28 +324,6 @@
         };
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
-          body:content,
-          method:"POST",
-          handleAs:"json",
-          headers:{
-            "Authorization":"JWT "+this.token,
-            "Content-Type":"application/json"
-          }
-        }).then(function(res) {
-          if(res.response.ok) {
-            self.__executedQuery(self.token,
-              self.year,self.semester,self.host,self.level,self.room);
-          }
-        });
-      }
-
-      _update(event) {
-        var ele = document.createElement('iron-request'); 
-        var self = this;
-        var content = this.selectedDocument.value;
-        var key = this.selectedDocument.key;
-        ele.send({
-          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           body:content,
           method:"POST",
           handleAs:"json",
