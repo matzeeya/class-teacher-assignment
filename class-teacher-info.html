@@ -32,7 +32,6 @@
       }
 
       iron-icon.enormous {
-        margin-top:10px;
         height: 35px;
         width: 35px;
       }
@@ -61,9 +60,11 @@
       <div class="flex-3 c-name font-face content">
         {{name}}
       </div>
-      <div class="flex-1">
+      <div class="flex-2">
         <role-toggle value="{{document.value.role}}"></role-toggle>
       </div>
+      <div class="flex-5">
+       <div class="layout horizontal center">
       <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
           <div class="flex-1">
             <check-teacher value="{{document.value.subjects.sci}}"></check-teacher>
@@ -93,7 +94,9 @@
             <check-teacher value="{{document.value.subjects.none}}"></check-teacher>
           </div>
       </template>
-      <div> 
+       </div>
+      </div>
+      <div class="flex-2">  
         <template is="dom-if" if="{{changed}}">
           <iron-icon 
             icon="icons:save"

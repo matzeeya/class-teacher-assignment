@@ -46,7 +46,13 @@
         margin-left: 10px;
       }
 
-      iron-icon.enormous {
+      .icon-container {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+        @apply(--layout-flex);
+      }
+
+      iron-icon {
         height: 50px;
         width: 50px;
       }
@@ -87,61 +93,18 @@
         class="enormous">
       </iron-icon>
     </div>
-    <div class="flex-1">
-      <iron-icon src="/images/science.png" 
-        title="วิทยาศาสตร์"
-        class="enormous">
-      </iron-icon>
+    <div class="flex-5">
+     <div class="layout horizontal center-justified center">
+      <template is="dom-repeat" items="{{subjects}}">
+       <div class="icon-container">
+        <iron-icon src$="/images/{{item.img}}.png" 
+         title="{{item.title}}">
+        </iron-icon>
+       </div>
+      </template>
+     </div>
     </div>
-    <div class="flex-1">   
-      <iron-icon src="/images/math.png" 
-        title="คณิตศาสตร์"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">   
-      <iron-icon src="/images/art.png" 
-        title="ศิลปะ"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/thai.png" 
-        title="ภาษาไทย"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/english.png" 
-        title="ภาษาต่างประเทศ"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/social.png" 
-        title="สังคมศึกษา ศาสนา และวัฒนธรรม"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/work.png" 
-        title="การงานอาชีพและเทคโนโลยี"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/gymnastics.png" 
-        title="สุขศึกษาและพลศึกษา"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">
-      <iron-icon src="/images/unidentified.png" 
-        title="ไม่ระบุ"
-        class="enormous">
-      </iron-icon>
-    </div>
-    <div class="flex-1">&nbsp;
+    <div class="flex-2">&nbsp;
     </div>
   </div>
       
@@ -219,6 +182,23 @@
             notify:true,
             value:function() {
               return [];
+            }
+          },
+          subjects: {
+            type:Array,
+            notify:true,
+            value:function() {
+              return [
+                {'img':'science','title':'วิทยาศาสตร์'},
+                {'img':'math','title':'คณิตศาสตร์'},
+                {'img':'art','title':"ศิลปะ"},
+                {'img':'thai','title':"ภาษาไทย"},
+                {'img':'english','title':"ภาษาต่างประเทศ"},
+                {'img':'social','title':"สังคมศึกษา ศาสนา และวัฒนธรรม"},
+                {'img':'work','title':"การงานอาชีพและเทคโนโลยี"},
+                {'img':'gymnastics','title':"สุขศึกษาและพลศึกษา"},
+                {'img':'unidentified','title':"ไม่ระบุ"},
+              ];
             }
           }
         };
