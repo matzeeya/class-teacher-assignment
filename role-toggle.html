@@ -50,7 +50,7 @@
         if(this.value == "subjectteacher"){
           img = "/images/t-subjects.png";
         }else{
-          img = "/images/t-non.png";
+          img = "/images/t-class.png";
         }
         return img;
       }
@@ -66,7 +66,7 @@
       _toggle(event) {
         if(this.value == "subjectteacher") {
           this.set('value',"classteacher");
-          this.tCorrect="/images/t-non.png";
+          this.tCorrect="/images/t-class.png";
         } else {
           this.set('value',"subjectteacher");
           this.tCorrect="/images/t-subjects.png";
