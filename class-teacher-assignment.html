@@ -58,9 +58,8 @@
     <iron-sessionstorage name="token" use-raw value="{{token}}">
     </iron-sessionstorage>
 
-    <paper-input label="year" value="2016"></paper-input>  
-    <paper-input label="semester" value="1"></paper-input>
-
+    Year:{{year}}
+    Semester:{{semester}}
     <room-list token="{{token}}" host-id="{{hostId}}" 
       level="{{level}}" room="{{room}}">
     </room-list>
@@ -69,8 +68,8 @@
       token="{{token}}" 
       level="{{level}}"
       room="{{room}}"
-      year="2016"
-      semester="1"
+      year="{{year}}"
+      semester="{{semester}}"
       host="{{hostId}}"> 
     </teacher-list>
 
@@ -84,6 +83,12 @@
           hostId:{
             type:String,
             notify:true
+          },
+          year:{
+           type:String,
+          },
+          semester:{
+           type:String,
           },
           __findTeacher: {
             type: String,
