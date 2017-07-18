@@ -9,7 +9,6 @@
 
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
-<link rel="import" href="secure-component.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -52,7 +51,6 @@
       }
     </style>
      
-    <secure-component></secure-component>
      
     <iron-sessionstorage name="userdata" value="{{userData}}">
     </iron-sessionstorage>
@@ -62,10 +60,6 @@
 
     <iron-sessionstorage name="token" use-raw value="{{token}}">
     </iron-sessionstorage>
-
-    Year:{{year}}
-    Semester:{{semester}}
-    HostId:{{hostId}}
 
     <room-list token="{{token}}" host-id="{{hostId}}" 
       level="{{level}}" room="{{room}}">
