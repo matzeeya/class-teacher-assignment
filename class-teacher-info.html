@@ -3,6 +3,7 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
 
 <link rel="import" href="role-toggle.html">
 <link rel="import" href="check-teacher.html">
@@ -59,6 +60,10 @@
       .content {
         min-width:500px;
       }
+
+      paper-spinner{
+        margin-top:10px;
+      }
       
     </style>
       <div class="flex-3 c-name font-face">
@@ -107,19 +112,24 @@
         </div>
        </div>
       </div>
-      <div class="flex-2">  
-        <template is="dom-if" if="{{changed}}">
-          <iron-icon 
-            icon="icons:save"
-            on-click="_save"
+      <div class="flex-2">
+        <div class="layout horizontal">  
+          <template is="dom-if" if="{{changed}}">
+            <template is="dom-if" if="{{!loading}}">
+              <div><paper-spinner active="{{loading}}"></paper-spinner></div>
+            </template>
+            <div><iron-icon 
+              icon="icons:save"
+              on-click="_save"
+              class="enormous">
+            </iron-icon></div>
+          </template>
+          <div><iron-icon 
+            icon="icons:delete"
+            on-click="_remove"
             class="enormous">
-          </iron-icon>
-        </template>
-        <iron-icon 
-          icon="icons:delete"
-          on-click="_remove"
-          class="enormous">
-        </iron-icon>
+          </iron-icon></div>
+        </div>
       </div>
   </template>
    
@@ -142,6 +152,11 @@
           list:{
             type:Array
           },
+          loading: {
+            type: Boolean,
+            value: false,
+            notify: true
+          }
         };
       }
 
@@ -186,6 +201,7 @@
         var self = this;
         var content = this.document.value;
         var key = this.document.key;
+        this.loading = true;
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           body:content,
@@ -198,6 +214,7 @@
         }).then(function(res) {
           if(res.response.ok) {
             self.set('changed',false);
+            this.loading = false;
           }
         });
       }
@@ -206,6 +223,7 @@
         var self = this;
         var ele = document.createElement('iron-request');
         var key = this.document.key;
+        this.loading = true;
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           method:"DELETE",
@@ -216,6 +234,7 @@
         }).then(function(res) {
           if(res.response.ok) {
             self.set('document.deleted',true);
+            this.loading = false;
           }
         });
       }
