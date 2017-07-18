@@ -115,7 +115,9 @@
       <div class="flex-2">
         <div class="layout horizontal">  
           <template is="dom-if" if="{{changed}}">
-            <div><paper-spinner active="{{loading}}"></paper-spinner></div>
+            <template is="dom-if" if="{{!loading}}">
+              <div><paper-spinner active="{{loading}}"></paper-spinner></div>
+            </template>
             <div><iron-icon 
               icon="icons:save"
               on-click="_save"
