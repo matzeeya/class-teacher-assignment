@@ -282,9 +282,9 @@
         var self = this;
         var content = {
            "teacher_id":this.teacher.value,
-           "year":this.year,
+           "year":Number(this.year),
            "role":this.role,
-           "semester":this.semester,
+           "semester":Number(this.semester),
            "room":this.room,
            "host":this.host,
            "subjects":this.group?this.group:{},
