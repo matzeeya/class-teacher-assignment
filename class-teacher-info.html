@@ -3,6 +3,7 @@
 <link rel="import" href="../iron-ajax/iron-request.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
 
 <link rel="import" href="role-toggle.html">
 <link rel="import" href="check-teacher.html">
@@ -109,6 +110,7 @@
       </div>
       <div class="flex-2">  
         <template is="dom-if" if="{{changed}}">
+          <paper-spinner active="{{loading}}"></paper-spinner>
           <iron-icon 
             icon="icons:save"
             on-click="_save"
@@ -142,6 +144,11 @@
           list:{
             type:Array
           },
+          loading: {
+            type: Boolean,
+            value: false,
+            notify: true
+          }
         };
       }
 
@@ -198,6 +205,7 @@
         }).then(function(res) {
           if(res.response.ok) {
             self.set('changed',false);
+            this.loading = false;
           }
         });
       }
@@ -216,6 +224,7 @@
         }).then(function(res) {
           if(res.response.ok) {
             self.set('document.deleted',true);
+            this.loading = false;
           }
         });
       }
