@@ -114,10 +114,8 @@
       </div>
       <div class="flex-2">
         <div class="layout horizontal">  
+          <paper-spinner active="{{loading}}"></paper-spinner>
           <template is="dom-if" if="{{changed}}">
-            <template is="dom-if" if="{{!loading}}">
-              <div><paper-spinner active="{{loading}}"></paper-spinner></div>
-            </template>
             <div><iron-icon 
               icon="icons:save"
               on-click="_save"
@@ -201,7 +199,7 @@
         var self = this;
         var content = this.document.value;
         var key = this.document.key;
-        this.loading = true;
+        this.set('loading',true);
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           body:content,
@@ -214,7 +212,7 @@
         }).then(function(res) {
           if(res.response.ok) {
             self.set('changed',false);
-            this.loading = false;
+            self.set('loading',false);
           }
         });
       }
@@ -223,7 +221,7 @@
         var self = this;
         var ele = document.createElement('iron-request');
         var key = this.document.key;
-        this.loading = true;
+        this.set('loading',true);
         ele.send({
           url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
           method:"DELETE",
@@ -233,8 +231,8 @@
           }
         }).then(function(res) {
           if(res.response.ok) {
+            self.set('loading',false);
             self.set('document.deleted',true);
-            this.loading = false;
           }
         });
       }
