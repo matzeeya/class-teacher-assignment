@@ -89,13 +89,13 @@
     <div class="flex-3 margin-left-style">รายชื่อครู</div>
     <div class="flex-5">
      <div class="layout horizontal center-justified center">
-      <iron-icon src="./images/teacher.png" 
+      <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
         title="ครูผู้สอน"
         class="enormous">
       </iron-icon>
       <template is="dom-repeat" items="{{subjects}}">
        <div class="icon-container">
-        <iron-icon src$="./images/{{item.img}}.png" 
+        <iron-icon src$="{{_resolveUrl(item.img)}}" 
          title="{{item.title}}">
         </iron-icon>
        </div>
@@ -297,6 +297,10 @@
               self.year,self.semester,self.host,self.level,self.room);
           }
         });
+      }
+
+      _resolveUrl(img) {
+        return this.resolveUrl('./images/'+img+'.png');
       }
 
       _remove(event) {

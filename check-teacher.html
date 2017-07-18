@@ -20,7 +20,7 @@
       }
 
     </style>
-    <iron-icon src$="./images/mark-{{type}}.png" 
+    <iron-icon src$="{{type}}" 
       on-click="_toggle"
       class="enormous">
     </iron-icon>
@@ -46,7 +46,9 @@
       }
 
       __computeType(value) {
-        return value?'true':'false';
+        return value?this.resolveUrl('./images/mark-true.png'):
+           this.resolveUrl('./images/mark-false.png');
+           
       }
 
       _toggle(event) {

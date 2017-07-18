@@ -45,12 +45,11 @@
         };
       }
       __defaultTeacher(value){
-        //console.log(value);
         var img;
         if(this.value == "subjectteacher"){
-          img = "/images/t-subjects.png";
+          img = this.resolveUrl("./images/t-subjects.png");
         }else{
-          img = "/images/t-class.png";
+          img = this.resolveUrl("./images/t-class.png");
         }
         return img;
       }
