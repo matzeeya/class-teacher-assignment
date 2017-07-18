@@ -12,6 +12,8 @@
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply(--layout-horizontal);
+        margin-left: 20px;
+        opacity: 0.67;
       }
 
       .font-face {
@@ -20,13 +22,10 @@
       }
 
       .c-name {
-        margin-left: 20px;
-      }
-
-      .content {
         margin-top: 15px;
         height:40px;
       }
+
       .mark-green {
         color:#00ee00;
       }
@@ -43,8 +42,8 @@
         cursor:pointer;
       }
 
-      role-toggle {
-        margin-right:75px;
+      check-teacher {
+        min-width:50px;
       }
 
       .bottom-style{
@@ -56,45 +55,56 @@
       .margin-left-style{
         margin-left: 15px;
       }
+
+      .content {
+        min-width:500px;
+      }
       
     </style>
-      <div class="flex-3 c-name font-face content">
+      <div class="flex-3 c-name font-face">
         {{name}}
       </div>
-      <div class="flex-2">
-        <role-toggle value="{{document.value.role}}"></role-toggle>
-      </div>
       <div class="flex-5">
-       <div class="layout horizontal center">
-      <template is="dom-if" if="{{isTeacherGroup(document.value.role)}}">
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.sci}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.mat}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.art}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.thl}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.frl}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.src}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.cit}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.pe}}"></check-teacher>
-          </div>
-          <div class="flex-1">
-            <check-teacher value="{{document.value.subjects.none}}"></check-teacher>
-          </div>
-      </template>
+       <div class="layout horizontal center content">
+        <role-toggle class="flex-1" 
+          value="{{document.value.role}}">
+        </role-toggle>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.sci}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.mat}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.art}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.thl}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.frl}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.src}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.cit}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.pe}}">
+          </check-teacher>
+        </div>
+        <div class="flex-1">
+          <check-teacher value="{{document.value.subjects.none}}">
+          </check-teacher>
+        </div>
        </div>
       </div>
       <div class="flex-2">  
@@ -105,6 +115,11 @@
             class="enormous">
           </iron-icon>
         </template>
+        <iron-icon 
+          icon="icons:delete"
+          on-click="_remove"
+          class="enormous">
+        </iron-icon>
       </div>
   </template>
    
@@ -186,7 +201,27 @@
           }
         });
       }
+      
+      _remove(event) {
+        var self = this;
+        var ele = document.createElement('iron-request');
+        var key = this.document.key;
+        ele.send({
+          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          method:"DELETE",
+          handleAs:"json",
+          headers:{
+            "Authorization":"JWT "+self.token,
+          }
+        }).then(function(res) {
+          if(res.response.ok) {
+            self.set('document.deleted',true);
+          }
+        });
+      }
     }
+
+     
 
     window.customElements.define(ClassTeacherInfo.is, ClassTeacherInfo);
   </script>

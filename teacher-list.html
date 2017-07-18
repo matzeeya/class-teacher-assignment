@@ -87,14 +87,12 @@
    
   <div class="layout horizontal bottom-top-style header-style center c-subj ">
     <div class="flex-3 margin-left-style">รายชื่อครู</div>
-    <div class="flex-2">
+    <div class="flex-5">
+     <div class="layout horizontal center-justified center">
       <iron-icon src="/images/teacher.png" 
         title="ครูผู้สอน"
         class="enormous">
       </iron-icon>
-    </div>
-    <div class="flex-5">
-     <div class="layout horizontal center-justified center">
       <template is="dom-repeat" items="{{subjects}}">
        <div class="icon-container">
         <iron-icon src$="/images/{{item.img}}.png" 
@@ -109,7 +107,8 @@
   </div>
       
     <template is="dom-repeat" items="{{items}}" 
-     sort="orderByRole" observe="value.role">
+     filter="_isDeleted"
+     sort="orderByRole" observe="value.role deleted">
      <div class="bottom-style">
       <class-teacher-info token="{{token}}" 
         document="{{item}}" 
@@ -118,40 +117,17 @@
       </div>
     </template>
 
-    <div class="layout horizontal">
-      <paper-button on-click="openDialog" raised>Add</paper-button>
+    <div class="layout horizontal center">
+      <teacher-in-host token="{{token}}" 
+        items="{{teachers}}"
+        host-id="{{host}}" 
+        selected="{{teacher}}">
+      </teacher-in-host>
+      <paper-button on-click="_add" raised disabled="{{!addAbled}}">
+       Add
+      </paper-button>
     </div>
 
-    <paper-dialog id="dialog">
-      <h2>
-        ข้อมูลครู 
-        {{level}}/{{room}}
-      </h2>
-      <div class="layout vertical">
-        <teacher-in-host token="{{token}}" 
-          items="{{teachers}}"
-          host-id="{{host}}" 
-          selected="{{teacher}}">
-        </teacher-in-host>
-        <paper-radio-group 
-          attr-for-select="name"
-          selected="{{role}}">
-          <paper-radio-button name="classteacher">ครูประจำชั้น</paper-radio-button>
-          <paper-radio-button name="subjectteacher">ครูผู้สอน</paper-radio-button>
-        </paper-radio-group>
-        <div class="flex-1 font-face">กลุ่มสาระการเรียนรู้ : </div>
-        <div class="flex-11">
-          <knowledge-category group="{{group}}" 
-            disabled="{{!isTeacherGroup(role)}}">
-          </knowledge-category>
-        </div>
-      </div>
-      <div class="buttons">
-        <paper-button on-click="_add" dialog-confirm>Add</paper-button>
-      </div>
-    </paper-dialog>
-
-      
   </template>
 
   <script>
@@ -200,9 +176,24 @@
                 {'img':'unidentified','title':"ไม่ระบุ"},
               ];
             }
+          },
+          addAbled:{
+            type:Boolean,
+            notify:true,
+            computed:'__checkAdd(host,level,room)'
           }
         };
       }
+
+      __checkAdd(hostId,level,room) {
+        console.log(hostId,level,room);
+        return hostId != null && level != null && room != null;
+      }
+
+      _isDeleted(a) {
+        return !a.deleted;
+      }
+ 
 
       static get observers() {
         return [
@@ -280,10 +271,11 @@
       _add(event) {
         var ele = document.createElement('iron-request'); 
         var self = this;
+        if(!this.teacher) return; 
         var content = {
            "teacher_id":this.teacher.value,
            "year":Number(this.year),
-           "role":this.role,
+           "role":'classteacher',
            "semester":Number(this.semester),
            "room":this.room,
            "host":this.host,
