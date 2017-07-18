@@ -55,11 +55,16 @@
     <iron-sessionstorage name="userdata" value="{{userData}}">
     </iron-sessionstorage>
 
+    <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
+    </iron-sessionstorage>
+
     <iron-sessionstorage name="token" use-raw value="{{token}}">
     </iron-sessionstorage>
 
     Year:{{year}}
     Semester:{{semester}}
+    HostId:{{hostId}}
+
     <room-list token="{{token}}" host-id="{{hostId}}" 
       level="{{level}}" room="{{room}}">
     </room-list>
