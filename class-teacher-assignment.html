@@ -2,7 +2,9 @@
 <link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-styles/typography.html">
@@ -44,9 +46,15 @@
         font-size: 120%;
       }
       
+      .header-bgcolor{
+        height: 80px;
+        background-color: #3f51b5;
+      }
+
       .bgcolor{
-        height: 100px;
-        background-color: #001a66;
+        background-color: #eeeeee;
+        height: 100%;
+        width: 100%;
       }
 
       /* ---tabs---- */
@@ -57,7 +65,13 @@
       }
 
       .margin-bottom{
-        margin-top: 40px;
+        margin-top: 20px;
+      }
+
+      .menu-style{
+        margin-top: 10px;
+        margin-left: 20px;
+        color: #fff;
       }
     </style>
       <iron-sessionstorage name="userdata" value="{{userData}}">
@@ -68,23 +82,35 @@
 
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
-      
-        <div class="layout horizontal bgcolor">
-          <div class="flex margin-bottom">
-            <room-list token="{{token}}" host-id="{{hostId}}" 
-              level="{{level}}" room="{{room}}">
-            </room-list>
-          </div>
+      <div class="layout vertical">
+        <div class="layout horizontal header-bgcolor">
+            <div class="flex-1 menu-style">
+              <paper-icon-button icon="icons:menu"></paper-icon-button>
+            </div>
+            <div class="flex-11 margin-bottom">
+              <room-list token="{{token}}" host-id="{{hostId}}" 
+                level="{{level}}" room="{{room}}">
+              </room-list>
+            </div>
         </div>
-
-      <teacher-list 
-        token="{{token}}" 
-        level="{{level}}"
-        room="{{room}}"
-        year="{{year}}"
-        semester="{{semester}}"
-        host="{{hostId}}"> 
-      </teacher-list>
+        <div class="layout horizontal bgcolor">
+          <!--<div class="flex-2">
+            <paper-listbox>
+              <paper-item>test 1</paper-item>
+              <paper-item>test 2</paper-item>
+            </paper-listbox>
+          </div>-->
+          <div class="flex">
+            <teacher-list 
+              token="{{token}}" 
+              level="{{level}}"
+              room="{{room}}"
+              year="{{year}}"
+              semester="{{semester}}"
+              host="{{hostId}}"> 
+            </teacher-list>
+          </div>
+      </div>
   </template>
 
   <script>
