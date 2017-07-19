@@ -24,6 +24,9 @@
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply(--layout-vertical);
+        --paper-button-disabled:{
+          opacity: 0.54;
+        }
       }
       .iron-selected {
         background:#eeeeee;
@@ -42,8 +45,14 @@
 
       paper-button{
         font-family: 'Itim', cursive;
-        font-size: 110%;
+        font-size: 100%;
         margin-left: 10px;
+        color:#fff;
+        background-color: #001a66;
+      }
+
+      paper-button:hover{
+        background-color: #8080ff;
       }
 
       .icon-container {
@@ -87,7 +96,7 @@
    
   <div class="layout horizontal bottom-top-style header-style center c-subj ">
     <div class="flex-3 margin-left-style">รายชื่อครู</div>
-    <div class="flex-5">
+    <div class="flex-8">
      <div class="layout horizontal center-justified center">
       <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
         title="ครูประจำชั้น"
@@ -123,7 +132,7 @@
         host-id="{{host}}" 
         selected="{{teacher}}">
       </teacher-in-host>
-      <paper-button on-click="_add" raised disabled="{{!addAbled}}">
+      <paper-button on-click="_add" disabled="{{!addAbled}}" raised>
        Add
       </paper-button>
     </div>

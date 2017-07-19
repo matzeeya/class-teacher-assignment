@@ -43,37 +43,48 @@
         font-family: 'Itim', cursive;
         font-size: 120%;
       }
+      
+      .bgcolor{
+        height: 100px;
+        background-color: #001a66;
+      }
+
       /* ---tabs---- */
       paper-tabs {
         --paper-tabs-selection-bar-color: #F44336;
         background-color: var(--paper-grey-50);
         height: 50px;
       }
+
+      .margin-bottom{
+        margin-top: 40px;
+      }
     </style>
-     
-     
-    <iron-sessionstorage name="userdata" value="{{userData}}">
-    </iron-sessionstorage>
+      <iron-sessionstorage name="userdata" value="{{userData}}">
+      </iron-sessionstorage>
 
-    <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
-    </iron-sessionstorage>
+      <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
+      </iron-sessionstorage>
 
-    <iron-sessionstorage name="token" use-raw value="{{token}}">
-    </iron-sessionstorage>
+      <iron-sessionstorage name="token" use-raw value="{{token}}">
+      </iron-sessionstorage>
+      
+        <div class="layout horizontal bgcolor">
+          <div class="flex margin-bottom">
+            <room-list token="{{token}}" host-id="{{hostId}}" 
+              level="{{level}}" room="{{room}}">
+            </room-list>
+          </div>
+        </div>
 
-    <room-list token="{{token}}" host-id="{{hostId}}" 
-      level="{{level}}" room="{{room}}">
-    </room-list>
-
-    <teacher-list 
-      token="{{token}}" 
-      level="{{level}}"
-      room="{{room}}"
-      year="{{year}}"
-      semester="{{semester}}"
-      host="{{hostId}}"> 
-    </teacher-list>
-
+      <teacher-list 
+        token="{{token}}" 
+        level="{{level}}"
+        room="{{room}}"
+        year="{{year}}"
+        semester="{{semester}}"
+        host="{{hostId}}"> 
+      </teacher-list>
   </template>
 
   <script>
