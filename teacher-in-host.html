@@ -9,11 +9,18 @@
 
 <link rel="import" href="class-teacher-info.html">
 
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+
 <dom-module id="teacher-in-host">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply(--layout-vertical);
+        --paper-input-container-focus-color: red;
+        --paper-input-container-label: {
+            color:#000;
+            font-family: 'Itim', cursive;
+        }
       }
 
       paper-dropdown-menu{
@@ -23,6 +30,8 @@
 
       paper-listbox{
         width: 500px;
+        font-family: 'Itim', cursive;
+        font-size: 14px;
       }
 
       paper-radio-button{
