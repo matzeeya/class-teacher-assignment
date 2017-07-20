@@ -92,51 +92,77 @@
         @apply(--layout-center);
         height:60px;
       }
+
+      .add-bg-color{
+        background-color: #fff;
+        height: 60px;
+        width: calc(100% - 40px);
+        margin-top: 20px;
+        margin-left: 20px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.19);
+        /*border-radius:10px;*/
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .header-bg-color{
+        margin-top: 10px;
+        margin-left: 20px;
+        background-color: #fff;
+        width: calc(100% - 40px);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .content-bg-color{
+        background-color: #fff;
+        width: calc(100% - 40px);
+        margin-left: 20px;
+      }
+
     </style>
 
-  <div class="layout horizontal bottom-top-style header-style center c-subj ">
-    <div class="flex-3 margin-left-style">รายชื่อครู</div>
-    <div class="flex-8">
-     <div class="layout horizontal center-justified center">
-      <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
-        title="ครูประจำชั้น"
-        class="enormous">
-      </iron-icon>
-      <template is="dom-repeat" items="{{subjects}}">
-       <div class="icon-container">
-        <iron-icon src$="{{_resolveUrl(item.img)}}" 
-         title="{{item.title}}">
-        </iron-icon>
-       </div>
-      </template>
-     </div>
-    </div>
-    <div class="flex-2">&nbsp;
-    </div>
-  </div>
-      
-    <template is="dom-repeat" items="{{items}}" 
-     filter="_isDeleted"
-     sort="orderByRole" observe="value.role deleted">
-     <div class="bottom-style">
-      <class-teacher-info token="{{token}}" 
-        document="{{item}}" 
-        list="{{teachers}}">
-      </class-teacher-info>
+      <div class="layout horizontal center add-bg-color">
+        <teacher-in-host token="{{token}}" 
+          items="{{teachers}}"
+          host-id="{{host}}" 
+          selected="{{teacher}}">
+        </teacher-in-host>
+        <paper-button on-click="_add" disabled="{{!addAbled}}" raised>Add</paper-button>
       </div>
-    </template>
+        <div class="layout horizontal bottom-top-style header-style center c-subj header-bg-color">
+          <div class="flex-3 margin-left-style">รายชื่อครู</div>
+          <div class="flex-8">
+            <div class="layout horizontal center-justified center">
+              <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
+                title="ครูประจำชั้น"
+                class="enormous">
+              </iron-icon>
+              <template is="dom-repeat" items="{{subjects}}">
+              <div class="icon-container">
+                <iron-icon src$="{{_resolveUrl(item.img)}}" 
+                title="{{item.title}}">
+                </iron-icon>
+              </div>
+              </template>
+            </div>
+          </div>
+          <div class="flex-2">&nbsp;
+          </div>
+        </div>
 
-    <div class="layout horizontal center">
-      <teacher-in-host token="{{token}}" 
-        items="{{teachers}}"
-        host-id="{{host}}" 
-        selected="{{teacher}}">
-      </teacher-in-host>
-      <paper-button on-click="_add" disabled="{{!addAbled}}" raised>
-       Add
-      </paper-button>
-    </div>
-    
+        <div class="content-bg-color">
+          <template is="dom-repeat" items="{{items}}" 
+            filter="_isDeleted"
+            sort="orderByRole" observe="value.role deleted">
+            <div class="bottom-style">
+              <class-teacher-info token="{{token}}" 
+                document="{{item}}" 
+                list="{{teachers}}">
+              </class-teacher-info>
+            </div>
+          </template>
+        </div>
   </template>
 
   <script>
