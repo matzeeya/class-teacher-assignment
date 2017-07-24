@@ -62,8 +62,8 @@
       }
 
       iron-icon {
-        height: 50px;
-        width: 50px;
+        height: 65px;
+        width: 100px;
       }
 
       .bottom-top-style{
@@ -90,7 +90,7 @@
       .c-subj {
         @apply(--layout-horizontal);
         @apply(--layout-center);
-        height:60px;
+        height:70px;
       }
 
       .add-bg-color{
@@ -136,16 +136,18 @@
           host-id="{{host}}" 
           selected="{{teacher}}">
         </teacher-in-host>
-        <paper-button on-click="_add" disabled="{{!addAbled}}" raised>Add</paper-button>
+        <paper-button on-click="_add" disabled="{{!addAbled}}" raised>เพิ่ม</paper-button>
       </div>
         <div class="layout horizontal bottom-top-style header-style center c-subj header-bg-color">
           <div class="flex-3 margin-left-style">รายชื่อครู</div>
           <div class="flex-8">
             <div class="layout horizontal center-justified center">
-              <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
-                title="ครูประจำชั้น"
-                class="enormous">
-              </iron-icon>
+              <div class="icon-container">
+                <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 
+                  title="ครูประจำชั้น"
+                  class="enormous">
+                </iron-icon>
+              </div>
               <template is="dom-repeat" items="{{subjects}}">
               <div class="icon-container">
                 <iron-icon src$="{{_resolveUrl(item.img)}}" 
@@ -205,6 +207,11 @@
               return [];
             }
           },
+          isAdded:{
+            type:Boolean,
+            notify:true,
+            computed:'__checkTeacherExists(teacher,items)'
+          },
           subjects: {
             type:Array,
             notify:true,
@@ -225,14 +232,14 @@
           addAbled:{
             type:Boolean,
             notify:true,
-            computed:'__checkAdd(host,level,room)'
+            computed:'__checkAdd(host,level,room,isAdded)'
           }
         };
       }
 
-      __checkAdd(hostId,level,room) {
-        console.log(hostId,level,room);
-        return hostId != null && level != null && room != null;
+      __checkAdd(hostId,level,room,isAdded) {
+        //console.log(hostId,level,room);
+        return hostId != null && level != null && room != null & !isAdded;
       }
 
       _isDeleted(a) {
@@ -245,8 +252,18 @@
           '__executedQuery(token,year,semester,host,level,room)',
           '__selectedItem(selectedItem)',
           '__classTeacherSelected(selectedClassTeacher)',
-          '__subjectTeacherSelected(selectedSubjectTeacher)'
+          '__subjectTeacherSelected(selectedSubjectTeacher)'          
         ]
+      }
+
+      __checkTeacherExists(teacher,items) {        
+        if(!teacher) return false;
+        for(var i=0;i<items.length;i++) {
+          if(teacher.value == items[i].value.teacher_id) {
+            return true;            
+          }
+        }        
+        return false;
       }
 
       ready() {

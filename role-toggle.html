@@ -6,6 +6,7 @@
     <style is="custom-style" include="iron-flex iron-flex-alignment">
       :host {
         @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
       }
 
       iron-icon:hover {
@@ -14,7 +15,7 @@
       }
 
     </style>
-    <iron-icon src="{{tCorrect}}" style="height:50px; width:50px; margin-top:5px;"
+    <iron-icon src="{{tCorrect}}" style="height:60px; width:90px; margin-top:5px;"
       title="{{tTitle}}"
       on-click="_toggle" 
       class$="{{value}}">
