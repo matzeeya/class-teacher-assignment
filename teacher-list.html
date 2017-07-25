@@ -81,7 +81,7 @@
       .margin-left-style{
         margin-left: 20px;
         opacity: 0.67;
-        min-width:180px;
+        /* min-width:180px; */
       }
 
       .width-style{
@@ -89,17 +89,16 @@
       }
 
       .c-subj {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
         height:70px;
       }
 
       .add-bg-color{
         background-color: #fff;
         height: 60px;
-        width: calc(100% - 40px);
+        /*width: calc(100% - 40px);*/
         margin-top: 20px;
         margin-left: 20px;
+        margin-right: 20px;
         /*box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius:10px;*/
         border-top-left-radius: 10px;
@@ -109,21 +108,23 @@
       .header-bg-color{
         margin-top: 5px;
         margin-left: 20px;
+        margin-right: 20px;
         background-color: #fff;
-        width: calc(100% - 40px);
+        /* width: calc(100% - 40px); */
       }
 
       .content-bg-color{
         background-color: #fff;
-        width: calc(100% - 40px);
+        /*width: calc(100% - 40px);*/
         margin-left: 20px;
+        margin-right: 20px;
       }
 
       .footer-bg-color{
         margin-bottom: 20px;
         margin-left: 20px;
         background-color: #fff;
-        width: calc(100% - 40px);
+        margin-right: 20px;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
       }
@@ -139,7 +140,7 @@
       </div>
         <div class="layout horizontal bottom-top-style header-style center c-subj header-bg-color">
           <div class="flex-3 margin-left-style">รายชื่อครู</div>
-          <div class="flex-8">
+          <div class="flex-7">
             <div class="layout horizontal center-justified center">
               <div class="icon-container">
                 <iron-icon src$="{{resolveUrl('./images/teacher.png')}}" 

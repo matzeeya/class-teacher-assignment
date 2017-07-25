@@ -25,7 +25,7 @@
       .c-name {
         margin-top: 20px;
         height:40px;
-        min-width:180px;
+        /* min-width:180px; */
       }
 
       .mark-green {
@@ -33,7 +33,7 @@
       }
 
       iron-icon.enormous {
-        margin-top:8px;
+        @apply(--layout-center);        
         height: 35px;
         width: 35px;
       }
@@ -59,7 +59,7 @@
       }
 
       .content {
-        min-width:500px;
+        min-width:720px;
       }
 
       paper-spinner{
@@ -71,7 +71,7 @@
       <div class="flex-3 c-name font-face">
         {{name}}
       </div>
-      <div class="flex-8">
+      <div class="flex-7">
        <div class="layout horizontal center content">
         <role-toggle class="flex-1"
           value="{{document.value.role}}">
@@ -110,22 +110,20 @@
         </div>
        </div>
       </div>
-      <div class="flex-2">
-        <div class="layout horizontal">  
+      <div class="flex-2 layout horizontal center">        
           <paper-spinner active="{{loading}}"></paper-spinner>
           <template is="dom-if" if="{{changed}}">
-            <div><iron-icon 
+            <iron-icon 
               icon="icons:save"
               on-click="_save"
               class="enormous">
-            </iron-icon></div>
+            </iron-icon>
           </template>
-          <div><iron-icon 
+          <iron-icon 
             icon="icons:delete"
             on-click="_remove"
             class="enormous">
-          </iron-icon></div>
-        </div>
+          </iron-icon>        
       </div>
   </template>
    
