@@ -12,6 +12,7 @@
 
 <link rel="import" href="teacher-list.html">
 <link rel="import" href="room-list.html">
+<link rel="import" href="manual-help.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -78,7 +79,8 @@
         font-family: 'Itim', cursive;
         font-size: 120%;
       }
-    </style>
+
+      </style>
       <iron-sessionstorage name="userdata" value="{{userData}}">
       </iron-sessionstorage>
 
@@ -88,7 +90,7 @@
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
 
-      
+        <manual-help></manual-help>
         <div class="layout horizontal header-bgcolor">
           <div class="layout vertical">
             <div class="flex margin-bottom">

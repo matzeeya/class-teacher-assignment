@@ -1,0 +1,73 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+<dom-module id="manual-help">
+  <template>
+    <style is="custom-style" 
+      include="iron-flex iron-flex-alignment iron-flex-factors">
+      :host {
+        @apply(--layout-vertical);
+      }
+
+      .font-underline{
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+        text-decoration: underline;
+      }
+
+      .font-normal{
+        font-family: 'Itim', cursive;
+        font-size: 100%;
+      }
+
+      .font-normal-tab{
+        font-family: 'Itim', cursive;
+        font-size: 100%;
+        margin-left: 50px;
+      }
+</style>
+
+        <div class="layout horizontal">
+          <div class="flex font-underline">วิธีการใช้งาน</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">1. เลือกระดับชั้นและห้องสำหรับเลือกครู</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">2. เลือกรายชื่อครูเพิ่อเพิ่มครูในระดับชั้นที่เลือก</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">3. กดปุ่ม "เพิ่ม" รายชื่อครูที่เลือกจะปรากฎ</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">4. คลิกที่รูปคน <iron-icon src="../images/t-class.png" style="height:60px; width:90px;"></iron-icon> เพื่อเลือกสถานะของครูท่านนั้น</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal-tab">สถานะ "ครูประจำชั้น" สามารถเลือกวิชาเรียนได้หากเป็นครูผู้สอนด้วย</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal-tab">สถานะ "ครูผู้สอน" ให้เลือกวิชาที่ครูรับผิดชอบให้ครบ</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">5. จากนั้นคลิก <iron-icon icon="icons:save"></iron-icon> เพิ่มบันทึก</div>
+        </div>
+        <div class="layout horizontal">
+          <div class="flex font-normal">6. หากต้องการลบสามารถคลิก <iron-icon icon="icons:delete"></iron-icon> ได้</div>
+        </div>
+  </template>
+
+  <script>
+    class manualHelp extends Polymer.Element {
+      static get is() { return 'manual-help'; }
+      static get properties() {
+        return {
+
+        }
+      }
+    }
+    window.customElements.define(manualHelp.is, manualHelp);
+  </script>
+</dom-module>
