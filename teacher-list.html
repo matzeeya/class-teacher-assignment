@@ -237,14 +237,13 @@
       }
 
       __checkAdd(hostId,level,room,isAdded) {
-        //console.log(hostId,level,room);
+        //console.log(hostId,level,room,isAdded);
         return hostId != null && level != null && room != null & !isAdded;
       }
 
       _isDeleted(a) {
         return !a.deleted;
       }
- 
 
       static get observers() {
         return [
@@ -255,7 +254,8 @@
         ]
       }
 
-      __checkTeacherExists(teacher,items) {        
+      __checkTeacherExists(teacher,items) {     
+        //console.log(items);  
         if(!teacher) return false;
         for(var i=0;i<items.length;i++) {
           if(teacher.value == items[i].value.teacher_id) {
@@ -326,6 +326,7 @@
             _teachers.push({key:doc.value.key,value:doc.value.doc});
           });
           self.set('items',_teachers);
+          //console.log(_teachers);
         });
       }
 

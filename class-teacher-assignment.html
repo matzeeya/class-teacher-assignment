@@ -89,32 +89,32 @@
 
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
-
-        <manual-help></manual-help>
-        <div class="layout horizontal header-bgcolor">
-          <div class="layout vertical">
-            <div class="flex margin-bottom">
-              <room-list token="{{token}}" host-id="{{hostId}}" 
-                level="{{level}}" room="{{room}}">
-              </room-list>
+        <div class="layout vertical">
+          <manual-help></manual-help>
+          <div class="layout horizontal header-bgcolor">
+            <div class="layout vertical">
+              <div class="flex margin-bottom">
+                <room-list token="{{token}}" host-id="{{hostId}}" 
+                  level="{{level}}" room="{{room}}">
+                </room-list>
+              </div>
+            </div>
+            <div class="layout vertical">&nbsp;</div>
+          </div>
+          
+          <div class="layout horizontal bgcolor">
+            <div class="flex-10">
+              <teacher-list 
+                token="{{token}}" 
+                level="{{level}}"
+                room="{{room}}"
+                year="{{year}}"
+                semester="{{semester}}"
+                host="{{hostId}}"> 
+              </teacher-list>
             </div>
           </div>
-          <div class="layout vertical">&nbsp;</div>
         </div>
-        
-        <div class="layout horizontal bgcolor">
-          <div class="flex-10">
-            <teacher-list 
-              token="{{token}}" 
-              level="{{level}}"
-              room="{{room}}"
-              year="{{year}}"
-              semester="{{semester}}"
-              host="{{hostId}}"> 
-            </teacher-list>
-          </div>
-        </div>
-        
   </template>
 
   <script>
