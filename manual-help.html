@@ -69,7 +69,7 @@
             </div>
             <div class="layout horizontal">
               <div class="flex font-normal">4. คลิกที่รูปคน 
-                <iron-icon src="./images/t-class.png" 
+                <iron-icon src="{{img}}" 
                   style="height:45px; width:75px;">
                 </iron-icon> 
                 เพื่อเลือกสถานะของครูท่านนั้น</div>
@@ -95,8 +95,15 @@
       static get is() { return 'manual-help'; }
       static get properties() {
         return {
-
-        }
+          img:{
+            type:String,
+            notify:true,
+            computed:'__defaultImg()'
+          }
+        } 
+      }
+      __defaultImg(){
+        return this.resolveUrl("./images/t-class.png");
       }
     }
     window.customElements.define(manualHelp.is, manualHelp);
