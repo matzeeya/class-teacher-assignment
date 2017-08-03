@@ -49,13 +49,14 @@
       .color-content-style{
         background-color: #eeeeee;
         border-top-right-radius: 10px;
-        margin: 0px 20px 20px 20px;
+        margin: 0px 20px 0px 20px;
       }
     </style>
        <paper-dialog id="dialog" 
         entry-animation="scale-up-animation" 
         exit-animation="fade-out-animation" 
-        with-backdrop>
+        with-backdrop
+        modal>
           <div class="color-top-style">
             <div class="layout horizontal">
               <div class="flex font-underline">วิธีการใช้งาน</div>
@@ -91,6 +92,10 @@
               <div class="flex font-normal">6. หากต้องการลบสามารถคลิก <iron-icon icon="icons:delete"></iron-icon> ได้</div>
             </div>
           </div>
+
+          <div class="buttons">
+            <paper-button dialog-confirm raised>ปิด</paper-button>
+        </div>
         </paper-dialog>
         
   </template>
@@ -118,6 +123,7 @@
       }
 
       _isActive(active) {
+        this.set('active',false);
         if(active) {
           this.$.dialog.open();
         } else {
