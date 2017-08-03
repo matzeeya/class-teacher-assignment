@@ -22,6 +22,16 @@
             font-family: 'Itim', cursive;
         }
       }
+      paper-dropdown-menu.custom {
+        --paper-input-container-label: {
+          color:#000;
+          font-family: 'Itim', cursive;
+        };
+        --paper-input-container-input: {
+          color:#000;
+          font-family: 'Itim', cursive;
+        }
+       }
 
       paper-dropdown-menu{
         width: 500px;
@@ -39,7 +49,7 @@
         font-size: 110%;
       }
     </style>
-    <paper-dropdown-menu label="รายชื่อครู">
+    <paper-dropdown-menu label="รายชื่อครู" class="custom">
       <paper-listbox slot="dropdown-content" 
         selected="{{selected}}" 
         attr-for-selected="teacher">
