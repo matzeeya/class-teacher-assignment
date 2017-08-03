@@ -229,6 +229,12 @@
           if(res.response.ok) {
             self.set('loading',false);
             self.set('document.deleted',true);
+            var eve = new CustomEvent('teacher-removed',{
+              bubbles:true,
+              composed:true,
+              detail:{'key':self.document.key}
+            }); 
+            self.dispatchEvent(eve);
           }
         });
       }

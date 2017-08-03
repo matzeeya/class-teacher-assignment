@@ -255,7 +255,7 @@
       }
 
       __checkTeacherExists(teacher,items) {     
-        //console.log(items);  
+        //console.log(items.length);  
         if(!teacher) return false;
         for(var i=0;i<items.length;i++) {
           if(teacher.value == items[i].value.teacher_id) {
@@ -267,13 +267,11 @@
 
       ready() {
         super.ready();
-        var self =this;
-        /*
-        this.addEventListener('teacher-selected',function(event) {
-          self.set('selectedDocument',event.detail);
-          self.$.updatedialog.open();
-        });
-        */
+        var self =this;        
+        this.addEventListener('teacher-removed',function(event) {
+          self.__executedQuery(self.token,
+              self.year,self.semester,self.host,self.level,self.room);        
+        });        
       }
 
       orderByRole(a,b) {
@@ -324,7 +322,7 @@
           var _teachers = [];
           res.response.forEach(function(doc) {
             _teachers.push({key:doc.value.key,value:doc.value.doc});
-          });
+          });          
           self.set('items',_teachers);
           //console.log(_teachers);
         });
@@ -363,25 +361,6 @@
 
       _resolveUrl(img) {
         return this.resolveUrl('./images/'+img+'.png');
-      }
-
-      _remove(event) {
-        var self = this;
-        var ele = document.createElement('iron-request'); 
-        var key = this.selectedDocument.key;
-        ele.send({
-          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
-          method:"DELETE",
-          handleAs:"json",
-          headers:{
-            "Authorization":"JWT "+self.token,
-          }
-        }).then(function(res) {
-          if(res.response.ok) {
-            self.__executedQuery(self.token,
-              self.year,self.semester,self.host,self.level,self.room);
-          }
-        });
       }
     }
 

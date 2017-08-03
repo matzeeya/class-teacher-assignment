@@ -2,6 +2,7 @@
 <link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -74,12 +75,24 @@
         background-color: #5667c4;
       }
 
+      .help-margin{
+        margin-top: 25px;
+        text-align: right;
+        margin-right: 20px;
+        color: #eeeeee;
+        font-family: 'Itim', cursive;
+        font-size: 120%;
+      }
       paper-listbox{
         background-color: #eeeeee;
         font-family: 'Itim', cursive;
         font-size: 120%;
       }
 
+      iron-icon:hover{
+        cursor:hand;
+        cursor:pointer;
+      }
       </style>
       <iron-sessionstorage name="userdata" value="{{userData}}">
       </iron-sessionstorage>
@@ -90,16 +103,22 @@
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
  
-          <manual-help></manual-help>
+          <manual-help active="{{active}}"></manual-help>
           <div class="layout horizontal header-bgcolor">
             <div class="layout vertical">
-              <div class="flex margin-bottom">
+              <div class="flex-9 margin-bottom">
                 <room-list token="{{token}}" host-id="{{hostId}}" 
                   level="{{level}}" room="{{room}}">
                 </room-list>
               </div>
             </div>
-            <div class="layout vertical">&nbsp;</div>
+            <div class="layout vertical flex-2">
+              <div class="flex help-margin">ช่วยเหลือ
+                <iron-icon icon="icons:help-outline" 
+                  style="height:40px; width:40px;"
+                  on-click="_onClick"></iron-icon>
+              </div>
+            </div>
           </div>
           
           <div class="layout horizontal bgcolor">
@@ -138,6 +157,11 @@
           selectedClass: {
             type:Object,
             computed: '__executeSelectedClass(rooms,selectedLevel)'
+          },
+          active:{
+            type:Boolean,
+            notify:true,
+            value:true
           }
         };
       }
@@ -145,6 +169,10 @@
       static get observers() {
         return [
         ]
+      }
+
+      _onClick(){
+        this.set('active',true);
       }
 
       _findTeacher(token,userData) {
