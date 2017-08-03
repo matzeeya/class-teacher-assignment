@@ -16,46 +16,78 @@
         font-family: 'Itim', cursive;
         font-size: 120%;
         text-decoration: underline;
+        margin-left: 20px;
       }
 
       .font-normal{
         font-family: 'Itim', cursive;
         font-size: 100%;
+        margin-left: 20px;
       }
 
       .font-normal-tab{
         font-family: 'Itim', cursive;
         font-size: 100%;
-        margin-left: 50px;
+        margin-left: 70px;
       }
-</style>
 
-        <div class="layout horizontal">
-          <div class="flex font-underline">วิธีการใช้งาน</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">1. เลือกระดับชั้นและห้องสำหรับเลือกครู</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">2. เลือกรายชื่อครูเพิ่อเพิ่มครูในระดับชั้นที่เลือก</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">3. กดปุ่ม "เพิ่ม" รายชื่อครูที่เลือกจะปรากฎ</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">4. คลิกที่รูปคน <iron-icon src="../images/t-class.png" style="height:60px; width:90px;"></iron-icon> เพื่อเลือกสถานะของครูท่านนั้น</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal-tab">สถานะ "ครูประจำชั้น" สามารถเลือกวิชาเรียนได้หากเป็นครูผู้สอนด้วย</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal-tab">สถานะ "ครูผู้สอน" ให้เลือกวิชาที่ครูรับผิดชอบให้ครบ</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">5. จากนั้นคลิก <iron-icon icon="icons:save"></iron-icon> เพิ่มบันทึก</div>
-        </div>
-        <div class="layout horizontal">
-          <div class="flex font-normal">6. หากต้องการลบสามารถคลิก <iron-icon icon="icons:delete"></iron-icon> ได้</div>
+      .bgcolor{
+        background-color: #eeeeee;
+        height: 100%;
+        width: 100%;
+      }
+
+      .color-top-style{
+        width: 200px;
+        height: 25px;
+        background-color: #3f51b5;
+        color: #fff;
+        margin: 20px 20px 0px 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .color-content-style{
+        background-color: #fff;
+        margin: 0px 20px 5px 20px;
+      }
+    </style>
+
+        <div class="bgcolor">
+          <div class="color-top-style">
+            <div class="layout horizontal">
+              <div class="flex font-underline">วิธีการใช้งาน</div>
+            </div>
+          </div>
+          <div class="color-content-style">
+            <div class="layout horizontal">
+              <div class="flex font-normal">1. เลือกระดับชั้นและห้องสำหรับเลือกครู</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal">2. เลือกรายชื่อครูเพิ่อเพิ่มครูในระดับชั้นที่เลือก</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal">3. กดปุ่ม "เพิ่ม" รายชื่อครูที่เลือกจะปรากฎ</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal">4. คลิกที่รูปคน 
+                <iron-icon src="../images/t-class.png" 
+                  style="height:45px; width:75px;">
+                </iron-icon> 
+                เพื่อเลือกสถานะของครูท่านนั้น</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal-tab">- สถานะ "ครูประจำชั้น" สามารถเลือกวิชาเรียนได้หากเป็นครูผู้สอนด้วย</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal-tab">- สถานะ "ครูผู้สอน" ให้เลือกวิชาที่ครูรับผิดชอบให้ครบ</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal">5. จากนั้นคลิก <iron-icon icon="icons:save"></iron-icon> เพิ่มบันทึก</div>
+            </div>
+            <div class="layout horizontal">
+              <div class="flex font-normal">6. หากต้องการลบสามารถคลิก <iron-icon icon="icons:delete"></iron-icon> ได้</div>
+            </div>
+          </div>
         </div>
   </template>
 
