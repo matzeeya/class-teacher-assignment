@@ -118,6 +118,7 @@
       }
 
       _isActive(active) {
+        this.set('active',false);
         if(active) {
           this.$.dialog.open();
         } else {

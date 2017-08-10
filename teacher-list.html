@@ -255,8 +255,10 @@
       }
 
       __checkTeacherExists(teacher,items) {     
-        //console.log(items.length);  
-        if(!teacher) return false;
+        //console.log(items.length);          
+        
+        if(!teacher) return false;        
+        if(teacher.key[2][2]) return true;
         for(var i=0;i<items.length;i++) {
           if(teacher.value == items[i].value.teacher_id) {
             return true;            

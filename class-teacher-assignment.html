@@ -176,7 +176,7 @@
       }
 
       _findTeacher(token,userData) {
-        if(userData.length != 1 || token == null) return;
+        if(userData.length != 1 || token == null) return;        
         var teacher_id = userData[0].value.doc.profile.teacher_id;
         var self = this;
         if(teacher_id) {
