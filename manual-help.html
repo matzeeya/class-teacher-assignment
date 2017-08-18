@@ -49,7 +49,12 @@
       .color-content-style{
         background-color: #eeeeee;
         border-top-right-radius: 10px;
-        margin: 0px 20px 20px 20px;
+        margin: 0px 20px 0px 20px;
+      }
+
+      paper-button{
+        font-family: 'Itim', cursive;
+        font-size: 100%;
       }
     </style>
        <paper-dialog id="dialog" 
@@ -63,18 +68,18 @@
           </div>
           <div class="color-content-style">
             <div class="layout horizontal">
-              <div class="flex font-normal">1. เลือกระดับชั้นและห้องสำหรับเลือกครู</div>
+              <div class="flex font-normal">1. เลือกระดับชั้นและห้องสำหรับเลือกครูลงในชั้นนั้น</div>
             </div>
             <div class="layout horizontal">
-              <div class="flex font-normal">2. เลือกรายชื่อครูเพิ่อเพิ่มครูในระดับชั้นที่เลือก</div>
+              <div class="flex font-normal">2. เลือกรายชื่อครูเพื่อเพิ่มครูในระดับชั้นที่เลือก</div>
             </div>
             <div class="layout horizontal">
               <div class="flex font-normal">3. กดปุ่ม "เพิ่ม" รายชื่อครูที่เลือกจะปรากฎ</div>
             </div>
             <div class="layout horizontal">
-              <div class="flex font-normal">4. คลิกที่รูปคน 
+              <div class="flex font-normal">4. คลิกที่สัญลักษณ์ 
                 <iron-icon src="{{img}}" 
-                  style="height:50px; width:80px;">
+                  style="height:30px; width:30px;">
                 </iron-icon> 
                 เพื่อเลือกสถานะของครูท่านนั้น</div>
             </div>
@@ -90,6 +95,9 @@
             <div class="layout horizontal">
               <div class="flex font-normal">6. หากต้องการลบสามารถคลิก <iron-icon icon="icons:delete"></iron-icon> ได้</div>
             </div>
+          </div>
+          <div class="buttons">
+            <paper-button dialog-dismiss>ปิด</paper-button>
           </div>
         </paper-dialog>
         
@@ -114,7 +122,7 @@
         } 
       }
       __defaultImg(){
-        return this.resolveUrl("./images/t-class.png");
+        return this.resolveUrl("./images/mark.png");
       }
 
       _isActive(active) {
