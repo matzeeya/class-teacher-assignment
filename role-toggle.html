@@ -46,11 +46,13 @@
         };
       }
       __defaultTeacher(value){
+        console.log(this.value);
         var img;
         if(this.value == "subjectteacher"){
-          img = this.resolveUrl("./images/mark-true.png");
-        }else{
+        //if(this.value == "classteacher"){
           img = this.resolveUrl("./images/mark-false.png");
+        }else{
+          img = this.resolveUrl("./images/mark-true.png");
         }
         return img;
       }
@@ -64,12 +66,19 @@
         return title;
       }
       _toggle(event) {
-        if(this.value == "subjectteacher") {
+        /*if(this.value == "subjectteacher") {
           this.set('value',"classteacher");
           this.tCorrect="/images/t-class.png";
         } else {
           this.set('value',"subjectteacher");
           this.tCorrect="/images/t-subjects.png";
+        }*/
+        if(this.value == "subjectteacher") {
+          this.set('value',"classteacher");
+          this.tCorrect="/images/mark-true.png";
+        } else {
+          this.set('value',"subjectteacher");
+          this.tCorrect="/images/mark-false.png";
         }
         var eve = new CustomEvent('changed',{
           bubbles:true,

@@ -255,7 +255,7 @@
       }
 
       __checkTeacherExists(teacher,items) {     
-        //console.log(items.length);          
+        //console.log(teacher);          
         
         if(!teacher) return false;        
         if(teacher.key[2][2]) return true;
@@ -337,7 +337,8 @@
         var content = {
            "teacher_id":this.teacher.value,
            "year":Number(this.year),
-           "role":'classteacher',
+           //"role":'classteacher',
+           "role":'subjectteacher',
            "semester":Number(this.semester),
            "room":this.room,
            "host":this.host,
