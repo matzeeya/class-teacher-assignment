@@ -1,0 +1,49 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<link rel="import" href="class-teacher-assignment.html">
+
+<link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
+
+<dom-module id="main-route">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
+      :host {
+        font-family: 'Itim', cursive;
+      }
+
+    </style>
+    page [[page]]
+    <paper-tabs selected="{{page}}" noink scrollable fit-container>
+      <paper-tab>จัดการข้อมูลครู</paper-tab>
+      <paper-tab>รายชื่อครูประจำชั้นระดับประถม</paper-tab>
+      <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
+    </paper-tabs>
+
+    <iron-pages selected="{{page}}"> 
+      <div>
+        <class-teacher-assignment  year="2017" semester="1" host-id="1010720001">
+        </class-teacher-assignment>
+      </div>
+      <div>2</div>
+      <div>3</div>
+    </iron-pages>
+  </template>
+
+  <script>
+    class MainRoute extends Polymer.Element {
+      static get is() { return 'main-route'; }
+      static get properties() {
+        return {
+          page: {
+            type: Number,
+            value: 0
+          }
+        };
+      }
+    }
+    window.customElements.define(MainRoute.is, MainRoute);
+  </script>
+</dom-module>

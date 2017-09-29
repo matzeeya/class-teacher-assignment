@@ -21,8 +21,8 @@
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"> 
       :host {
-        @apply(--layout-vertical);
-        @apply(--paper-font-body);
+        @apply --layout-vertical;
+        @apply --paper-font-body;
       }
       .main {
         padding-left:50px;
@@ -161,7 +161,7 @@
           active:{
             type:Boolean,
             notify:true,
-            value:true
+            value:false
           }
         };
       }
