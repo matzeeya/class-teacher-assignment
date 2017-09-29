@@ -24,11 +24,8 @@
       <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
     </paper-tabs>
 
-    <summary-class-teacher classroom="{{rooms}}">
+    <summary-class-teacher year="2017" semester="1" items="{{summary}}">
     </summary-class-teacher>
-
-    <teacher-in-host year="2017" semester="1" items="{{teachers}}">
-    </teacher-in-host>
 
     <iron-pages selected="{{page}}"> 
       <div>
@@ -36,15 +33,31 @@
         </class-teacher-assignment>
       </div>
       <div>
-        <template is="dom-repeat" items="{{list}}" as="level">
-         <template is="dom-repeat" items="{{level.room}}" as="room">   
-          <div>{{level.classname}} / {{room}}</div>
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
+         <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+          <div class="layout horizontal center">
+           <div>{{level.classname}} / {{room.room}}</div>
+           <div><ol> 
+           <template is="dom-repeat" items="{{room.teachers}}">   
+             <li>{{item}}</li>
+           </template>
+           </ol></div>
+          </div>
          </template>
         </template>
       </div>
       <div>
-        <template is="dom-repeat" items="{{teachers}}">
-          <div>{{item.lastname}}</div>
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
+         <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+          <div class="layout horizontal center">
+           <div>{{level.classname}} / {{room.room}}</div>
+           <div><ol> 
+           <template is="dom-repeat" items="{{room.teachers}}">   
+             <li>{{item}}</li>
+           </template>
+           </ol></div>
+          </div>
+         </template>
         </template>
       </div>
     </iron-pages>
@@ -70,6 +83,14 @@
         if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
         console.log(rooms);
         console.log(teachers);
+      }
+      
+      isElementary(item) {
+        return (/^ประถม/i).test(item.classname);
+      }
+
+      isSecondary(item) {
+        return (/^มัธยม/i).test(item.classname);
       }
     }
     window.customElements.define(MainRoute.is, MainRoute);

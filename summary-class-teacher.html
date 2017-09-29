@@ -11,6 +11,7 @@
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 
+<link rel="import" href="teacher-in-host.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -98,6 +99,9 @@
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
 
+      <teacher-in-host host-id="{{hostId}}" token="{{token}}" items="{{teachers}}">
+      </teacher-in-host>
+
       <iron-ajax id="getHost"
         method="POST"
         url="https://maas.nuqlis.com:8000/v2/obec/school/query"
@@ -105,6 +109,15 @@
         content-type="application/json"
         body$='{"query":{"hostid":"{{hostId}}"}}'
         on-response="_handleResponse">
+      </iron-ajax>
+
+      <iron-ajax id="getClassTeacher"
+        method="POST"
+        url="https://maas.nuqlis.com:8000/v2/obec/classteacher/query"
+        headers$='{"Authorization":"JWT {{token}}"}'
+        content-type="application/json"
+        body$='{"query":{"host":"{{hostId}}","year":{{year}},"semester":{{semester}}}}'
+        on-response="_handleClassTeacher">
       </iron-ajax>
 
   </template>
@@ -119,15 +132,15 @@
             notify:true
           },
           year:{
-           type:String,
+           type:Number,
           },
-          classroom:{
+          semester:{
+           type:Number,
+          },
+          items:{
            type:Array,
-           notify:true
-          },
-          selectedClass: {
-            type:Object,
-            computed: '__executeSelectedClass(rooms,selectedLevel)'
+           notify:true,
+           computed:'_createSummary(rooms,classteachers,teachers)'
           }
         };
       }
@@ -146,8 +159,41 @@
       _handleResponse(e) {
         if(e.detail.response.length > 0) {
           var doc = e.detail.response[0];
-          this.set('classroom',doc.classroom);
+          this.set('rooms',doc.classroom);
+          this.$.getClassTeacher.generateRequest();
         }
+      }
+
+      _handleClassTeacher(e) {
+        this.set('classteachers',e.detail.response);
+      }
+
+      _createSummary(rooms,classteachers,teachers) {
+        var tmp = [];
+        var dict = {};
+        for(var i=0;i<teachers.length;i++) {
+          dict[teachers[i]._id] = teachers[i].firstname+' '+teachers[i].lastname;
+        }
+        if(!rooms) return [];
+        for(var i=0;i<rooms.length;i++) {
+          var obj = {'classname':rooms[i].classname,'rooms':[]};
+          for(var j=0;j<rooms[i].room.length;j++) {
+            var room_obj = {'room':rooms[i].room[j],'teachers':[]};
+            if(classteachers) {
+              for(var k=0;k<classteachers.length;k++) {
+                if(classteachers[k].role=="classteacher" &&
+                   rooms[i].classname == classteachers[k].classname &&
+                   rooms[i].room[j] == classteachers[k].room) {
+                   room_obj['teachers'].push(dict[classteachers[k].teacher_id]);
+                }
+              }
+            }
+            obj['rooms'].push(room_obj);
+          }
+          tmp.push(obj);
+        }
+        console.log(tmp);
+        return tmp;
       }
 
     }
