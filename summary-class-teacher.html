@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../iron-ajax/iron-request.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
@@ -11,13 +11,10 @@
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 
-<link rel="import" href="teacher-list.html">
-<link rel="import" href="room-list.html">
-<link rel="import" href="manual-help.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
-<dom-module id="class-teacher-assignment">
+<dom-module id="summary-class-teacher">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"> 
       :host {
@@ -94,50 +91,27 @@
         cursor:pointer;
       }
       </style>
-      <iron-sessionstorage name="userdata" value="{{userData}}">
-      </iron-sessionstorage>
 
       <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
       </iron-sessionstorage>
 
       <iron-sessionstorage name="token" use-raw value="{{token}}">
       </iron-sessionstorage>
- 
-          <manual-help active="{{active}}"></manual-help>
-          <div class="layout horizontal header-bgcolor">
-            <div class="layout vertical">
-              <div class="flex-9 margin-bottom">
-                <room-list token="{{token}}" host-id="{{hostId}}" 
-                  level="{{level}}" room="{{room}}">
-                </room-list>
-              </div>
-            </div>
-            <div class="layout vertical flex-2">
-              <div class="flex help-margin">ช่วยเหลือ
-                <iron-icon icon="icons:help-outline" 
-                  style="height:40px; width:40px;"
-                  on-click="_onClick"></iron-icon>
-              </div>
-            </div>
-          </div>
-          
-          <div class="layout horizontal bgcolor">
-            <div class="flex-10">
-              <teacher-list 
-                token="{{token}}" 
-                level="{{level}}"
-                room="{{room}}"
-                year="{{year}}"
-                semester="{{semester}}"
-                host="{{hostId}}"> 
-              </teacher-list>
-            </div>
-          </div>
+
+      <iron-ajax id="getHost"
+        method="POST"
+        url="https://maas.nuqlis.com:8000/v2/obec/school/query"
+        headers$='{"Authorization":"JWT {{token}}"}'
+        content-type="application/json"
+        body$='{"query":{"hostid":"{{hostId}}"}}'
+        on-response="_handleResponse">
+      </iron-ajax>
+
   </template>
 
   <script>
-    class ClassTeacherAssignment extends Polymer.Element {
-      static get is() { return 'class-teacher-assignment'; }
+    class SummaryClassTeacher extends Polymer.Element {
+      static get is() { return 'summary-class-teacher'; }
       static get properties() {
         return {
           hostId:{
@@ -147,55 +121,38 @@
           year:{
            type:String,
           },
-          semester:{
-           type:String,
-          },
-          __findTeacher: {
-            type: String,
-            computed: '_findTeacher(token,userData)'
+          classroom:{
+           type:Array,
+           notify:true
           },
           selectedClass: {
             type:Object,
             computed: '__executeSelectedClass(rooms,selectedLevel)'
-          },
-          active:{
-            type:Boolean,
-            notify:true,
-            value:false
           }
         };
       }
 
       static get observers() {
         return [
+          "_execute(hostId,token)"
         ]
       }
 
-      _onClick(){
-        this.set('active',true);
+      _execute(hostId,token) {
+        if(!token || !hostId) return;
+        this.$.getHost.generateRequest();
       }
 
-      _findTeacher(token,userData) {
-        if(!userData || userData.length != 1 || token == null) return;        
-        var teacher_id = userData[0].value.doc.profile.teacher_id;
-        var self = this;
-        if(teacher_id) {
-          var ele = document.createElement('iron-request');
-          ele.send({
-            url:"https://maas.nuqlis.com:9000/api/dbs/teacher_db/"+teacher_id,
-            method:"GET",
-            handleAs:"json",
-            headers:{
-              "Authorization":"JWT "+token
-            }
-          }).then(function(res) {
-            self.set('teacher',res.response);
-          });
+      _handleResponse(e) {
+        if(e.detail.response.length > 0) {
+          var doc = e.detail.response[0];
+          this.set('classroom',doc.classroom);
         }
       }
+
     }
 
-    window.customElements.define(ClassTeacherAssignment.is, 
-      ClassTeacherAssignment);
+    window.customElements.define(SummaryClassTeacher.is, 
+      SummaryClassTeacher);
   </script>
 </dom-module>

@@ -6,6 +6,7 @@
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
 
 <link rel="import" href="class-teacher-info.html">
 
@@ -14,59 +15,15 @@
 <dom-module id="teacher-in-host">
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
-      :host {
-        @apply(--layout-vertical);
-        --paper-input-container-focus-color: red;
-        --paper-input-container-label: {
-            color:#000;
-            font-family: 'Itim', cursive;
-        }
-      }
-      paper-dropdown-menu.custom {
-        --paper-input-container-label: {
-          color:#000;
-          font-family: 'Itim', cursive;
-        };
-        --paper-input-container-input: {
-          color:#000;
-          font-family: 'Itim', cursive;
-        }
-       }
-
-      paper-dropdown-menu{
-        width: 500px;
-        margin-left: 10px;
-      }
-      paper-listbox{
-        width: 500px;
-        font-family: 'Itim', cursive;
-        font-size: 14px;
-      }
-      paper-radio-button{
-        font-family: 'Itim', cursive;
-        font-size: 110%;
-      }
     </style>
-    <paper-dropdown-menu label="รายชื่อครู" class="custom">
-      <paper-listbox slot="dropdown-content" 
-        selected="{{selected}}" 
-        attr-for-selected="teacher">
-        <template is="dom-repeat" items="{{items}}">
-          <paper-item teacher="{{item}}">
-            <template is="dom-if" if="{{item.key.2.2}}">
-             {{item.key.2.0}} {{item.key.2.1}} ({{item.key.2.3}}) 
-            </template>
-            <template is="dom-if" if="{{!item.key.2.2}}">
-             {{item.key.2.0}} {{item.key.2.1}}
-            </template>
-          </paper-item>
-        </template>
-      </paper-listbox>
-    </paper-dropdown-menu>
+    <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
+    </iron-sessionstorage>
+    <iron-sessionstorage name="token" use-raw value="{{token}}">
+    </iron-sessionstorage>
   </template>
 
-  <script>
 
+  <script>
     class TeacherInHost extends Polymer.Element {
       static get is() { return 'teacher-in-host'; }
       static get properties() {
@@ -76,10 +33,6 @@
           },
           hostId:{
             type: String,
-          },
-          selected:{
-            type:Object,
-            notify:true
           },
           items:{
             type:Array,
@@ -102,8 +55,8 @@
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/teacher_db/hostid",
-          body:{"match":[hostId]},
+          url:"https://maas.nuqlis.com:8000/v2/obec/teacher_db/query",
+          body:{"query":{"hostid":hostId}},
           method:"POST",
           handleAs:"json",
           headers:{

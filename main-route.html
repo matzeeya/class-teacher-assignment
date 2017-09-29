@@ -4,6 +4,8 @@
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="class-teacher-assignment.html">
+<link rel="import" href="summary-class-teacher.html">
+<link rel="import" href="teacher-in-host.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -22,13 +24,29 @@
       <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
     </paper-tabs>
 
+    <summary-class-teacher classroom="{{rooms}}">
+    </summary-class-teacher>
+
+    <teacher-in-host year="2017" semester="1" items="{{teachers}}">
+    </teacher-in-host>
+
     <iron-pages selected="{{page}}"> 
       <div>
-        <class-teacher-assignment  year="2017" semester="1" host-id="1010720001">
+        <class-teacher-assignment year="2017" semester="1">
         </class-teacher-assignment>
       </div>
-      <div>2</div>
-      <div>3</div>
+      <div>
+        <template is="dom-repeat" items="{{list}}" as="level">
+         <template is="dom-repeat" items="{{level.room}}" as="room">   
+          <div>{{level.classname}} / {{room}}</div>
+         </template>
+        </template>
+      </div>
+      <div>
+        <template is="dom-repeat" items="{{teachers}}">
+          <div>{{item.lastname}}</div>
+        </template>
+      </div>
     </iron-pages>
   </template>
 
@@ -42,6 +60,16 @@
             value: 0
           }
         };
+      }
+      static get observers() {
+        return [
+          '_generateSummary(rooms,teachers)'
+        ];
+      }
+      _generateSummary(rooms,teachers) {
+        if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
+        console.log(rooms);
+        console.log(teachers);
       }
     }
     window.customElements.define(MainRoute.is, MainRoute);
