@@ -13,7 +13,7 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 
-<link rel="import" href="teacher-in-host.html">
+<link rel="import" href="teacher-in-host-dropdown.html">
 <link rel="import" href="class-teacher-info.html">
 <link rel="import" href="knowledge-category.html">
 
@@ -131,11 +131,11 @@
     </style>
 
       <div class="layout horizontal center add-bg-color">
-        <teacher-in-host token="{{token}}" 
+        <teacher-in-host-dropdown token="{{token}}" 
           items="{{teachers}}"
           host-id="{{host}}" 
           selected="{{teacher}}">
-        </teacher-in-host>
+        </teacher-in-host-dropdown>
         <paper-button on-click="_add" disabled="{{!addAbled}}" raised>เพิ่ม</paper-button>
       </div>
         <div class="layout horizontal bottom-top-style header-style center c-subj header-bg-color">
@@ -258,9 +258,9 @@
         //console.log(teacher);          
         
         if(!teacher) return false;        
-        if(teacher.key[2][2]) return true;
+        if(teacher.deactive) return true;
         for(var i=0;i<items.length;i++) {
-          if(teacher.value == items[i].value.teacher_id) {
+          if(teacher._id == items[i].teacher_id) {
             return true;            
           }
         }        
@@ -302,7 +302,7 @@
         if(!document || !list) return;
         for(var i=0;i<list.length;i++) {
           if(document.value.teacher_id == list[i].value) {
-            return list[i].key[2][0]+' '+list[i].key[2][1];
+            return list[i].firstname+' '+list[i].lastname;
           }
         }
       }
@@ -312,8 +312,8 @@
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/classteacher/year_semester_host_class_room",
-          body:{"match":[Number(year),Number(semester),host,level,room],"include_doc":true},
+          url:"https://maas.nuqlis.com:8000/v2/obec/classteacher/query",
+          body:{"query":{"year":Number(year),"semester":Number(semester),"host":host,"classname":level,"room":room}},
           method:"POST",
           handleAs:"json",
           headers:{
@@ -321,11 +321,7 @@
             "Content-Type":"application/json"
           }
         }).then(function(res) {
-          var _teachers = [];
-          res.response.forEach(function(doc) {
-            _teachers.push({key:doc.value.key,value:doc.value.doc});
-          });          
-          self.set('items',_teachers);
+          self.set('items',res.response);
           //console.log(_teachers);
         });
       }
@@ -335,7 +331,7 @@
         var self = this;
         if(!this.teacher) return; 
         var content = {
-           "teacher_id":this.teacher.value,
+           "teacher_id":this.teacher._id,
            "year":Number(this.year),
            //"role":'classteacher',
            "role":'subjectteacher',

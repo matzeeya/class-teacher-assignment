@@ -4,6 +4,8 @@
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="class-teacher-assignment.html">
+<link rel="import" href="summary-class-teacher.html">
+<link rel="import" href="teacher-in-host.html">
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -16,19 +18,48 @@
 
     </style>
     page [[page]]
-    <paper-tabs selected="{{page}}" noink scrollable fit-container>
+    <paper-tabs selected="{{page}}" noink scrollable fit-container fallback-selection="0">
       <paper-tab>จัดการข้อมูลครู</paper-tab>
       <paper-tab>รายชื่อครูประจำชั้นระดับประถม</paper-tab>
       <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
     </paper-tabs>
 
+    <summary-class-teacher year="2017" semester="1" items="{{summary}}">
+    </summary-class-teacher>
+
     <iron-pages selected="{{page}}"> 
       <div>
-        <class-teacher-assignment  year="2017" semester="1" host-id="1010720001">
+        <class-teacher-assignment year="2017" semester="1">
         </class-teacher-assignment>
       </div>
-      <div>2</div>
-      <div>3</div>
+      <div>
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
+         <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+          <div class="layout horizontal center">
+           <div>{{level.classname}} / {{room.room}}</div>
+           <div><ol> 
+           <template is="dom-repeat" items="{{room.teachers}}">   
+             <li>{{item}}</li>
+           </template>
+           </ol></div>
+          </div>
+         </template>
+        </template>
+      </div>
+      <div>
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
+         <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+          <div class="layout horizontal center">
+           <div>{{level.classname}} / {{room.room}}</div>
+           <div><ol> 
+           <template is="dom-repeat" items="{{room.teachers}}">   
+             <li>{{item}}</li>
+           </template>
+           </ol></div>
+          </div>
+         </template>
+        </template>
+      </div>
     </iron-pages>
   </template>
 
@@ -42,6 +73,24 @@
             value: 0
           }
         };
+      }
+      static get observers() {
+        return [
+          '_generateSummary(rooms,teachers)'
+        ];
+      }
+      _generateSummary(rooms,teachers) {
+        if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
+        console.log(rooms);
+        console.log(teachers);
+      }
+      
+      isElementary(item) {
+        return (/^ประถม/i).test(item.classname);
+      }
+
+      isSecondary(item) {
+        return (/^มัธยม/i).test(item.classname);
       }
     }
     window.customElements.define(MainRoute.is, MainRoute);
