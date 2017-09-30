@@ -164,7 +164,7 @@
         <div class="content-bg-color">
           <template is="dom-repeat" items="{{items}}" 
             filter="_isDeleted"
-            sort="orderByRole" observe="value.role deleted">
+            sort="orderByRole" observe="role deleted">
             <div class="bottom-style">
               <class-teacher-info token="{{token}}" 
                 document="{{item}}" 
@@ -277,16 +277,16 @@
       }
 
       orderByRole(a,b) {
-        if(!a.value.role || !b.value.role) return -1;
-        return a.value.role.localeCompare(b.value.role);
+        if(!a.role || !b.role) return -1;
+        return a.role.localeCompare(b.role);
       }
 
       isClassTeacher(item) {
-        return item.value.role == 'classteacher';
+        return item.role == 'classteacher';
       }
 
       isSubjectTeacher(item) {
-        return item.value.role == 'subjectteacher';
+        return item.role == 'subjectteacher';
       }
 
       isTeacherGroup(role){
