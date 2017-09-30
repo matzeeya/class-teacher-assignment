@@ -92,24 +92,29 @@
       }*/
 
     </style>
-
-    <paper-tabs selected="{{page}}" noink scrollable fit-container fallback-selection="0">
-      <paper-tab>จัดการข้อมูลครู</paper-tab>
-      <paper-tab>รายชื่อครูประจำชั้นระดับประถม</paper-tab>
-      <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
-    </paper-tabs>
-
     <summary-class-teacher id="summaryClass" 
       year="{{year}}" semester="{{semester}}" 
       items="{{summary}}">
     </summary-class-teacher>
 
-    <iron-pages selected="{{page}}"> 
-      <div>
+    <paper-tabs selected="{{page}}" attr-for-selected="name"
+      noink scrollable fit-container 
+      fallback-selection="main">
+      <paper-tab name="main">จัดการข้อมูลครู</paper-tab>
+      <template is="dom-if" if="{{isElementaryExist(summary)}}">
+       <paper-tab name="elementary">รายชื่อครูประจำชั้นระดับประถม</paper-tab>
+      </template>
+      <template is="dom-if" if="{{isSecondaryExist(summary)}}">
+       <paper-tab name="secondary">รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
+      </template>
+    </paper-tabs>
+
+    <iron-pages selected="{{page}}" attr-for-selected="name"> 
+      <div name="main">
         <teacher-assignment year="{{year}}" semester="{{semester}}">
         </teacher-assignment>
       </div>
-      <div class="bgcolor">
+      <div class="bgcolor" name="elementary">
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
           <div class="flax layout horizontal">&nbsp;</div>
           <div class="flax layout horizontal classroom">
@@ -135,7 +140,7 @@
         </template>
         <div class="flax layout horizontal">&nbsp;</div>
       </div>
-      <div class="bgcolor">
+      <div class="bgcolor" name="secondary">
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
           <div class="flax layout horizontal">&nbsp;</div>
           <div class="flax layout horizontal center header shadows">
@@ -167,11 +172,7 @@
       static get properties() {
         return {
           year: String,
-          semester: String,
-          page: {
-            type: Number,
-            value: 0
-          }
+          semester: String
         };
       }
 
@@ -198,6 +199,24 @@
 
       isEmpty(list) {
         return list.length == 0;
+      }
+
+      isElementaryExist(list) {
+        for(var i=0;i<list.length;i++) {
+          if((/^ประถม/i).test(list[i].classname)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      isSecondaryExist(list) {
+        for(var i=0;i<list.length;i++) {
+          if((/^มัธยม/i).test(list[i].classname)) {
+            return true;
+          }
+        }
+        return false;
       }
       
       isElementary(item) {
