@@ -101,12 +101,14 @@
       noink scrollable fit-container 
       fallback-selection="main">
       <paper-tab name="main">จัดการข้อมูลครู</paper-tab>
-      <template is="dom-if" if="{{isElementaryExist(summary)}}">
+      <paper-tab name="elementary">รายชื่อครูประจำชั้นระดับประถม</paper-tab>
+      <paper-tab name="secondary">รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
+      <!--<template is="dom-if" if="{{isElementaryExist(summary)}}">
        <paper-tab name="elementary">รายชื่อครูประจำชั้นระดับประถม</paper-tab>
       </template>
       <template is="dom-if" if="{{isSecondaryExist(summary)}}">
        <paper-tab name="secondary">รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
-      </template>
+      </template>-->
     </paper-tabs>
 
     <iron-pages selected="{{page}}" attr-for-selected="name"> 
@@ -116,11 +118,11 @@
       </div>
       <div class="bgcolor" name="elementary">
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
-          <div class="flax layout horizontal">&nbsp;</div>
-          <div class="flax layout horizontal classroom">
+          <div class="flex layout horizontal">&nbsp;</div>
+          <div class="flex layout horizontal classroom">
             <div class="font-face">{{level.classname}}</div>
           </div>
-          <div class="flax layout horizontal center header shadows">
+          <div class="flex layout horizontal center header shadows">
             <div class="flex-3 font-face">ห้อง</div>
             <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
           </div>
@@ -142,11 +144,11 @@
       </div>
       <div class="bgcolor" name="secondary">
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
-          <div class="flax layout horizontal">&nbsp;</div>
-          <div class="flax layout horizontal classroom">
+          <div class="flex layout horizontal">&nbsp;</div>
+          <div class="flex layout horizontal classroom">
             <div class="font-face">{{level.classname}}</div>
           </div>
-          <div class="flax layout horizontal center header shadows">
+          <div class="flex layout horizontal center header shadows">
             <div class="flex-3 font-face">ห้อง</div>
             <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
           </div>
