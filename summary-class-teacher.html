@@ -173,7 +173,7 @@
         var tmp = [];
         var dict = {};
         for(var i=0;i<teachers.length;i++) {
-          dict[teachers[i]._id] = teachers[i].firstname+' '+teachers[i].lastname;
+            dict[teachers[i]._id] = teachers[i].firstname+' '+teachers[i].lastname;
         }
         if(!rooms) return [];
         for(var i=0;i<rooms.length;i++) {
@@ -183,9 +183,9 @@
             if(classteachers) {
               for(var k=0;k<classteachers.length;k++) {
                 if(classteachers[k].role=="classteacher" &&
-                   rooms[i].classname == classteachers[k].classname &&
-                   rooms[i].room[j] == classteachers[k].room) {
-                   room_obj['teachers'].push(dict[classteachers[k].teacher_id]);
+                  rooms[i].classname == classteachers[k].classname &&
+                  rooms[i].room[j] == classteachers[k].room) {
+                  room_obj['teachers'].push(dict[classteachers[k].teacher_id]);
                 }
               }
             }
