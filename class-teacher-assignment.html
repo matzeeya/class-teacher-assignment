@@ -80,6 +80,9 @@
         background-color:#5c6dcc;
         color: white;
       }
+      .teacher-li {
+        padding-right:10px;
+      }
       /*.content:nth-child(even){
           background:#fff;
       }
@@ -117,12 +120,12 @@
           <template is="dom-repeat" items="{{level.rooms}}" as="room"> 
             <div class="flex layout horizontal content shadows">
               <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
-              <div class="flex-9 font-face"> 
-                <template is="dom-if" if="{{!room.teachers}}">
-                  test
+              <div class="flex-9 font-face layout horizontal"> 
+                <template is="dom-if" if="{{isEmpty(room.teachers)}}">
+                  <div>-</div>
                 </template>
                 <template is="dom-repeat" items="{{room.teachers}}">
-                  {{_index(index)}}. {{item}} &nbsp;&nbsp;
+                  <div class="teacher-li">{{_index(index)}}. {{item}}</div>
                 </template>
               </div>
             </div>
@@ -143,9 +146,12 @@
           <template is="dom-repeat" items="{{level.rooms}}" as="room">   
           <div class="flex layout horizontal content shadows">
             <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
-            <div class="flex-9 font-face">
-              <template is="dom-repeat" items="{{room.teachers}}">  
-                {{_index(index)}}. {{item}} &nbsp;&nbsp;
+            <div class="flex-9 font-face layout horizontal">
+              <template is="dom-if" if="{{isEmpty(room.teachers)}}">
+                <div>-</div>
+              </template>
+              <template is="dom-repeat" items="{{room.teachers}}">
+                <div class="teacher-li">{{_index(index)}}. {{item}}</div>
               </template>
             </div>
           </div>
@@ -179,6 +185,10 @@
 
       _generateSummary(rooms,teachers) {
         if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
+      }
+
+      isEmpty(list) {
+        return list.length == 0;
       }
       
       isElementary(item) {
