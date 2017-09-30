@@ -99,12 +99,14 @@
       <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
     </paper-tabs>
 
-    <summary-class-teacher year="2017" semester="1" items="{{summary}}">
+    <summary-class-teacher id="summaryClass" 
+      year="{{year}}" semester="{{semester}}" 
+      items="{{summary}}">
     </summary-class-teacher>
 
     <iron-pages selected="{{page}}"> 
       <div>
-        <teacher-assignment year="2017" semester="1">
+        <teacher-assignment year="{{year}}" semester="{{semester}}">
         </teacher-assignment>
       </div>
       <div class="bgcolor">
@@ -167,24 +169,34 @@
       static get is() { return 'class-teacher-assignment'; }
       static get properties() {
         return {
+          year: String,
+          semester: String,
           page: {
             type: Number,
             value: 0
           }
         };
       }
+
       static get observers() {
         return [
-          '_generateSummary(rooms,teachers)'
         ];
+      }
+
+      ready() {
+        super.ready();
+        this.addEventListener('teacher-updated',
+           this.onTeacherUpdated.bind(this));
+        this.addEventListener('teacher-deleted',
+           this.onTeacherUpdated.bind(this));
+      }
+
+      onTeacherUpdated(e) {
+        this.$.summaryClass.reload();
       }
 
       _index(index){
         return index+1;
-      }
-
-      _generateSummary(rooms,teachers) {
-        if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
       }
 
       isEmpty(list) {

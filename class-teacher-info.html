@@ -182,9 +182,7 @@
       }
 
       __findTeacher(id,list) {
-        console.log(list,id);
         if(!list || !id) return;
-        console.log(id,list);
         for(var i=0;i<list.length;i++) {
           if(id == list[i]._id) {
             return list[i].firstname+' '+list[i].lastname;
@@ -211,6 +209,12 @@
           if(res.response.ok) {
             self.set('changed',false);
             self.set('loading',false);
+            var eve = new CustomEvent('teacher-updated',{
+              bubbles:true,
+              composed:true,
+              detail:{'key':self.document._id}
+            }); 
+            self.dispatchEvent(eve);
           }
         });
       }
@@ -234,7 +238,7 @@
             var eve = new CustomEvent('teacher-removed',{
               bubbles:true,
               composed:true,
-              detail:{'key':self.document.key}
+              detail:{'key':self.document._id}
             }); 
             self.dispatchEvent(eve);
           }

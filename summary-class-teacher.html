@@ -156,6 +156,11 @@
         this.$.getHost.generateRequest();
       }
 
+      reload() {
+        if(!this.token || !this.hostId) return;
+        this.$.getHost.generateRequest();
+      }
+
       _handleResponse(e) {
         if(e.detail.response.length > 0) {
           var doc = e.detail.response[0];
@@ -193,7 +198,6 @@
           }
           tmp.push(obj);
         }
-        //console.log(tmp);
         return tmp;
       }
 
