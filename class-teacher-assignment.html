@@ -1,57 +1,39 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../iron-sessionstorage/iron-sessionstorage.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../iron-ajax/iron-request.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-listbox/paper-listbox.html">
-<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
-<link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../paper-styles/typography.html">
-<link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 
-<link rel="import" href="teacher-list.html">
-<link rel="import" href="room-list.html">
-<link rel="import" href="manual-help.html">
+<link rel="import" href="teacher-assignment.html">
+<link rel="import" href="summary-class-teacher.html">
+<!--<link rel="import" href="teacher-in-host.html">-->
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
 <dom-module id="class-teacher-assignment">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"> 
+    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
-        @apply --layout-vertical;
-        @apply --paper-font-body;
+        font-family: 'Itim', cursive; 
+        --paper-tabs-selection-bar-color: #cceeff;
+        --paper-tab-content-unselected: {
+          opacity: 0.52;
+        };
       }
-      .main {
-        padding-left:50px;
+
+      paper-tabs {
+        font-size: 16px;
+        background-color: #5c6dcc;
+        color: #fff;
+        height: 40px;
       }
-      .border-bottom {
-        font-family: 'Itim', cursive;
-        font-size: 100%;
-        color: #000;
-        opacity: 0.75;
-        height:50px;
-        width: 150px;
-        border-bottom-width:1px;
-        border-bottom-style:solid;
-        border-bottom-color: var(--divider-color);
+
+      .font-face{
+        font-family: 'Itim', cursive; 
+        margin-left: 10px;
       }
-      /* ---font---- */
-      .font-header {
-        font-family: 'Itim', cursive;
-        font-size: 120%;
-        font-weight: bold;
-      }
-      .font-face {
-        font-family: 'Itim', cursive;
-        font-size: 120%;
-      }
-      
-      .header-bgcolor{
-        height: 90px;
-        background-color: #3f51b5;
+
+      .shadows{
+        box-shadow: 1px 2px 10px #abaaaa;
       }
 
       .bgcolor{
@@ -60,79 +42,115 @@
         width: 100%;
       }
 
-      /* ---tabs---- */
-      paper-tabs {
-        --paper-tabs-selection-bar-color: #F44336;
-        background-color: var(--paper-grey-50);
+      .classroom{
+        height: 40px;
+        width: 250px;
+        font-family: 'Itim', cursive; 
+        font-weight: bold;
+        background-color: #fff;
+        color: #3f51b5;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        box-shadow: 1px 2px 10px #abaaaa;
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        margin: 0px 20px 0px 20px;
+      }
+
+      .header{
         height: 50px;
+        font-family: 'Itim', cursive; 
+        background-color: #3f51b5;
+        color: #fff;
+        margin: 0px 20px 0px 20px;
       }
 
-      .margin-bottom{
-        margin-top: 25px;
-        margin-left:20px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        background-color: #5667c4;
-      }
-
-      .help-margin{
-        margin-top: 25px;
-        text-align: right;
+      .content{
+        height: 40px;
+        font-family: 'Itim', cursive; 
+        background-color: #fff;
+        border-bottom: 1px solid #e0e0e0;
+        @apply --layout-horizontal;
+        @apply --layout-center;
         margin-right: 20px;
-        color: #eeeeee;
-        font-family: 'Itim', cursive;
-        font-size: 120%;
-      }
-      paper-listbox{
-        background-color: #eeeeee;
-        font-family: 'Itim', cursive;
-        font-size: 120%;
+        margin-left: 20px;
       }
 
-      iron-icon:hover{
-        cursor:hand;
-        cursor:pointer;
+      .content:hover{
+        background-color:#5c6dcc;
+        color: white;
       }
-      </style>
-      <iron-sessionstorage name="userdata" value="{{userData}}">
-      </iron-sessionstorage>
+      /*.content:nth-child(even){
+          background:#fff;
+      }
 
-      <iron-sessionstorage name="hostId" use-raw value="{{hostId}}">
-      </iron-sessionstorage>
+      .content:nth-child(odd){
+          background:#dfe2f7;
+      }*/
 
-      <iron-sessionstorage name="token" use-raw value="{{token}}">
-      </iron-sessionstorage>
- 
-          <manual-help active="{{active}}"></manual-help>
-          <div class="layout horizontal header-bgcolor">
-            <div class="layout vertical">
-              <div class="flex-9 margin-bottom">
-                <room-list token="{{token}}" host-id="{{hostId}}" 
-                  level="{{level}}" room="{{room}}">
-                </room-list>
+    </style>
+
+    <paper-tabs selected="{{page}}" noink scrollable fit-container fallback-selection="0">
+      <paper-tab>จัดการข้อมูลครู</paper-tab>
+      <paper-tab>รายชื่อครูประจำชั้นระดับประถม</paper-tab>
+      <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
+    </paper-tabs>
+
+    <summary-class-teacher year="2017" semester="1" items="{{summary}}">
+    </summary-class-teacher>
+
+    <iron-pages selected="{{page}}"> 
+      <div>
+        <teacher-assignment year="2017" semester="1">
+        </teacher-assignment>
+      </div>
+      <div class="bgcolor">
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
+          <div class="flax layout horizontal">&nbsp;</div>
+          <div class="flax layout horizontal classroom">
+            <div class="font-face">{{level.classname}}</div>
+          </div>
+          <div class="flax layout horizontal center header shadows">
+            <div class="flex-3 font-face">ห้อง</div>
+            <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
+          </div>
+          <template is="dom-repeat" items="{{level.rooms}}" as="room"> 
+            <div class="flex layout horizontal content shadows">
+              <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
+              <div class="flex-9 font-face"> 
+                <template is="dom-if" if="{{!room.teachers}}">
+                  test
+                </template>
+                <template is="dom-repeat" items="{{room.teachers}}">
+                  {{_index(index)}}. {{item}} &nbsp;&nbsp;
+                </template>
               </div>
             </div>
-            <div class="layout vertical flex-2">
-              <div class="flex help-margin">ช่วยเหลือ
-                <iron-icon icon="icons:help-outline" 
-                  style="height:40px; width:40px;"
-                  on-click="_onClick"></iron-icon>
-              </div>
+          </template>
+        </template>
+        <div class="flax layout horizontal">&nbsp;</div>
+      </div>
+      <div class="bgcolor">
+        <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
+          <div class="flax layout horizontal">&nbsp;</div>
+          <div class="flax layout horizontal center header shadows">
+            <div class="flex-3 font-face">ห้อง</div>
+            <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
+          </div>
+          <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+          <div class="flex layout horizontal content shadows">
+            <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
+            <div class="flex-9 font-face">
+              <template is="dom-repeat" items="{{room.teachers}}">  
+                {{_index(index)}}. {{item}} &nbsp;&nbsp;
+              </template>
             </div>
           </div>
-          
-          <div class="layout horizontal bgcolor">
-            <div class="flex-10">
-              <teacher-list 
-                token="{{token}}" 
-                level="{{level}}"
-                room="{{room}}"
-                year="{{year}}"
-                semester="{{semester}}"
-                host="{{hostId}}"> 
-              </teacher-list>
-            </div>
-          </div>
+          </template>
+        </template>
+        <div class="flax layout horizontal">&nbsp;</div>
+      </div>
+    </iron-pages>
   </template>
 
   <script>
@@ -140,62 +158,34 @@
       static get is() { return 'class-teacher-assignment'; }
       static get properties() {
         return {
-          hostId:{
-            type:String,
-            notify:true
-          },
-          year:{
-           type:String,
-          },
-          semester:{
-           type:String,
-          },
-          __findTeacher: {
-            type: String,
-            computed: '_findTeacher(token,userData)'
-          },
-          selectedClass: {
-            type:Object,
-            computed: '__executeSelectedClass(rooms,selectedLevel)'
-          },
-          active:{
-            type:Boolean,
-            notify:true,
-            value:true
+          page: {
+            type: Number,
+            value: 0
           }
         };
       }
-
       static get observers() {
         return [
-        ]
+          '_generateSummary(rooms,teachers)'
+        ];
       }
 
-      _onClick(){
-        this.set('active',true);
+      _index(index){
+        return index+1;
       }
 
-      _findTeacher(token,userData) {
-        if(!userData || userData.length != 1 || token == null) return;        
-        var teacher_id = userData[0].value.doc.profile.teacher_id;
-        var self = this;
-        if(teacher_id) {
-          var ele = document.createElement('iron-request');
-          ele.send({
-            url:"https://maas.nuqlis.com:9000/api/dbs/teacher_db/"+teacher_id,
-            method:"GET",
-            handleAs:"json",
-            headers:{
-              "Authorization":"JWT "+token
-            }
-          }).then(function(res) {
-            self.set('teacher',res.response);
-          });
-        }
+      _generateSummary(rooms,teachers) {
+        if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
+      }
+      
+      isElementary(item) {
+        return (/^ประถม/i).test(item.classname);
+      }
+
+      isSecondary(item) {
+        return (/^มัธยม/i).test(item.classname);
       }
     }
-
-    window.customElements.define(ClassTeacherAssignment.is, 
-      ClassTeacherAssignment);
+    window.customElements.define(ClassTeacherAssignment.is, ClassTeacherAssignment);
   </script>
 </dom-module>
