@@ -133,6 +133,9 @@
       <div class="bgcolor">
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
           <div class="flax layout horizontal">&nbsp;</div>
+          <div class="flax layout horizontal classroom">
+            <div class="font-face">{{level.classname}}</div>
+          </div>
           <div class="flax layout horizontal center header shadows">
             <div class="flex-3 font-face">ห้อง</div>
             <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
