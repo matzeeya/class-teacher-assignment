@@ -23,7 +23,7 @@
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
-        @apply(--layout-vertical);
+        @apply --layout-vertical;
         --paper-button-disabled:{
           opacity: 0.54;
         }
@@ -56,9 +56,9 @@
       }
 
       .icon-container {
-        @apply(--layout-horizontal);
-        @apply(--layout-center-justified);
-        @apply(--layout-flex);
+        @apply --layout-horizontal;
+        @apply --layout-center-justified;
+        @apply --layout-flex;
       }
 
       iron-icon {

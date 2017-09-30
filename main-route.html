@@ -6,6 +6,8 @@
 <link rel="import" href="class-teacher-assignment.html">
 <link rel="import" href="summary-class-teacher.html">
 <link rel="import" href="teacher-in-host.html">
+<!--<link rel="import" href="list-elementary.html">
+<link rel="import" href="list-secondary.html">-->
 
 <link href="https://fonts.googleapis.com/css?family=Itim&amp;subset=thai" rel="stylesheet">
 
@@ -13,12 +15,42 @@
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
-        font-family: 'Itim', cursive;
+        font-family: 'Itim', cursive; 
+        --paper-tabs-selection-bar-color: #cceeff;
+        --paper-tab-content-unselected: {
+          opacity: 0.52;
+        };
       }
 
+      .header{
+        height: 40px;
+        font-family: 'Itim', cursive; 
+        background-color: #84c7c4;
+        color: #fff;
+      }
+
+      .content{
+        height: 30px;
+        font-family: 'Itim', cursive; 
+        background-color: #fff;
+        @apply --layout-horizontal;
+        @apply --layout-center;
+      }
+
+      .font-face{
+        font-family: 'Itim', cursive; 
+        margin-left: 10px;
+      }
+
+      paper-tabs {
+        font-size: 16px;
+        background-color: #44ada8;
+        color: #fff;
+        height: 50px;
+      }
     </style>
-    page [[page]]
-    <paper-tabs selected="{{page}}" noink scrollable fit-container fallback-selection="0">
+
+    <paper-tabs selected="{{page}}" noink scrollable fit-container fallback-selection="1">
       <paper-tab>จัดการข้อมูลครู</paper-tab>
       <paper-tab>รายชื่อครูประจำชั้นระดับประถม</paper-tab>
       <paper-tab>รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
@@ -33,15 +65,19 @@
         </class-teacher-assignment>
       </div>
       <div>
+        <div class="flax layout horizontal center header">
+          <div class="flex-3 font-face">ห้อง</div>
+          <div class="flex-9 font-face">ครูประจำชั้น</div>
+        </div>
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isElementary">
          <template is="dom-repeat" items="{{level.rooms}}" as="room">   
-          <div class="layout horizontal center">
-           <div>{{level.classname}} / {{room.room}}</div>
-           <div><ol> 
-           <template is="dom-repeat" items="{{room.teachers}}">   
-             <li>{{item}}</li>
-           </template>
-           </ol></div>
+          <div class="flex layout horizontal content">
+            <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
+            <div class="flex-9 font-face">
+              <template is="dom-repeat" items="{{room.teachers}}">   
+                {{item}}
+              </template>
+            </div>
           </div>
          </template>
         </template>
@@ -50,12 +86,14 @@
         <template is="dom-repeat" items="{{summary}}" as="level" filter="isSecondary">
          <template is="dom-repeat" items="{{level.rooms}}" as="room">   
           <div class="layout horizontal center">
-           <div>{{level.classname}} / {{room.room}}</div>
-           <div><ol> 
-           <template is="dom-repeat" items="{{room.teachers}}">   
-             <li>{{item}}</li>
-           </template>
-           </ol></div>
+            <div>{{level.classname}} / {{room.room}}</div>
+            <div>
+             <ol> 
+              <template is="dom-repeat" items="{{room.teachers}}">   
+                <li>{{item}}</li>
+              </template>
+            </ol>
+            </div>
           </div>
          </template>
         </template>
@@ -71,6 +109,10 @@
           page: {
             type: Number,
             value: 0
+          },
+          nums: {
+            type: Number,
+            value:0
           }
         };
       }
@@ -79,10 +121,11 @@
           '_generateSummary(rooms,teachers)'
         ];
       }
+      
       _generateSummary(rooms,teachers) {
         if(!rooms || !teachers || teachers.length == 0 || rooms.length == 0) return;
-        console.log(rooms);
-        console.log(teachers);
+        console.log('room',rooms);
+        console.log('teacher',teachers);
       }
       
       isElementary(item) {

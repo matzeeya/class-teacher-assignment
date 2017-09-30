@@ -169,6 +169,7 @@
       }
 
       _createSummary(rooms,classteachers,teachers) {
+        if(rooms==null || classteachers==null || teachers==null) return;
         var tmp = [];
         var dict = {};
         for(var i=0;i<teachers.length;i++) {
@@ -192,7 +193,7 @@
           }
           tmp.push(obj);
         }
-        console.log(tmp);
+        //console.log(tmp);
         return tmp;
       }
 
