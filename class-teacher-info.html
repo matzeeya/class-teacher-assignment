@@ -112,7 +112,7 @@
       </div>
       <div class="flex-2 layout horizontal center">        
           <paper-spinner active="{{loading}}"></paper-spinner>
-          <template is="dom-if" if="{{changed}}">
+          <template is="dom-if" if="{{document.changed}}">
             <iron-icon 
               icon="icons:save"
               on-click="_save"
@@ -168,7 +168,7 @@
         super.ready();
         var self = this;
         this.addEventListener('changed',function(event) {
-          self.set('changed',true);
+          self.set('document.changed',true);
         });
       }
 
@@ -193,7 +193,8 @@
       _save(event) {
         var ele = document.createElement('iron-request');
         var self = this;
-        var content = this.document;
+        var content = JSON.parse(JSON.stringify(this.document));
+        delete content['changed'];
         var key = this.document._id;
         this.set('loading',true);
         ele.send({
@@ -207,7 +208,7 @@
           }
         }).then(function(res) {
           if(res.response.ok) {
-            self.set('changed',false);
+            self.set('document.changed',false);
             self.set('loading',false);
             var eve = new CustomEvent('teacher-updated',{
               bubbles:true,
@@ -245,8 +246,6 @@
         });
       }
     }
-
-     
 
     window.customElements.define(ClassTeacherInfo.is, ClassTeacherInfo);
   </script>
