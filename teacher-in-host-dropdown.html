@@ -55,7 +55,7 @@
       <paper-listbox slot="dropdown-content" 
         selected="{{selected}}" 
         attr-for-selected="teacher">
-        <template is="dom-repeat" items="{{items}}">
+        <template is="dom-repeat" items="{{items}}" sort="orderByName">
           <paper-item teacher="{{item}}">
             {{item.firstname}} {{item.lastname}}
             <template is="dom-if" if="{{item.deactive}}">
@@ -91,6 +91,12 @@
             notify:true
           }
         };
+      }
+
+      orderByName(a,b) {
+        var a_name = a.firstname+' '+a.lastname;
+        var b_name = b.firstname+' '+b.lastname;
+        return a_name.localeCompare(b_name);
       }
 
     }
