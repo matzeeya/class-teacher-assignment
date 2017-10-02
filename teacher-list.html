@@ -168,7 +168,7 @@
         <div class="content-bg-color">
           <template is="dom-repeat" items="{{items}}" 
             filter="_isDeleted"
-            sort="orderByRole" observe="role deleted">
+            sort="{{orderByRole(teachers)}}" observe="role deleted">
             <div class="bottom-style">
               <class-teacher-info token="{{token}}" 
                 document="{{item}}" 
@@ -280,9 +280,19 @@
         });        
       }
 
-      orderByRole(a,b) {
-        if(!a.role || !b.role) return -1;
-        return a.role.localeCompare(b.role);
+      orderByRole(teachers) {
+        var dict = {};
+        for(var i=0;i<teachers.length;i++) {
+          dict[teachers[i]._id] = teachers[i].firstname+' '+teachers[i].lastname;
+        }
+        return function(a,b) {
+          if(!a.role || !b.role) return -1;
+          var com = a.role.localeCompare(b.role);
+          if(com == 0) {
+            return dict[a.teacher_id].localeCompare(dict[b.teacher_id]);
+          }
+          return com;
+        };
       }
 
       isClassTeacher(item) {

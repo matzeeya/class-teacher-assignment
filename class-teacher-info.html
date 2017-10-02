@@ -195,6 +195,7 @@
         var self = this;
         var content = JSON.parse(JSON.stringify(this.document));
         delete content['changed'];
+        delete content['name'];
         var key = this.document._id;
         this.set('loading',true);
         ele.send({
