@@ -33,11 +33,11 @@
       }
 
       iron-icon.enormous {
-        @apply(--layout-center);        
+        @apply(--layout-center);
         height: 35px;
         width: 35px;
       }
-      
+
       iron-icon:hover {
         color: #999966;
         cursor:hand;
@@ -65,7 +65,7 @@
       paper-spinner{
         margin-top:10px;
       }
-      
+
 
     </style>
       <div class="flex-3 c-name font-face">
@@ -89,7 +89,7 @@
           </check-teacher>
         </div>
         <div class="flex-1">
-          <check-teacher value="{{document..subjects.thl}}">
+          <check-teacher value="{{document.subjects.thl}}">
           </check-teacher>
         </div>
         <div class="flex-1">
@@ -110,23 +110,23 @@
         </div>
        </div>
       </div>
-      <div class="flex-2 layout horizontal center">        
+      <div class="flex-2 layout horizontal center">
           <paper-spinner active="{{loading}}"></paper-spinner>
           <template is="dom-if" if="{{document.changed}}">
-            <iron-icon 
+            <iron-icon
               icon="icons:save"
               on-click="_save"
               class="enormous">
             </iron-icon>
           </template>
-          <iron-icon 
+          <iron-icon
             icon="icons:delete"
             on-click="_remove"
             class="enormous">
-          </iron-icon>        
+          </iron-icon>
       </div>
   </template>
-   
+
   <script>
     class ClassTeacherInfo extends Polymer.Element {
       static get is() { return 'class-teacher-info'; }
@@ -139,7 +139,7 @@
             type:Object,
             notify:true
           },
-          name:{ 
+          name:{
             type:Object,
             computed:'__findTeacher(document.teacher_id,list)'
           },
@@ -177,7 +177,7 @@
           bubbles:true,
           composed:true,
           detail:this.document
-        }); 
+        });
         this.dispatchEvent(eve);
       }
 
@@ -215,12 +215,12 @@
               bubbles:true,
               composed:true,
               detail:{'key':self.document._id}
-            }); 
+            });
             self.dispatchEvent(eve);
           }
         });
       }
-      
+
       _remove(event) {
         var self = this;
         var ele = document.createElement('iron-request');
@@ -241,7 +241,7 @@
               bubbles:true,
               composed:true,
               detail:{'key':self.document._id}
-            }); 
+            });
             self.dispatchEvent(eve);
           }
         });
