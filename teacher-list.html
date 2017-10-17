@@ -285,11 +285,14 @@
         for(var i=0;i<teachers.length;i++) {
           dict[teachers[i]._id] = teachers[i].firstname+' '+teachers[i].lastname;
         }
+        console.log(dict);
         return function(a,b) {
           if(!a.role || !b.role) return -1;
           var com = a.role.localeCompare(b.role);
           if(com == 0) {
-            return dict[a.teacher_id].localeCompare(dict[b.teacher_id]);
+            if(dict[a.teacher_id] && dict[b.teacher_id]) {
+              return dict[a.teacher_id].localeCompare(dict[b.teacher_id]);
+            }
           }
           return com;
         };
