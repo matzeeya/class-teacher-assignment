@@ -58,9 +58,6 @@
         <template is="dom-repeat" items="{{checkReason(items)}}" sort="orderByName">
           <paper-item teacher="{{item}}">
             {{item.firstname}} {{item.lastname}}
-            <!-- <template is="dom-if" if="{{item.deactive!=}}">
-             ({{item.deactive_reason}}) 
-            </template> -->
           </paper-item>
         </template>
       </paper-listbox>
