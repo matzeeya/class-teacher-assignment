@@ -102,7 +102,7 @@
       checkReason(reason){
         var teacher = [];
         for(var i in reason){
-            if( reason[i].deactive_reason !== 'ย้าย'){
+            if(!reason[i].deactive_reason){
               teacher.push(reason[i]);           
             }
         }
