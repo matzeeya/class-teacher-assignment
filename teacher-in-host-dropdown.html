@@ -55,12 +55,9 @@
       <paper-listbox slot="dropdown-content" 
         selected="{{selected}}" 
         attr-for-selected="teacher">
-        <template is="dom-repeat" items="{{items}}" sort="orderByName">
+        <template is="dom-repeat" items="{{checkReason(items)}}" sort="orderByName">
           <paper-item teacher="{{item}}">
             {{item.firstname}} {{item.lastname}}
-            <template is="dom-if" if="{{item.deactive}}">
-             ({{item.deactive_reason}}) 
-            </template>
           </paper-item>
         </template>
       </paper-listbox>
@@ -92,13 +89,22 @@
           }
         };
       }
-
+      
       orderByName(a,b) {
         var a_name = a.firstname+' '+a.lastname;
         var b_name = b.firstname+' '+b.lastname;
         return a_name.localeCompare(b_name);
       }
 
+      checkReason(reason){
+        var teacher = [];
+        for(var i in reason){
+            if(!reason[i].deactive_reason){
+              teacher.push(reason[i]);           
+            }
+        }
+        return teacher
+      }
     }
 
     window.customElements.define(TeacherInHostDropdown.is, TeacherInHostDropdown);
