@@ -13,7 +13,7 @@
   <template>
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
-        font-family: 'Itim', cursive; 
+        font-family: 'Itim', cursive;
         --paper-tabs-selection-bar-color: #cceeff;
         --paper-tab-content-unselected: {
           opacity: 0.52;
@@ -36,7 +36,7 @@
       }
 
       .font-face{
-        font-family: 'Itim', cursive; 
+        font-family: 'Itim', cursive;
         margin-left: 10px;
       }
 
@@ -53,7 +53,7 @@
       .classroom{
         height: 40px;
         width: 250px;
-        font-family: 'Itim', cursive; 
+        font-family: 'Itim', cursive;
         font-weight: bold;
         background-color: #fff;
         color: #3f51b5;
@@ -67,7 +67,7 @@
 
       .header{
         height: 50px;
-        font-family: 'Itim', cursive; 
+        font-family: 'Itim', cursive;
         background-color: #3f51b5;
         color: #fff;
         margin: 0px 20px 0px 20px;
@@ -75,7 +75,7 @@
 
       .content{
         height: 40px;
-        font-family: 'Itim', cursive; 
+        font-family: 'Itim', cursive;
         background-color: #fff;
         border-bottom: 1px solid #e0e0e0;
         @apply --layout-horizontal;
@@ -100,13 +100,18 @@
       }*/
 
     </style>
+    <!--<summary-class-teacher id="summaryClass"
+      year="{{year}}" semester="{{semester}}"
+      items="{{summary}}">
+    </summary-class-teacher>-->
+
     <summary-class-teacher id="summaryClass" 
-      year="{{year}}" semester="{{semester}}" 
+      year="{{year}}"
       items="{{summary}}">
     </summary-class-teacher>
 
     <paper-tabs selected="{{page}}" attr-for-selected="name"
-      noink scrollable fit-container 
+      noink scrollable fit-container
       fallback-selection="main">
       <paper-tab name="main">จัดการข้อมูลครู</paper-tab>
       <paper-tab name="elementary">รายชื่อครูประจำชั้นระดับประถม</paper-tab>
@@ -118,8 +123,8 @@
        <paper-tab name="secondary">รายชื่อครูประจำชั้นระดับมัธยม</paper-tab>
       </template>-->
     </paper-tabs>
-    
-    <iron-pages selected="{{page}}" attr-for-selected="name"> 
+
+    <iron-pages selected="{{page}}" attr-for-selected="name">
       <div name="main">
         <teacher-assignment year="{{year}}" semester="{{semester}}">
         </teacher-assignment>
@@ -135,10 +140,10 @@
               <div class="flex-3 font-face">ห้อง</div>
               <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
             </div>
-            <template is="dom-repeat" items="{{level.rooms}}" as="room"> 
+            <template is="dom-repeat" items="{{level.rooms}}" as="room">
               <div class="flex layout horizontal content shadows">
                 <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
-                <div class="flex-9 font-face layout horizontal"> 
+                <div class="flex-9 font-face layout horizontal">
                   <template is="dom-if" if="{{isEmpty(room.teachers)}}">
                     <div>-</div>
                   </template>
@@ -163,7 +168,7 @@
               <div class="flex-3 font-face">ห้อง</div>
               <div class="flex-9 font-face">รายชื่อครูประจำชั้น</div>
             </div>
-            <template is="dom-repeat" items="{{level.rooms}}" as="room">   
+            <template is="dom-repeat" items="{{level.rooms}}" as="room">
             <div class="flex layout horizontal content shadows">
               <div class="flex-3 font-face">{{level.classname}} / {{room.room}}</div>
               <div class="flex-9 font-face layout horizontal">
@@ -181,7 +186,7 @@
         </iron-scroll-threshold>
       </div>
     </iron-pages>
-  
+
   </template>
 
   <script>
@@ -236,7 +241,7 @@
         }
         return false;
       }
-      
+
       isElementary(item) {
         return (/^ประถม/i).test(item.classname);
       }

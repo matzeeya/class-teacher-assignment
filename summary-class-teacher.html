@@ -17,7 +17,7 @@
 
 <dom-module id="summary-class-teacher">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"> 
+    <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors">
       :host {
         @apply --layout-vertical;
         @apply --paper-font-body;
@@ -46,7 +46,7 @@
         font-family: 'Itim', cursive;
         font-size: 120%;
       }
-      
+
       .header-bgcolor{
         height: 90px;
         background-color: #3f51b5;
@@ -111,12 +111,21 @@
         on-response="_handleResponse">
       </iron-ajax>
 
-      <iron-ajax id="getClassTeacher"
+      <!--<iron-ajax id="getClassTeacher"
         method="POST"
         url="https://maas.nuqlis.com:8000/v2/obec/classteacher/query"
         headers$='{"Authorization":"JWT {{token}}"}'
         content-type="application/json"
         body$='{"query":{"host":"{{hostId}}","year":{{year}},"semester":{{semester}}}}'
+        on-response="_handleClassTeacher">
+      </iron-ajax>-->
+
+      <iron-ajax id="getClassTeacher"
+        method="POST"
+        url="https://maas.nuqlis.com:8000/v2/obec/classteacher/query"
+        headers$='{"Authorization":"JWT {{token}}"}'
+        content-type="application/json"
+        body$='{"query":{"host":"{{hostId}}","year":{{year}}}}'
         on-response="_handleClassTeacher">
       </iron-ajax>
 
@@ -163,6 +172,7 @@
 
       _handleResponse(e) {
         if(e.detail.response.length > 0) {
+          console.log(e.detail.response);
           var doc = e.detail.response[0];
           this.set('rooms',doc.classroom);
           this.$.getClassTeacher.generateRequest();
@@ -203,7 +213,7 @@
 
     }
 
-    window.customElements.define(SummaryClassTeacher.is, 
+    window.customElements.define(SummaryClassTeacher.is,
       SummaryClassTeacher);
   </script>
 </dom-module>
