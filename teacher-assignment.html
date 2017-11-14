@@ -121,7 +121,7 @@
             </div>
           </div>
           
-          <div class="layout horizontal bgcolor">
+          <!--<div class="layout horizontal bgcolor">
             <div class="flex-10">
               <teacher-list 
                 token="{{token}}" 
@@ -129,6 +129,17 @@
                 room="{{room}}"
                 year="{{year}}"
                 semester="{{semester}}"
+                host="{{hostId}}"> 
+              </teacher-list>
+            </div>
+          </div>-->
+          <div class="layout horizontal bgcolor">
+            <div class="flex-10">
+              <teacher-list 
+                token="{{token}}" 
+                level="{{level}}"
+                room="{{room}}"
+                year="{{year}}"
                 host="{{hostId}}"> 
               </teacher-list>
             </div>
@@ -147,9 +158,9 @@
           year:{
            type:String,
           },
-          semester:{
+          /*semester:{
            type:String,
-          },
+          },*/
           __findTeacher: {
             type: String,
             computed: '_findTeacher(token,userData)'
