@@ -172,7 +172,7 @@
 
       _handleResponse(e) {
         if(e.detail.response.length > 0) {
-          console.log(e.detail.response);
+          //console.log(e.detail.response);
           var doc = e.detail.response[0];
           this.set('rooms',doc.classroom);
           this.$.getClassTeacher.generateRequest();
