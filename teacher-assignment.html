@@ -139,7 +139,6 @@
                 token="{{token}}" 
                 level="{{level}}"
                 room="{{room}}"
-                year="{{year}}"
                 host="{{hostId}}"> 
               </teacher-list>
             </div>
@@ -158,9 +157,9 @@
           year:{
            type:String,
           },
-          /*semester:{
+          semester:{
            type:String,
-          },*/
+          },
           __findTeacher: {
             type: String,
             computed: '_findTeacher(token,userData)'

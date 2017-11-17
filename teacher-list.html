@@ -192,10 +192,10 @@
           host:{
             type: String,
           },
-          year:{
+          /*year:{
             type: Number,
           },
-          /*semester:{
+          semester:{
             type: Number,
           },*/
           level:{
@@ -252,7 +252,7 @@
       static get observers() {
         return [
           //'__executedQuery(token,year,semester,host,level,room)',
-          '__executedQuery(token,year,host,level,room)',
+          '__executedQuery(token,host,level,room)',
           '__selectedItem(selectedItem)',
           '__classTeacherSelected(selectedClassTeacher)',
           '__subjectTeacherSelected(selectedSubjectTeacher)'          
@@ -278,7 +278,7 @@
         this.addEventListener('teacher-removed',function(event) {
           self.__executedQuery(self.token,
               //self.year,self.semester,self.host,self.level,self.room);   
-              self.year,self.host,self.level,self.room);       
+              self.host,self.level,self.room);       
         });        
       }
 
@@ -328,14 +328,14 @@
 
       //__executedQuery(token,year,semester,host,level,room) {
         //if(!token || !year || !semester || !host || !level || !room) return;
-      __executedQuery(token,year,host,level,room) {
-        if(!token || !year || !host || !level || !room) return;
+      __executedQuery(token,host,level,room) {
+        if(!token || !host || !level || !room) return;
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
           url:"https://maas.nuqlis.com:8000/v2/obec/classteacher/query",
           //body:{"query":{"year":Number(year),"semester":Number(semester),"host":host,"classname":level,"room":room}},
-          body:{"query":{"year":Number(year),"host":host,"classname":level,"room":room}},
+          body:{"query":{"host":host,"classname":level,"room":room}},
           method:"POST",
           handleAs:"json",
           headers:{
@@ -354,7 +354,7 @@
         if(!this.teacher) return; 
         var content = {
            "teacher_id":this.teacher._id,
-           "year":Number(this.year),
+           //"year":Number(this.year),
            //"role":'classteacher',
            "role":'subjectteacher',
            //"semester":Number(this.semester),
@@ -374,9 +374,10 @@
           }
         }).then(function(res) {
           if(res.response.ok) {
+            //console.log(res.response);
             self.__executedQuery(self.token,
               //self.year,self.semester,self.host,self.level,self.room);
-              self.year,self.host,self.level,self.room);
+              self.host,self.level,self.room);
           }
         });
       }

@@ -125,7 +125,7 @@
         url="https://maas.nuqlis.com:8000/v2/obec/classteacher/query"
         headers$='{"Authorization":"JWT {{token}}"}'
         content-type="application/json"
-        body$='{"query":{"host":"{{hostId}}","year":{{year}}}}'
+        body$='{"query":{"host":"{{hostId}}"}}'
         on-response="_handleClassTeacher">
       </iron-ajax>
 
