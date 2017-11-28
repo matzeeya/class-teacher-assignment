@@ -121,8 +121,10 @@
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/school/hostid",
-          body:{"match":[hostId],"include_doc":true,"limit":1},
+          /*url:"https://maas.nuqlis.com:9000/api/query/school/hostid",
+          body:{"match":[hostId],"include_doc":true,"limit":1},*/
+          url:"https://maas.nuqlis.com:8000/v2/obec/school/query",
+          body:{"query":{"hostid":hostId}},
           method:"POST",
           handleAs:"json",
           headers:{
@@ -132,7 +134,8 @@
         }).then(function(res) {
           if(res.response.constructor === Array) {
             var result = res.response[0];
-            var classrooms = result.value.doc.classroom;
+            //var classrooms = result.value.doc.classroom;
+            var classrooms = result.classroom;
             classrooms.forEach(function(level) {
               level.room.sort(function(a,b) {
                 return Number(a) - Number(b);
@@ -140,6 +143,7 @@
             });
             self.set('items',classrooms);
           }
+          //console.log(res.response[0].classroom);
         });
       }
     }
