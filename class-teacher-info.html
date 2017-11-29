@@ -199,7 +199,8 @@
         var key = this.document._id;
         this.set('loading',true);
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          //url:"https://maas.nuqlis.com:9000/api/dbs/classteacher/"+key,
+          url:"https://maas.nuqlis.com:8000/v2/obec/classteacher/data/"+key,
           body:content,
           method:"POST",
           handleAs:"json",
