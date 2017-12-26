@@ -104,7 +104,7 @@
 
       <iron-ajax id="getHost"
         method="POST"
-        url="https://maas.nuqlis.com:8000/v2/obec/school/query"
+        url="https://thaieduforall.org:8000/v2/obec/school/query"
         headers$='{"Authorization":"JWT {{token}}"}'
         content-type="application/json"
         body$='{"query":{"hostid":"{{hostId}}"}}'
@@ -122,7 +122,7 @@
 
       <iron-ajax id="getClassTeacher"
         method="POST"
-        url="https://maas.nuqlis.com:8000/v2/obec/classteacher/query"
+        url="https://thaieduforall.org:8000/v2/obec/classteacher/query"
         headers$='{"Authorization":"JWT {{token}}"}'
         content-type="application/json"
         body$='{"query":{"host":"{{hostId}}"}}'
