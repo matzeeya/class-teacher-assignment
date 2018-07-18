@@ -333,7 +333,7 @@
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://thaieduforall.org:8000/v2/obec/classteacher/query",
+          url:"https://y2018s1.inforvation.systems/mongodb/obec/classteacher/query",
           //body:{"query":{"year":Number(year),"semester":Number(semester),"host":host,"classname":level,"room":room}},
           body:{"query":{"host":host,"classname":level,"room":room}},
           method:"POST",
@@ -366,7 +366,7 @@
         console.log(content);
         ele.send({
           //url:"https://maas.nuqlis.com:9000/api/dbs/classteacher",
-          url:"https://thaieduforall.org:8000/v2/obec/classteacher/data/",
+          url:"https://y2018s1.inforvation.systems/mongodb/obec/classteacher/data/",
           body:content,
           method:"POST",
           handleAs:"json",
