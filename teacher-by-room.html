@@ -38,8 +38,8 @@
         var ele = document.createElement('iron-request'); 
         var self = this;
         ele.send({
-          url:"https://maas.nuqlis.com:9000/api/query/classteacher/host_class_room",
-          body:{"match":[hostId,classname,room]},
+          url:"https://y2018s1.inforvation.systems/mongodb/obec/classteacher/query",
+          body:{"query":{"hostid":hostId,"classname":classname,"room":room}},
           method:"POST",
           handleAs:"json",
           headers:{
